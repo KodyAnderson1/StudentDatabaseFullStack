@@ -1,7 +1,7 @@
 # StudentDatabaseFullStack
 
 ## Concept / Project Overview
-Leveraging Spring Boot and React, this application adds and retrieves Students (to display) to the user through react components. The backend was built with Java using Spring Boot and MySQL, with the front end being built with React and MUI Core / Material UI for ready-made UI components. The flow of the application is relatively simple. Once the application is fully launched, you add a student by entering a name and an address and clicking the send button. After you refresh the page, the Students list will be updated with the newly added student.
+Leveraging Spring Boot and React, this application adds and retrieves Students (to display) to the user through react components. The backend was built with Java using Spring Boot and MySQL, with the front end being built with React and MUI Core / Material UI for ready-made UI components. The flow of the application is relatively simple. Once the application is fully launched, you add a student by entering a name and an address and clicking the send button. After you refresh the page, the Students list will be updated with the newly added student. See Future Development below for project goals.
 
 
 ## Languages and Libraries
