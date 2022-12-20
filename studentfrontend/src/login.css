@@ -3,6 +3,11 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.TEST {
+    background-color: black;
+    color: green;
+}
+
 :root {
     --primary-light-hsl: 200, 100%, 91%;
     --primary-hsl: 200, 100%, 50%;
@@ -16,11 +21,7 @@ body {
 }
 
 .full-screen-container {
-    background-image: url("../background-img.jpg");
-    height: 92.5vh;
-    width: 100%;
-    background-size: cover;
-    background-position: center;
+
     display: flex;
     justify-content: center;
     align-items: center;
