@@ -2,19 +2,23 @@ import { Route, Routes, Navigate } from "react-router-dom";
 
 import "./App.css";
 import Appbar from "./components/Appbar";
-import Login from "./components/login";
+import Login from "./components/Login";
 import Student from "./components/Student";
 
 function App() {
   return (
-    <div className="App">
-      <Appbar />
-      <Routes>
-        {/* <Route path="" element={<Student />} /> */}
-        <Route path="" element={<Login />} />
-      </Routes>
-      {/* <Route path="/login" element={<Login />} /> */}
-    </div>
+    <>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Appbar />}>
+            <Route path="/students" element={<Student />} />
+            <Route index element={<Student />} />
+          </Route>
+          <Route path="login" element={<Login />} />
+          <Route path="*" element={<Navigate to="/students" />} />
+        </Routes>
+      </div>
+    </>
   );
 }
 

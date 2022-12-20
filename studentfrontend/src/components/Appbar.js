@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Outlet } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,6 +20,7 @@ export default function Appbar() {
           </Typography>
         </Toolbar>
       </AppBar>
+      <Outlet />
     </Box>
   );
 }
