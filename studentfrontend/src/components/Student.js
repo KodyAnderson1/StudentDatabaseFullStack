@@ -67,17 +67,26 @@ function DisplayStudents() {
   }, []);
 
   return (
-    <Container>
+    <div className="container">
       <h2>Students</h2>
-      <Paper elevation={3} className="paper-style">
-        {students.map((student) => (
-          <Paper elevation={6} className="specific-student" key={student.id}>
-            ID: {student.id} <br />
-            Name: {student.name} <br />
-            Address: {student.address}
-          </Paper>
-        ))}
-      </Paper>
-    </Container>
+      {/* <div className=" paper-style"> */}
+      {students.map((student) => (
+        <>
+          <div className="card mb-2">
+            <div className="row p-5">
+              <div className="col-2">ID: {student.id} </div>
+              <div className="col-5">Name: {student.name}</div>
+              <div className="col-5">Address: {student.address}</div>
+            </div>
+          </div>
+        </>
+        // <Paper elevation={6} className="specific-student" key={student.id}>
+        //   ID: {student.id} <br />
+        //   Name: {student.name} <br />
+        //   Address: {student.address}
+        // </Paper>
+      ))}
+      {/* </div> */}
+    </div>
   );
 }

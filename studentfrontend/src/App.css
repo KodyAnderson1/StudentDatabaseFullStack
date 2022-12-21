@@ -1,17 +1,19 @@
-.App {
-  /* padding-bottom: 1rem; */
-  text-align: center;
-  background-image: url("../background-img.jpg");
-  height: auto;
-  width: 100%;
-  background-size: cover;
-  background-position: center;
-}
 
 *, *::before, *::after {
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.App {
+  /* padding-bottom: 1rem; */
+  text-align: center;
+  background-image: url("../background-img.jpg");
+  height: 100vh;
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+}
+
 
 .TEST {
   background-color: black;
@@ -137,8 +139,6 @@ body {
 }
 
 /************************** STUDENTS ***************************/
-
-
 .paper-style {
   padding: 3.125rem 1.25rem;
   width: 600;
@@ -161,5 +161,31 @@ h1.students-heading {
   text-align: left;
 }
 
+/************************** ADMIN ***************************/
 
+.container {
+  background-color: hsl(var(--primary-dark-hsl), .6) !important;
+  color: white;
+  width: 100%;
+  height: 80vh;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+}
 
+.admin-card-navbar {
+  height: 80vh;
+  border-right: solid;
+  padding-right: 1rem;
+  text-align: center;
+  justify-content: center;
+}
+
+.admin-card-body {
+  height: 80vh;
+}
+
+.admin-card-navbar .nav-link {
+  margin: 1rem;
+
+}
