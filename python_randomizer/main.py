@@ -4,9 +4,6 @@ from courses import ClassData
 import random
 import json
 
-NUMBER_STUDENTS: int = 100
-NUMBER_FAC: int = 6
-
 
 def init_students(number: int = 0) -> list:
     return [Student() for _ in range(number)]
@@ -20,8 +17,7 @@ def init_courses_with_instructors() -> list:
     returnCourses = ClassData().courses
     for c in returnCourses:
         for cl in c.classes:
-            rnd = random.choice(FACULTY)
-            cl.instructor_id = rnd.id
+            cl.instructor_id = random.choice(FACULTY).id
     return returnCourses
 
 
@@ -35,9 +31,8 @@ def assign_instructors():
 
 def assign_students_to_classes():
     for student in STUDENTS:
-        randy = random.randint(1, 5)
-        coursy = random.sample(COURSES, k=randy)
-        for c in coursy:
+        course = random.sample(COURSES, k=random.randint(1, 5))
+        for c in course:
             student.current_courses.append(random.choice(c.classes).section_id)
 
 
@@ -72,6 +67,9 @@ def add_student_to_class(ids: int, studId: int):
             if ids == cl.section_id:
                 cl.enrolled_students.append(studId)
 
+
+NUMBER_STUDENTS: int = 100
+NUMBER_FAC: int = 6
 
 STUDENTS = init_students(NUMBER_STUDENTS)
 FACULTY = init_faculty(NUMBER_FAC)
