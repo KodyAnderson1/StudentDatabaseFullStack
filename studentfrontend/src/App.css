@@ -173,6 +173,10 @@ h1.students-heading {
   border-radius: 1rem;
 }
 
+.admin-nav-btns div {
+  cursor: pointer;
+}
+
 .admin-card-navbar {
   height: 80vh;
   border-right: solid;
@@ -195,32 +199,43 @@ h1.students-heading {
 }
 
 /***************** All Students Admin ************/
-/* .container {
-  display: flex;
-  flex-direction: row;
-  height: 100vh;
-} */
 
 .left-col {
-  /* overflow-y: scroll; */
   max-height: 75vh;
 } 
 
 .left-col-bleh {
-  /* overflow-y: scroll; */
   max-height: 20vh;
 } 
+
+.overflow-badge-area {
+  max-height: 15vh;
+  max-width: 25vh;
+  text-align: start;
+  overflow-x: hidden;
+  overflow-y: auto;
+} 
+.overflow-badge-area:hover {
+  max-height: 15vh;
+  
+  cursor: pointer;
+
+} 
+
+.search-bar-student {
+  background: inherit;
+}
 
 ::-webkit-scrollbar {
   width: 12px;
 }
 
 ::-webkit-scrollbar-track {
-  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); 
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4); 
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: 10px;
-  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 1); 
+  -webkit-box-shadow: inset 0 0 6px rgb(0, 0, 0); 
 }

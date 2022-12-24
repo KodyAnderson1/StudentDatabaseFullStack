@@ -10,15 +10,10 @@ export default function AdminHome() {
   const [determineView, setDetermineView] = useState("");
 
   useEffect(() => {
-    if (determineView === "adminStudent") {
-      setView(<AdminStudents />);
-    } else if (determineView === "adminFaculty") {
-      setView(<AdminFaculty />);
-    } else if (determineView === "adminCourses") {
-      setView(<AdminCourses />);
-    } else {
-      setView("");
-    }
+    if (determineView === "adminStudent") setView(<AdminStudents />);
+    else if (determineView === "adminFaculty") setView(<AdminFaculty />);
+    else if (determineView === "adminCourses") setView(<AdminCourses />);
+    else setView("");
   }, [determineView]);
 
   return (
@@ -38,7 +33,7 @@ function AdminNavbar(props) {
     <>
       <div className="col-2 admin-card-navbar">
         <h2>Admin</h2>
-        <nav className="nav nav-pills nav-fill flex-column">
+        <nav className="nav nav-pills nav-fill flex-column admin-nav-btns">
           <div className="nav-link active" onClick={(e) => handleClick(e, "adminStudent")}>
             Students
           </div>
