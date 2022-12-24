@@ -163,8 +163,8 @@ h1.students-heading {
 
 /************************** ADMIN ***************************/
 
-.container {
-  background-color: hsl(var(--primary-dark-hsl), .6) !important;
+.top-admin-container {
+  background-color: hsl(var(--primary-dark-hsl), .8) !important;
   color: white;
   width: 100%;
   height: 80vh;
@@ -181,6 +181,10 @@ h1.students-heading {
   justify-content: center;
 }
 
+.admin-card-navbar h2 {
+  margin-top: 1rem;
+}
+
 .admin-card-body {
   height: 80vh;
 }
@@ -188,4 +192,35 @@ h1.students-heading {
 .admin-card-navbar .nav-link {
   margin: 1rem;
 
+}
+
+/***************** All Students Admin ************/
+/* .container {
+  display: flex;
+  flex-direction: row;
+  height: 100vh;
+} */
+
+.left-col {
+  /* overflow-y: scroll; */
+  max-height: 75vh;
+} 
+
+.left-col-bleh {
+  /* overflow-y: scroll; */
+  max-height: 20vh;
+} 
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.6); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(255, 255, 255, 1); 
 }

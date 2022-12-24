@@ -1,0 +1,333 @@
+[
+    {
+        "firstName": "Anthony",
+        "lastName": "Moore",
+        "phone": "579-252-8187",
+        "current_courses": [
+            623266,
+            226981,
+            948863
+        ],
+        "email": "moore@students.college.com",
+        "id": 796816874
+    },
+    {
+        "firstName": "Brian",
+        "lastName": "Flannagan",
+        "phone": "140-890-8320",
+        "current_courses": [
+            226981,
+            948863
+        ],
+        "email": "flannagan@students.college.com",
+        "id": 805966423
+    },
+    {
+        "firstName": "Kathleen",
+        "lastName": "Castillo",
+        "phone": "642-881-1369",
+        "current_courses": [
+            664312
+        ],
+        "email": "castillo@students.college.com",
+        "id": 811502042
+    },
+    {
+        "firstName": "Liliana",
+        "lastName": "Palomo",
+        "phone": "764-299-1290",
+        "current_courses": [
+            361969,
+            948863
+        ],
+        "email": "palomo@students.college.com",
+        "id": 629681329
+    },
+    {
+        "firstName": "Lori",
+        "lastName": "Buckley",
+        "phone": "760-259-3910",
+        "current_courses": [
+            623266
+        ],
+        "email": "buckley@students.college.com",
+        "id": 435939093
+    },
+    {
+        "firstName": "George",
+        "lastName": "Daley",
+        "phone": "989-747-2254",
+        "current_courses": [
+            623266,
+            226981
+        ],
+        "email": "daley@students.college.com",
+        "id": 360062110
+    },
+    {
+        "firstName": "Adam",
+        "lastName": "Quiroz",
+        "phone": "265-945-8966",
+        "current_courses": [
+            623266,
+            226981,
+            442542
+        ],
+        "email": "quiroz@students.college.com",
+        "id": 403613787
+    },
+    {
+        "firstName": "Phyllis",
+        "lastName": "Prosser",
+        "phone": "514-704-8769",
+        "current_courses": [
+            623266,
+            226981,
+            948863
+        ],
+        "email": "prosser@students.college.com",
+        "id": 803013310
+    },
+    {
+        "firstName": "Dorothy",
+        "lastName": "Bueter",
+        "phone": "426-402-2665",
+        "current_courses": [
+            361969,
+            623266,
+            948863
+        ],
+        "email": "bueter@students.college.com",
+        "id": 528287354
+    },
+    {
+        "firstName": "Leonor",
+        "lastName": "Frezzo",
+        "phone": "169-431-6843",
+        "current_courses": [
+            361969,
+            226981,
+            948863
+        ],
+        "email": "frezzo@students.college.com",
+        "id": 690615053
+    },
+    {
+        "firstName": "Alice",
+        "lastName": "Hatcher",
+        "phone": "531-564-9382",
+        "current_courses": [
+            664312,
+            948863
+        ],
+        "email": "hatcher@students.college.com",
+        "id": 775009811
+    },
+    {
+        "firstName": "Gerald",
+        "lastName": "Earle",
+        "phone": "841-249-2711",
+        "current_courses": [
+            226981
+        ],
+        "email": "earle@students.college.com",
+        "id": 661724155
+    },
+    {
+        "firstName": "Rose",
+        "lastName": "Murphy",
+        "phone": "348-334-9465",
+        "current_courses": [
+            226981,
+            442542
+        ],
+        "email": "murphy@students.college.com",
+        "id": 532881419
+    },
+    {
+        "firstName": "Leslie",
+        "lastName": "Houle",
+        "phone": "608-772-6077",
+        "current_courses": [
+            226981,
+            442542
+        ],
+        "email": "houle@students.college.com",
+        "id": 261872024
+    },
+    {
+        "firstName": "Maria",
+        "lastName": "Graves",
+        "phone": "346-425-2667",
+        "current_courses": [
+            623266,
+            226981,
+            442542
+        ],
+        "email": "graves@students.college.com",
+        "id": 124360841
+    },
+    {
+        "firstName": "June",
+        "lastName": "Vanriper",
+        "phone": "377-877-7172",
+        "current_courses": [
+            226981,
+            948863
+        ],
+        "email": "vanriper@students.college.com",
+        "id": 156421032
+    },
+    {
+        "firstName": "Paul",
+        "lastName": "Owens",
+        "phone": "258-945-7468",
+        "current_courses": [
+            361969,
+            948863
+        ],
+        "email": "owens@students.college.com",
+        "id": 944328246
+    },
+    {
+        "firstName": "Barbara",
+        "lastName": "Fenn",
+        "phone": "655-580-9082",
+        "current_courses": [
+            361969
+        ],
+        "email": "fenn@students.college.com",
+        "id": 978935038
+    },
+    {
+        "firstName": "Ralph",
+        "lastName": "Baillie",
+        "phone": "360-572-1248",
+        "current_courses": [
+            226981
+        ],
+        "email": "baillie@students.college.com",
+        "id": 413116471
+    },
+    {
+        "firstName": "Kimberly",
+        "lastName": "Woods",
+        "phone": "851-539-7284",
+        "current_courses": [
+            623266
+        ],
+        "email": "woods@students.college.com",
+        "id": 105792947
+    },
+    {
+        "firstName": "Gerald",
+        "lastName": "Plienis",
+        "phone": "141-917-7117",
+        "current_courses": [
+            361969,
+            948863
+        ],
+        "email": "plienis@students.college.com",
+        "id": 978392786
+    },
+    {
+        "firstName": "Tom",
+        "lastName": "Montanez",
+        "phone": "556-473-3988",
+        "current_courses": [
+            623266,
+            226981
+        ],
+        "email": "montanez@students.college.com",
+        "id": 360567137
+    },
+    {
+        "firstName": "William",
+        "lastName": "Mcdonald",
+        "phone": "446-130-9538",
+        "current_courses": [
+            226981,
+            948863
+        ],
+        "email": "mcdonald@students.college.com",
+        "id": 755216547
+    },
+    {
+        "firstName": "Beth",
+        "lastName": "Harling",
+        "phone": "647-136-6299",
+        "current_courses": [
+            361969,
+            226981,
+            442542
+        ],
+        "email": "harling@students.college.com",
+        "id": 639627983
+    },
+    {
+        "firstName": "James",
+        "lastName": "Kirby",
+        "phone": "665-775-2641",
+        "current_courses": [
+            664312,
+            361969
+        ],
+        "email": "kirby@students.college.com",
+        "id": 181865850
+    },
+    {
+        "firstName": "Elizabeth",
+        "lastName": "Holt",
+        "phone": "721-580-2105",
+        "current_courses": [
+            664312,
+            226981,
+            948863
+        ],
+        "email": "holt@students.college.com",
+        "id": 350564934
+    },
+    {
+        "firstName": "Sanjuana",
+        "lastName": "Harmon",
+        "phone": "812-488-6251",
+        "current_courses": [
+            226981
+        ],
+        "email": "harmon@students.college.com",
+        "id": 925998804
+    },
+    {
+        "firstName": "Phillip",
+        "lastName": "Newman",
+        "phone": "436-536-9642",
+        "current_courses": [
+            948863
+        ],
+        "email": "newman@students.college.com",
+        "id": 623842295
+    },
+    {
+        "firstName": "Jennifer",
+        "lastName": "Gibbs",
+        "phone": "926-809-1090",
+        "current_courses": [
+            664312,
+            623266,
+            226981
+        ],
+        "email": "gibbs@students.college.com",
+        "id": 278395954
+    },
+    {
+        "firstName": "Scott",
+        "lastName": "Freeman",
+        "phone": "603-267-2272",
+        "current_courses": [
+            361969,
+            226981
+        ],
+        "email": "freeman@students.college.com",
+        "id": 289241906
+    }
+]

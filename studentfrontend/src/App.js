@@ -13,12 +13,14 @@ function App() {
         <Routes>
           <Route path="" element={<Appbar />}>
             <Route path="students" element={<Student />} />
-            <Route path="admin" element={<AdminHome />} />
-            <Route index element={<Student />} />
+            <Route index element={<Login />} />
+            <Route path="admin" element={<AdminHome />}>
+              <Route path="student" element={<Login />} />
+              <Route index element={<Login />} />
+            </Route>
           </Route>
           <Route path="login" element={<Login />} />
-
-          <Route path="*" element={<Navigate to="/students" />} />
+          <Route path="*" element={<Navigate to="/login" />} />
         </Routes>
       </div>
     </>

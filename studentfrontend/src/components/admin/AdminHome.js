@@ -1,34 +1,53 @@
+import React, { useState, useEffect } from "react";
+
+import AdminFaculty from "./AdminFaculty";
+import AdminCourses from "./AdminCourses";
+import AdminStudents from "./AdminStudents";
 import "../../App.css";
 
 export default function AdminHome() {
+  const [view, setView] = useState(<AdminStudents />);
+  const [determineView, setDetermineView] = useState("");
+
+  useEffect(() => {
+    if (determineView === "adminStudent") {
+      setView(<AdminStudents />);
+    } else if (determineView === "adminFaculty") {
+      setView(<AdminFaculty />);
+    } else if (determineView === "adminCourses") {
+      setView(<AdminCourses />);
+    } else {
+      setView("");
+    }
+  }, [determineView]);
+
   return (
     <>
-      <div className="container d-flex justify-content-center">
-        <AdminNavbar />
-        <div className="col-10 admin-card-body"></div>
+      <div className="container top-admin-container d-flex justify-content-center">
+        <AdminNavbar setDetermineView={setDetermineView} />
+        {view}
       </div>
     </>
   );
 }
 
-function AdminNavbar() {
+function AdminNavbar(props) {
+  const handleClick = (e, val) => props.setDetermineView(val);
+
   return (
     <>
       <div className="col-2 admin-card-navbar">
-        <h2>Navbar</h2>
-        <nav class="nav nav-pills nav-fill flex-column">
-          <a class="nav-link active" aria-current="page" href="#">
+        <h2>Admin</h2>
+        <nav className="nav nav-pills nav-fill flex-column">
+          <div className="nav-link active" onClick={(e) => handleClick(e, "adminStudent")}>
             Students
-          </a>
-          <a class="nav-link active" href="#">
+          </div>
+          <div className="nav-link active" onClick={(e) => handleClick(e, "adminCourses")}>
             Courses
-          </a>
-          <a class="nav-link active" href="#">
+          </div>
+          <div className="nav-link active" href="#" onClick={(e) => handleClick(e, "adminFaculty")}>
             Faculty
-          </a>
-          <a class="nav-link active" href="#">
-            Misc
-          </a>
+          </div>
         </nav>
       </div>
     </>
