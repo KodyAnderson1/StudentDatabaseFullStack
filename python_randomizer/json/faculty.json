@@ -1,0 +1,44 @@
+[
+  {
+    "id": 62330,
+    "name": "Anthony Hood",
+    "phone": "848-859-4939",
+    "email": "hood72@uwf.edu",
+    "current_courses": [839046, 497334]
+  },
+  {
+    "id": 33571,
+    "name": "Freddie Absher",
+    "phone": "430-861-9096",
+    "email": "absher16@uwf.edu",
+    "current_courses": [621895, 445619, 925533, 891072]
+  },
+  {
+    "id": 94616,
+    "name": "Beverly Carter",
+    "phone": "608-191-8110",
+    "email": "carter27@uwf.edu",
+    "current_courses": [474063, 992644]
+  },
+  {
+    "id": 73208,
+    "name": "Ruben Swan",
+    "phone": "614-817-1671",
+    "email": "swan80@uwf.edu",
+    "current_courses": [860087, 116853]
+  },
+  {
+    "id": 35806,
+    "name": "Harold Tilford",
+    "phone": "780-344-8797",
+    "email": "tilford97@uwf.edu",
+    "current_courses": [831751, 331715]
+  },
+  {
+    "id": 80578,
+    "name": "Shirley Mccray",
+    "phone": "678-981-5339",
+    "email": "mccray79@uwf.edu",
+    "current_courses": [224918, 139027]
+  }
+]
