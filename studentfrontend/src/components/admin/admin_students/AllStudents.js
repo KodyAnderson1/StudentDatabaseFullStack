@@ -1,10 +1,11 @@
 import { Row, Col, Container, Card, Form, Badge } from "react-bootstrap";
 import { useState } from "react";
 
+import { ListOfStudents } from "./ListOfStudents";
+
+// ! REMOVE THESE
 import { SpecificCourseData } from "../../../model/SpecificCourseData";
 import { FacultyData } from "../../../model/FacultyData";
-
-import { ListOfStudents } from "./ListOfStudents";
 
 export function AllStudents(props) {
   const [selectedStudent, setSelectedStudent] = useState("");
@@ -23,11 +24,13 @@ export function AllStudents(props) {
   return (
     <Container>
       <Row>
-        <ListOfStudents
-          handleOnClick={handleOnClick}
-          data={props.StudentData}
-          setStudentChanged={setStudentChanged}
-        />
+        <Col xl={3} className="overflow-auto left-col">
+          <ListOfStudents
+            handleOnClick={handleOnClick}
+            data={props.StudentData}
+            setStudentChanged={setStudentChanged}
+          />
+        </Col>
         <Col xl={9}>
           <SpecificStudentCard
             student={selectedStudent}

@@ -95,6 +95,14 @@ def get_student_dict():
     return retDict
 
 
+def encode_gen_courses() -> None:
+    encoded = []
+    for item in COURSES:
+        encoded.append(item.encoder_json())
+    with open("./json/generalCourses.json", "w") as f:
+        json.dump(encoded, f)
+
+
 def main() -> None:
     assign_instructors()
     assign_students_to_classes()
@@ -112,6 +120,7 @@ def main() -> None:
         if key in stud_sect:
             sect_dict[key].enrolled_students = set(stud_sect[key])
     encode_courses()
+    encode_gen_courses()
 
 
 main()

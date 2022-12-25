@@ -5,7 +5,7 @@ export default function Login() {
   const navigate = useNavigate();
 
   const redirectToHome = () => {
-    navigate("/students");
+    navigate("/admin");
   };
 
   return (

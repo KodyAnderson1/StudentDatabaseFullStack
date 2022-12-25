@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-import AdminFaculty from "./AdminFaculty";
-import AdminCourses from "./AdminCourses";
-import AdminStudents from "./AdminStudents";
+import AdminFaculty from "./admin_faculty/AdminFaculty";
+import AdminCourses from "./admin_courses/AdminCourses";
+import AdminStudents from "./admin_students/AdminStudentsHome";
 import "../../App.css";
 
 export default function AdminHome() {
@@ -37,12 +37,12 @@ function AdminNavbar(props) {
           <div className="nav-link active" onClick={(e) => handleClick(e, "adminStudent")}>
             Students
           </div>
-          <div className="nav-link active" onClick={(e) => handleClick(e, "adminCourses")}>
-            Courses
-          </div>
-          <div className="nav-link active" href="#" onClick={(e) => handleClick(e, "adminFaculty")}>
-            Faculty
-          </div>
+          {/* <div className="nav-link active" onClick={(e) => handleClick(e, "adminCourses")}>
+          Courses
+          </div> */}
+          {/* <div className="nav-link active" onClick={(e) => handleClick(e, "adminFaculty")}>
+          Faculty
+          </div> */}
         </nav>
       </div>
     </>

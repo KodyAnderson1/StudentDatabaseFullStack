@@ -1,17 +1,21 @@
 import random
 
 COURSE_NAMES = [
-    "Client-Side Programming", "Data Structures & Algorithms I",
-    "Software Engineering I", "C++ Programming",
-    "Advanced Computer Programming", "Computer Organization",
-    "Programming Languages", "Calculus", "Server-Side Programming"
+    "Client-Side Programming",
+    "Data Structures & Algorithms I",
+    "Software Engineering I",
+    "C++ Programming",
+    "Advanced Computer Programming",
+    "Computer Organization",
+    "Programming Languages",
+    "Calculus",
+    "Server-Side Programming",
 ]
 
 COURSE_IDS = random.sample(range(4000, 9999), len(COURSE_NAMES))
 
 
 class Course:
-
     def __init__(self, course_id: int, name: str) -> None:
         self.course_id: int = course_id
         self.name: str = name
@@ -20,14 +24,27 @@ class Course:
     def __str__(self):
         return f"{self.course_id} {self.name}"
 
+    def encoder_json(self):
+        return {
+            "id": self.course_id,
+            "name": self.name,
+            "active_sections": self.__encoderHelper(self.classes),
+        }
+
+    def __encoderHelper(self, cl) -> list:
+        retList = []
+        for c in cl:
+            retList.append(c.section_id)
+        print(retList)
+        return retList
+
 
 class Class:
-
     def __init__(
-            self,
-            course: Course,
-            instructor_id: int = 0,
-            enrolled_students: set = set(),
+        self,
+        course: Course,
+        instructor_id: int = 0,
+        enrolled_students: set = set(),
     ) -> None:
         self.course_name: str = course.name
         self.course_id: int = course.course_id
@@ -49,7 +66,6 @@ class Class:
 
 
 class ClassData:
-
     def __init__(self) -> None:
         self.courses: list = self.__init_courses()
         self.__init_classes()

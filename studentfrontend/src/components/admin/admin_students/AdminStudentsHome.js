@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { StudentData } from "../../model/StudentData";
-import { AllStudents } from "./studentViews/AllStudents";
+import { AllStudents } from "./AllStudents";
+import { EditStudents } from "./EditStudents";
+
+import { StudentData } from "../../../model/StudentData";
+import { SpecificCourseData } from "../../../model/SpecificCourseData";
 
 export default function AdminStudents() {
-  // console.log(StudentData);
   const [view, setView] = useState("");
   const [determineView, setDetermineView] = useState("Students View");
 
   useEffect(() => {
-    if (determineView === "adminStudentEdit") setView(<h2>Students Edit</h2>);
+    if (determineView === "adminStudentEdit")
+      setView(<EditStudents StudentData={StudentData} courseData={SpecificCourseData} />);
     else if (determineView === "adminStudentView")
       setView(<AllStudents StudentData={StudentData} />);
     else if (determineView === "adminStudentCourses") setView(<h2>Students Courses</h2>);
     else setView("");
   }, [determineView]);
+
   return (
     <>
       <div className="col-10 admin-card-body">
@@ -25,25 +29,23 @@ export default function AdminStudents() {
 }
 
 function AdminStudentsNavbar(props) {
-  const handleClick = (e, val) => props.setDetermineView(val);
+  const handleClick = (val) => props.setDetermineView(val);
 
   return (
     <>
       <ul className="nav nav-tabs">
         <li className="nav-item">
-          <div className="nav-link active" onClick={(e) => handleClick(e, "adminStudentView")}>
+          <div className="nav-link text-white" onClick={() => handleClick("adminStudentView")}>
             Students
           </div>
         </li>
         <li className="nav-item">
-          <div className="nav-link text-white" onClick={(e) => handleClick(e, "adminStudentEdit")}>
+          <div className="nav-link text-white" onClick={() => handleClick("adminStudentEdit")}>
             Edit Students
           </div>
         </li>
         <li className="nav-item">
-          <div
-            className="nav-link text-white"
-            onClick={(e) => handleClick(e, "adminStudentCourses")}>
+          <div className="nav-link text-white" onClick={() => handleClick("adminStudentCourses")}>
             Student Courses
           </div>
         </li>

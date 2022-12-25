@@ -8,7 +8,6 @@ getLocation = LocationData()
 
 
 class Student:
-
     def __init__(self) -> None:
         self.firstName: str = names.get_first_name()
         self.lastName: str = names.get_last_name()
@@ -21,7 +20,7 @@ class Student:
         self.email: str = f"{self.lastName.lower()}{random.randint(100, 999)}{EMAIL}"
 
     def __str__(self) -> str:
-        return f"{self.firstName} {self.lastName}\n{self.phone}\n{self.email}\n{self.id}\n{self.dob}\n{self.location}\n{self.address}\n{self.current_courses}\n"
+        return f"{self.firstName} {self.lastName}\n{self.phone}\n{self.email}\n{self.id}\n{self.dob}\n{self.location}\n{self.address}\n{self.current_courses}\n{self.dob.form}\n"
 
     def encoder_json(self):
         return {
@@ -37,6 +36,7 @@ class Student:
                 "day": self.dob.day,
                 "year": self.dob.year,
                 "full": self.dob.full,
+                # "form": self.form,
             },
             "city": self.location.city_name,
             "state": self.location.state_name,
@@ -44,12 +44,12 @@ class Student:
 
 
 class DOB:
-
     def __init__(self) -> None:
-        self.month: int = random.randint(1, 13)
+        self.month: int = random.randint(1, 12)
         self.day: int = random.randint(1, 31)
         self.year: int = random.randint(1990, 2005)
-        self.full: str = f"{self.month}/{self.day}/{self.year}"
+        self.full: str = f"{self.year}-{self.month:02d}-{self.day:02d}"
+        # self.form: str = f"{self.year}-{self.month:02d}-{self.day:02d}"
 
     def __str__(self) -> str:
         return f"{self.month}/{self.day}/{self.year}"

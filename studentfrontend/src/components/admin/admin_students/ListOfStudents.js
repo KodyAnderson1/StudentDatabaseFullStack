@@ -1,4 +1,4 @@
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Form } from "react-bootstrap";
 import { useState, useMemo } from "react";
 
 export function ListOfStudents(props) {
@@ -16,7 +16,7 @@ export function ListOfStudents(props) {
   }, [filteredStudents, data]);
 
   return (
-    <Col xl={3} className="overflow-auto left-col">
+    <>
       <Form>
         <Form.Control
           placeholder="Search"
@@ -36,6 +36,6 @@ export function ListOfStudents(props) {
           </Row>
         );
       })}
-    </Col>
+    </>
   );
 }

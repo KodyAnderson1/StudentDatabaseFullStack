@@ -179,7 +179,7 @@ h1.students-heading {
 
 .admin-card-navbar {
   height: 80vh;
-  border-right: solid;
+  /* border-right: solid; */
   padding-right: 1rem;
   text-align: center;
   justify-content: center;
