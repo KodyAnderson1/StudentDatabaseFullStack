@@ -3,7 +3,6 @@ import random
 
 
 class CityAndState:
-
     def __init__(self, city_name: str, state_id: str, state_name: str):
         self.city_name = city_name
         self.state_id = state_id
@@ -14,7 +13,6 @@ class CityAndState:
 
 
 class LocationData:
-
     def __init__(self):
         self.cityList = self.__initList()
 
@@ -25,8 +23,8 @@ class LocationData:
             next(csv_reader)
             for line in csv_reader:
                 returnList.append(
-                    CityAndState(line['city'], line['state_id'],
-                                 line['state_name']))
+                    CityAndState(line["city"], line["state_id"], line["state_name"])
+                )
         return returnList
 
     def get_random_data(self) -> CityAndState:

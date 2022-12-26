@@ -1,7 +1,7 @@
-import { Row, Col, Container, Card, Form, Badge } from "react-bootstrap";
+import { Row, Col, Container, Card, Form, Badge, InputGroup } from "react-bootstrap";
 import { useState } from "react";
 
-import { ListOfStudents } from "./ListOfStudents";
+import { ListOfPeople } from "./ListOfPeople";
 
 // ! REMOVE THESE
 import { SpecificCourseData } from "../../../model/SpecificCourseData";
@@ -25,7 +25,7 @@ export function AllStudents(props) {
     <Container>
       <Row>
         <Col xl={3} className="overflow-auto left-col">
-          <ListOfStudents
+          <ListOfPeople
             handleOnClick={handleOnClick}
             data={props.StudentData}
             setStudentChanged={setStudentChanged}
@@ -157,9 +157,10 @@ function CourseDetails(props) {
 
 function SpecificStudentCard(props) {
   const student = props.student;
+
   if (student === "") return <></>;
-  const currentCourses = student.current_courses || [];
-  const name = student.firstName + " " + student.lastName;
+
+  const currentCourses = student.current_courses ? student.current_courses : null;
   const courseDeets = currentCourses
     ? SpecificCourseData.filter((course) => currentCourses.includes(course.section_id))
     : [];
@@ -169,7 +170,7 @@ function SpecificStudentCard(props) {
       <Card className="text-black p-3 m-3">
         <Form>
           <Row>
-            <RowNameIDPhone name={name} student={student} />
+            <RowNameIDPhone student={student} />
           </Row>
           <Row>
             <RowDOBCityState student={student} />
@@ -188,8 +189,8 @@ function SpecificStudentCard(props) {
 }
 
 function RowNameIDPhone(props) {
-  const name = props.name;
   const student = props.student;
+  const name = student.firstName + " " + student.lastName;
   if (name === "" || student === "") return <></>;
 
   return (
@@ -218,6 +219,7 @@ function RowNameIDPhone(props) {
 
 function RowDOBCityState(props) {
   const student = props.student;
+  const birthday = student.dob.full;
   if (student === "") return <></>;
 
   return (
@@ -225,12 +227,7 @@ function RowDOBCityState(props) {
       <Col xs={4}>
         <Form.Group controlId="studentDOB">
           <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-          <Form.Control
-            className="mb-2 overflow-auto"
-            type="text"
-            placeholder={student.dob.full}
-            disabled
-          />
+          <Form.Control className="mb-2 overflow-auto" type="date" value={birthday} disabled />
         </Form.Group>
       </Col>
       <Col xs={4}>
@@ -239,7 +236,7 @@ function RowDOBCityState(props) {
           <Form.Control
             className="mb-2 overflow-auto"
             type="text"
-            placeholder={student.city}
+            placeholder={student.location.city}
             disabled
           />
         </Form.Group>
@@ -250,7 +247,7 @@ function RowDOBCityState(props) {
           <Form.Control
             className="mb-2 overflow-auto"
             type="text"
-            placeholder={student.state}
+            placeholder={student.location.state}
             disabled
           />
         </Form.Group>
@@ -262,19 +259,22 @@ function RowDOBCityState(props) {
 function RowEmailCourses(props) {
   const student = props.student;
   const courseDeets = props.courseDeets;
+  const email = student.email.split("@");
 
   if (courseDeets === [] || student === "") return <></>;
   return (
     <>
-      <Col xs={8}>
-        <Form.Group controlId="studentEmail">
-          <Form.Label className="d-flex justify-content-start">Email</Form.Label>
-          <Form.Control
-            className="mb-2 overflow-auto"
-            type="email"
-            placeholder={student.email}
-            disabled
-          />
+      <Col xs={4}>
+        <Form.Label className="d-flex justify-content-start">Email</Form.Label>
+        <InputGroup>
+          <Form.Control type="email" value={email[0]} disabled />
+          <InputGroup.Text className="">@</InputGroup.Text>
+        </InputGroup>
+      </Col>
+      <Col xs={4}>
+        <Form.Group controlId="studentAddress">
+          <Form.Label className="d-flex justify-content-start">Address</Form.Label>
+          <Form.Control type="text" value={student.location.address} disabled />
         </Form.Group>
       </Col>
       <Col xs={4} className="overflow-badge-area">

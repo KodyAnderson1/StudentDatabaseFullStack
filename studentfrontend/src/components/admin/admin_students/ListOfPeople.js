@@ -1,7 +1,7 @@
 import { Row, Form } from "react-bootstrap";
 import { useState, useMemo } from "react";
 
-export function ListOfStudents(props) {
+export function ListOfPeople(props) {
   const data = props.data;
   const [filteredStudents, setFilteredStudents] = useState("");
 
