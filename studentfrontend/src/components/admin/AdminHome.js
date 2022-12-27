@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import AdminFaculty from "./admin_faculty/AdminFaculty";
 import AdminCourses from "./admin_courses/AdminCourses";
 import AdminStudents from "./admin_students/AdminStudentsHome";
-import "../../App.css";
+import "../css/App.css";
 
 export default function AdminHome() {
   const [view, setView] = useState(<AdminStudents />);

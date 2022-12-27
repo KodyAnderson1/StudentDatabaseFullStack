@@ -1,4 +1,4 @@
-import "../App.css";
+import "./css/Login.css";
 import { useNavigate } from "react-router-dom";
 
 export default function Login() {

@@ -1,0 +1,130 @@
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+:root {
+  --primary-light-hsl: 200, 100%, 91%;
+  --primary-hsl: 200, 100%, 50%;
+  --primary-dark-hsl: 200, 100%, 6%;
+  --success-hsl: 100, 60%, 50%;
+  --error-hsl: 0, 60%, 50%;
+  --admin-height: 70vh;
+}
+
+.App {
+  text-align: center;
+  background-image: url("./background-img.jpg");
+  height: 100vh;
+  width: 100%;
+  background-size: contain;
+  background-position: center;
+}
+
+
+body {
+  margin: 0;
+}
+
+
+/************************** STUDENTS ***************************/
+.paper-style {
+  padding: 3.125rem 1.25rem;
+  width: 600;
+  margin: 1.25rem 17rem;
+}
+
+h1.students-heading {
+  color: blue;
+  margin-top: -1rem;
+}
+
+.paper-style button {
+  margin-top: 1rem;
+  margin-bottom: -1rem;
+}
+
+.specific-student {
+  margin: 0.625rem;
+  padding: 1rem;
+  text-align: left;
+}
+
+/************************** ADMIN ***************************/
+
+.top-admin-container {
+  background-color: hsl(var(--primary-dark-hsl), .8) !important;
+  color: white;
+  width: 100%;
+  height: var(--admin-height);
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 1rem;
+}
+
+.admin-nav-btns div {
+  cursor: pointer;
+}
+
+.admin-card-navbar {
+  height: var(--admin-height);
+  text-align: center;
+  justify-content: center;
+}
+
+.admin-card-navbar h2 {
+  margin-top: 1rem;
+}
+
+.admin-card-navbar .nav-link {
+  margin: 1rem;
+}
+
+/***************** All Students Admin ************/
+
+.admin-search-results {
+  margin-top: 1rem;
+  max-height: calc(var(--admin-height ) - 9vh);
+} 
+
+.student-button {
+  width: 15em;
+}
+.student-card-top {
+  min-height: 32vh;
+}
+
+.bottom-card-students {
+  --height: 19vh;
+  height: var(--height);
+
+} 
+
+.overflow-badge-area {
+  overflow: hidden;
+} 
+
+.overflow-badge-area:hover span {
+  cursor: pointer;
+} 
+
+.search-bar-student {
+  background: inherit;
+  margin-left: -.5rem;
+  margin-top: 1rem;
+}
+
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4); 
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgb(0, 0, 0); 
+}

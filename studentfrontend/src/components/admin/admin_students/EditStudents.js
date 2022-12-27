@@ -1,15 +1,14 @@
 import { Row, Col, Container, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState } from "react";
-import { ListOfPeople } from "./ListOfPeople";
+import { ListOfPeople } from "../ListOfPeople";
 
 // Add a "Add new student" button under the search bar
 export function EditStudents(props) {
   const [allStudents, setAllStudents] = useState(props.StudentData);
   const [selectedStudent, setSelectedStudent] = useState("");
 
-  const handleOnClick = (student) => {
-    setSelectedStudent(student);
-  };
+  const handleOnClick = (student) => setSelectedStudent(student);
+
   const handleOnSubmit = (e) => {
     e.preventDefault();
     setAllStudents(
@@ -23,16 +22,16 @@ export function EditStudents(props) {
   return (
     <Container>
       <Row>
-        <Col xl={3} className="overflow-auto left-col">
+        <Col xl={3}>
           <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
         </Col>
         <Col xl={9}>
-          Edit
           <SpecificStudentCard
             setSelectedStudent={setSelectedStudent}
             selectedStudent={selectedStudent}
             courseData={props.courseData}
             handleOnSubmit={handleOnSubmit}
+            allStudents={allStudents}
           />
           Stuff
         </Col>
@@ -42,28 +41,53 @@ export function EditStudents(props) {
 }
 
 function SpecificStudentCard(props) {
+  const [isEditable, setIsEditable] = useState(true);
   if (!props.selectedStudent) return <></>;
+
+  const handleEditable = () => {
+    setIsEditable(isEditable ? false : true);
+    props.setSelectedStudent(
+      ...props.allStudents.filter((student) => student.id === props.selectedStudent.id)
+    );
+  };
+
+  const submitButton = isEditable ? (
+    <Button type="submit" className="me-1 mb-3" variant="primary" form="editStudentForm">
+      Submit
+    </Button>
+  ) : (
+    <></>
+  );
 
   return (
     <>
       <Card className="text-black p-3 m-3">
+        <Row className="border-bottom mb-3">
+          <Col className="d-flex justify-content-start display-6">Student</Col>
+          <Col className="d-flex justify-content-end">
+            {submitButton}
+            <Button onClick={handleEditable} className="me-1 mb-3">
+              {isEditable ? "Disable Edit" : "Enable Edit"}
+            </Button>
+          </Col>
+        </Row>
         <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
           <RowPersonalData
             selectedStudent={props.selectedStudent}
             setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
           />
           <RowLocationData
             selectedStudent={props.selectedStudent}
             setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
           />
           <RowIdContactData
             selectedStudent={props.selectedStudent}
             setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
           />
         </Form>
-        <Button type="submit" className="mt-2" variant="primary" form="editStudentForm">
-          Submit
-        </Button>
       </Card>
     </>
   );
@@ -72,6 +96,7 @@ function SpecificStudentCard(props) {
 function RowPersonalData(props) {
   const student = props.selectedStudent;
   const setStudent = props.setSelectedStudent;
+  const isEditable = props.isEditable;
 
   if (!student) return <></>;
 
@@ -88,6 +113,7 @@ function RowPersonalData(props) {
               aria-label="First name"
               value={student.firstName}
               onChange={handleFirstNameChange}
+              disabled={isEditable ? "" : "disabled"}
             />
           </Form.Group>
         </Col>
@@ -98,6 +124,7 @@ function RowPersonalData(props) {
               aria-label="Last name"
               value={student.lastName}
               onChange={handleLastNameChange}
+              disabled={isEditable ? "" : "disabled"}
             />
           </Form.Group>
         </Col>
@@ -115,6 +142,7 @@ function RowPersonalData(props) {
 function RowLocationData(props) {
   const student = props.selectedStudent;
   const setStudent = props.setSelectedStudent;
+  const isEditable = props.isEditable;
 
   if (!student) return <></>;
 
@@ -128,13 +156,23 @@ function RowLocationData(props) {
         <Col xs={4}>
           <Form.Group controlId="studentCity">
             <Form.Label className="d-flex justify-content-start">City</Form.Label>
-            <Form.Control type="text" value={student.location.city} onChange={handleCityChange} />
+            <Form.Control
+              type="text"
+              value={student.location.city}
+              onChange={handleCityChange}
+              disabled={isEditable ? "" : "disabled"}
+            />
           </Form.Group>
         </Col>
         <Col xs={4}>
           <Form.Group controlId="studentState">
             <Form.Label className="d-flex justify-content-start">State</Form.Label>
-            <Form.Control type="text" value={student.location.state} onChange={handleStateChange} />
+            <Form.Control
+              type="text"
+              value={student.location.state}
+              onChange={handleStateChange}
+              disabled={isEditable ? "" : "disabled"}
+            />
           </Form.Group>
         </Col>
         <Col xs={4}>
@@ -144,6 +182,7 @@ function RowLocationData(props) {
               type="text"
               value={student.location.address}
               onChange={handleAddressChange}
+              disabled={isEditable ? "" : "disabled"}
             />
           </Form.Group>
         </Col>
@@ -155,6 +194,7 @@ function RowLocationData(props) {
 function RowIdContactData(props) {
   const student = props.selectedStudent;
   const setStudent = props.setSelectedStudent;
+  const isEditable = props.isEditable;
   const email = student.email.split("@");
 
   if (!student) return <></>;
@@ -169,25 +209,30 @@ function RowIdContactData(props) {
         <Col xs={4}>
           <Form.Label className="d-flex justify-content-start">Email</Form.Label>
           <InputGroup>
-            <Form.Control type="text" value={email[0]} onChange={handleEmailChange} />
+            <Form.Control
+              type="text"
+              value={email[0]}
+              onChange={handleEmailChange}
+              disabled={isEditable ? "" : "disabled"}
+            />
             <InputGroup.Text>@</InputGroup.Text>
           </InputGroup>
         </Col>
         <Col xs={4}>
           <Form.Group controlId="studentPhone">
             <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
-            <Form.Control type="text" value={student.phone} onChange={handlePhoneChange} />
+            <Form.Control
+              type="text"
+              value={student.phone}
+              onChange={handlePhoneChange}
+              disabled={isEditable ? "" : "disabled"}
+            />
           </Form.Group>
         </Col>
         <Col xs={4}>
           <Form.Group controlId="studentId">
             <Form.Label className="d-flex justify-content-start">Student ID</Form.Label>
-            <Form.Control
-              type="text"
-              disabled
-              value={student.id}
-              onChange={(e) => e.preventDefault()}
-            />
+            <Form.Control type="text" value={student.id} disabled />
           </Form.Group>
         </Col>
       </Row>
