@@ -35,7 +35,6 @@ class Course:
         retList = []
         for c in cl:
             retList.append(c.section_id)
-        print(retList)
         return retList
 
 

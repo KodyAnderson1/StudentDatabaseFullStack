@@ -20,6 +20,7 @@
   width: 100%;
   background-size: contain;
   background-position: center;
+  /* background-repeat: no-repeat; */
 }
 
 
@@ -81,24 +82,36 @@ h1.students-heading {
   margin: 1rem;
 }
 
-/***************** All Students Admin ************/
+/***************** All Students Admin *****************/
 
 .admin-search-results {
   margin-top: 1rem;
   max-height: calc(var(--admin-height ) - 9vh);
 } 
 
+
+
+.toast-styles {
+  margin-left: -10rem;
+  margin-top: -.2rem;
+}
+
 .student-button {
   width: 15em;
+}
+
+@media (max-width: 1250px) {
+  .student-button {
+    width: 12.5em;
+  }
 }
 .student-card-top {
   min-height: 32vh;
 }
 
 .bottom-card-students {
-  --height: 19vh;
+  --height: 33vh;
   height: var(--height);
-
 } 
 
 .overflow-badge-area {

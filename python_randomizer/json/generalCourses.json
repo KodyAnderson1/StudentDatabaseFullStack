@@ -1,81 +1,72 @@
 [
     {
-        "id": 7389,
+        "id": 4522,
         "name": "Client-Side Programming",
         "active_sections": [
-            680530,
-            757010,
-            839258
+            718670,
+            158514,
+            241576
         ]
     },
     {
-        "id": 4834,
+        "id": 4467,
         "name": "Data Structures & Algorithms I",
         "active_sections": [
-            164078,
-            905396,
-            580515
+            722211
         ]
     },
     {
-        "id": 7034,
+        "id": 6856,
         "name": "Software Engineering I",
         "active_sections": [
-            429121,
-            129957,
-            856835
+            280809
         ]
     },
     {
-        "id": 4746,
+        "id": 8813,
         "name": "C++ Programming",
         "active_sections": [
-            423668,
-            401746,
-            903009
+            250793,
+            598829
         ]
     },
     {
-        "id": 9965,
+        "id": 7990,
         "name": "Advanced Computer Programming",
         "active_sections": [
-            950977,
-            983626,
-            439541
+            579478
         ]
     },
     {
-        "id": 9234,
+        "id": 5215,
         "name": "Computer Organization",
         "active_sections": [
-            406388,
-            194680,
-            491255
+            298345,
+            898565
         ]
     },
     {
-        "id": 9539,
+        "id": 7153,
         "name": "Programming Languages",
         "active_sections": [
-            647952,
-            647813,
-            120580
+            911652,
+            437548,
+            345153
         ]
     },
     {
-        "id": 5053,
+        "id": 8824,
         "name": "Calculus",
         "active_sections": [
-            364138,
-            561081
+            605216
         ]
     },
     {
-        "id": 5116,
+        "id": 6101,
         "name": "Server-Side Programming",
         "active_sections": [
-            772376,
-            312383
+            544600,
+            747369
         ]
     }
 ]

@@ -47,12 +47,18 @@ class Student:
 class DOB:
     def __init__(self) -> None:
         self.month: int = random.randint(1, 12)
-        self.day: int = random.randint(1, 31)
+        self.day: int = self.__helper_day()
         self.year: int = random.randint(1990, 2005)
         self.full: str = f"{self.year}-{self.month:02d}-{self.day:02d}"
 
     def __str__(self) -> str:
         return f"{self.month}/{self.day}/{self.year}"
+
+    def __helper_day(self):
+        if self.month == 2:
+            return random.randint(1, 28)
+        else:
+            return random.randint(1, 30)
 
 
 def main() -> None:
