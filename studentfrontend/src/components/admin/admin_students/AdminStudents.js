@@ -4,7 +4,8 @@ import { ListOfPeople } from "../ListOfPeople";
 import { CustomAlert } from "../../CustomAlert";
 
 // Add a "Add new student" button under the search bar
-export function EditStudents(props) {
+export function AdminStudents(props) {
+  console.log(props);
   const [allStudents, setAllStudents] = useState(props.StudentData);
   const [selectedStudent, setSelectedStudent] = useState("");
 
@@ -21,28 +22,30 @@ export function EditStudents(props) {
   };
 
   return (
-    <Container>
-      <Row>
-        <Col xl={3}>
-          <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
-        </Col>
-        <Col xl={9}>
-          <SpecificStudentCard
-            setSelectedStudent={setSelectedStudent}
-            selectedStudent={selectedStudent}
-            courseData={props.courseData}
-            handleOnSubmit={handleOnSubmit}
-            allStudents={allStudents}
-          />
+    <div className="col-10">
+      <Container>
+        <Row>
+          <Col xl={3}>
+            <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
+          </Col>
+          <Col xl={9}>
+            <SpecificStudentCard
+              setSelectedStudent={setSelectedStudent}
+              selectedStudent={selectedStudent}
+              courseData={props.courseData}
+              handleOnSubmit={handleOnSubmit}
+              allStudents={allStudents}
+            />
 
-          <StudentCourses
-            setSelectedStudent={setSelectedStudent}
-            selectedStudent={selectedStudent}
-            courseData={props.courseData}
-          />
-        </Col>
-      </Row>
-    </Container>
+            <StudentCourses
+              setSelectedStudent={setSelectedStudent}
+              selectedStudent={selectedStudent}
+              courseData={props.courseData}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 
@@ -64,9 +67,7 @@ function StudentCourses(props) {
             <h4>Current Courses</h4>
             {courses.map((course) => {
               return (
-                <div
-                  key={course.section_id + course.instructor_id}
-                  className="p-1 d-flex btn btn-primary m-2">
+                <div key={course.section_id} className="p-1 d-flex btn btn-primary m-2">
                   {course.course_name}
                 </div>
               );

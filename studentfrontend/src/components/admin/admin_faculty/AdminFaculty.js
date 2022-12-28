@@ -34,12 +34,11 @@ export default function AdminFaculty(props) {
             handleOnSubmit={handleOnSubmit}
             allFaculty={allFaculty}
           />
-
-          {/* <StudentCourses
-            setSelectedStudent={setSelectedStudent}
-            selectedStudent={selectedStudent}
-            courseData={props.courseData}
-          /> */}
+          <FacultyCourses
+            setSelectedFaculty={setSelectedFaculty}
+            selectedFaculty={selectedFaculty}
+            courseData={props.SpecificCourseData}
+          />
         </Col>
       </Row>
     </Container>
@@ -47,14 +46,14 @@ export default function AdminFaculty(props) {
 }
 
 // ! Will this handle empty current_courses?
-function StudentCourses(props) {
-  const studCourses = props.selectedStudent.current_courses
-    ? props.selectedStudent.current_courses
-    : [];
-  const filteredData = props.courseData.filter((course) => studCourses.includes(course.section_id));
-  const courses = filteredData ? filteredData : [];
+function FacultyCourses(props) {
+  const facultyCourses = props.selectedFaculty.current_courses;
 
-  if (!props.selectedStudent) return <></>;
+  if (!facultyCourses) return <></>;
+
+  const courseCheck = facultyCourses ? facultyCourses : [];
+  const filteredData = props.courseData.filter((course) => courseCheck.includes(course.section_id));
+  const courses = filteredData ? filteredData : [];
 
   return (
     <>
@@ -64,11 +63,9 @@ function StudentCourses(props) {
             <h4>Current Courses</h4>
             {courses.map((course) => {
               return (
-                <>
-                  <div key={course.section_id} className="p-1 d-flex btn btn-primary m-2">
-                    {course.course_name}
-                  </div>
-                </>
+                <div key={course.section_id} className="p-1 d-flex btn btn-primary m-2">
+                  {course.course_name}
+                </div>
               );
             })}
           </Col>

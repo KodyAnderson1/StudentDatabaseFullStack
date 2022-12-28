@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 
 import AdminFaculty from "./admin_faculty/AdminFaculty";
 import AdminCourses from "./admin_courses/AdminCourses";
-import AdminStudents from "./admin_students/AdminStudentsHome";
 import "../css/App.css";
 
 import { StudentData } from "../../model/StudentData";
 import { SpecificCourseData } from "../../model/SpecificCourseData";
 import { FacultyData } from "../../model/FacultyData";
+import { AdminStudents } from "./admin_students/AdminStudents";
 
 export default function AdminHome() {
-  const [view, setView] = useState(<AdminStudents />);
+  const [view, setView] = useState();
   const [determineView, setDetermineView] = useState("");
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export default function AdminHome() {
       setView(
         <AdminStudents
           FacultyData={FacultyData}
-          SpecificCourseData={SpecificCourseData}
+          courseData={SpecificCourseData}
           StudentData={StudentData}
         />
       );

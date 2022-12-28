@@ -2,18 +2,18 @@ import { Row, Form } from "react-bootstrap";
 import { useState, useMemo } from "react";
 
 export function ListOfPeople(props) {
-  const data = props.data;
-  const [filteredStudents, setFilteredStudents] = useState("");
+  const dataToFilter = props.data;
+  const [filteredPeople, setFilteredPeople] = useState("");
 
   const filtered = useMemo(() => {
-    return data.filter((student) => {
+    return dataToFilter.filter((person) => {
       return (
-        student === "" ||
-        student.firstName.toLowerCase().includes(filteredStudents.toLowerCase()) ||
-        student.lastName.toLowerCase().includes(filteredStudents.toLowerCase())
+        person === "" ||
+        person.firstName.toLowerCase().includes(filteredPeople.toLowerCase()) ||
+        person.lastName.toLowerCase().includes(filteredPeople.toLowerCase())
       );
     });
-  }, [filteredStudents, data]);
+  }, [filteredPeople, dataToFilter]);
 
   return (
     <>
@@ -23,7 +23,7 @@ export function ListOfPeople(props) {
             placeholder="Search"
             type="text"
             className="search-bar-student"
-            onChange={(e) => setFilteredStudents(e.target.value)}
+            onChange={(e) => setFilteredPeople(e.target.value)}
           />
         </Form>
       </Row>
@@ -35,12 +35,12 @@ export function ListOfPeople(props) {
 }
 
 export function SpecificPerson(props) {
-  return props.filtered.map((student) => {
-    const name = student.firstName + " " + student.lastName;
+  return props.filtered.map((person) => {
+    const name = person.firstName + " " + person.lastName;
     return (
       <Row
-        key={student.id}
-        onClick={() => props.handleOnClick(student)}
+        key={person.id}
+        onClick={() => props.handleOnClick(person)}
         className="m-2 student-button btn btn-outline-secondary d-flex text-white">
         {name}
       </Row>
