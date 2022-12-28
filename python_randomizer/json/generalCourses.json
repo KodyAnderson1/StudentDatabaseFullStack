@@ -1,72 +1,72 @@
 [
     {
-        "id": 4522,
+        "id": 5268,
         "name": "Client-Side Programming",
         "active_sections": [
-            718670,
-            158514,
-            241576
+            520396,
+            651511
         ]
     },
     {
-        "id": 4467,
+        "id": 9871,
         "name": "Data Structures & Algorithms I",
         "active_sections": [
-            722211
+            973707,
+            959041
         ]
     },
     {
-        "id": 6856,
+        "id": 5357,
         "name": "Software Engineering I",
         "active_sections": [
-            280809
+            637747,
+            978399
         ]
     },
     {
-        "id": 8813,
+        "id": 9935,
         "name": "C++ Programming",
         "active_sections": [
-            250793,
-            598829
+            188517,
+            331065,
+            893195
         ]
     },
     {
-        "id": 7990,
+        "id": 7244,
         "name": "Advanced Computer Programming",
         "active_sections": [
-            579478
+            420656,
+            673117
         ]
     },
     {
-        "id": 5215,
+        "id": 9827,
         "name": "Computer Organization",
         "active_sections": [
-            298345,
-            898565
+            799082
         ]
     },
     {
-        "id": 7153,
+        "id": 6571,
         "name": "Programming Languages",
         "active_sections": [
-            911652,
-            437548,
-            345153
+            790085
         ]
     },
     {
-        "id": 8824,
+        "id": 4460,
         "name": "Calculus",
         "active_sections": [
-            605216
+            754638
         ]
     },
     {
-        "id": 6101,
+        "id": 6847,
         "name": "Server-Side Programming",
         "active_sections": [
-            544600,
-            747369
+            187509,
+            235193
         ]
     }
 ]

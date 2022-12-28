@@ -3,9 +3,6 @@ import { useState } from "react";
 import { ListOfPeople } from "../ListOfPeople";
 import { CustomAlert } from "../../CustomAlert";
 
-// ! REMOVE
-import { SpecificCourseData } from "../../../model/SpecificCourseData";
-
 // Add a "Add new student" button under the search bar
 export function EditStudents(props) {
   const [allStudents, setAllStudents] = useState(props.StudentData);
@@ -30,22 +27,19 @@ export function EditStudents(props) {
           <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
         </Col>
         <Col xl={9}>
-          <Card className="text-black p-3 m-3">
-            <SpecificStudentCard
-              setSelectedStudent={setSelectedStudent}
-              selectedStudent={selectedStudent}
-              courseData={props.courseData}
-              handleOnSubmit={handleOnSubmit}
-              allStudents={allStudents}
-            />
-          </Card>
-          <Card className="text-black p-3 m-3 bottom-card-students">
-            <StudentCourses
-              setSelectedStudent={setSelectedStudent}
-              selectedStudent={selectedStudent}
-              courseData={props.courseData}
-            />
-          </Card>
+          <SpecificStudentCard
+            setSelectedStudent={setSelectedStudent}
+            selectedStudent={selectedStudent}
+            courseData={props.courseData}
+            handleOnSubmit={handleOnSubmit}
+            allStudents={allStudents}
+          />
+
+          <StudentCourses
+            setSelectedStudent={setSelectedStudent}
+            selectedStudent={selectedStudent}
+            courseData={props.courseData}
+          />
         </Col>
       </Row>
     </Container>
@@ -60,23 +54,29 @@ function StudentCourses(props) {
   const filteredData = props.courseData.filter((course) => studCourses.includes(course.section_id));
   const courses = filteredData ? filteredData : [];
 
+  if (!props.selectedStudent) return <></>;
+
   return (
     <>
-      <Row>
-        <Col xs={5}>
-          <h4>Current Courses</h4>
-          {courses.map((course) => {
-            return (
-              <>
-                <div className="p-1 d-flex btn btn-primary m-2">{course.course_name}</div>
-              </>
-            );
-          })}
-        </Col>
-        <Col xs={7}>
-          <h4>Course Data</h4>
-        </Col>
-      </Row>
+      <Card className="text-black p-3 m-3 bottom-card-students">
+        <Row>
+          <Col xs={5}>
+            <h4>Current Courses</h4>
+            {courses.map((course) => {
+              return (
+                <div
+                  key={course.section_id + course.instructor_id}
+                  className="p-1 d-flex btn btn-primary m-2">
+                  {course.course_name}
+                </div>
+              );
+            })}
+          </Col>
+          <Col xs={7}>
+            <h4>Course Data</h4>
+          </Col>
+        </Row>
+      </Card>
     </>
   );
 }
@@ -101,32 +101,34 @@ function SpecificStudentCard(props) {
 
   return (
     <>
-      <Row className="border-bottom mb-3">
-        <Col className="d-flex justify-content-start display-6">Student</Col>
-        <Col className="d-flex justify-content-end">
-          {submitButton}
-          <Button onClick={handleEditable} className="ms-5 mb-3">
-            {isEditable ? "Disable Edit" : "Enable Edit"}
-          </Button>
-        </Col>
-      </Row>
-      <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
-        <RowPersonalData
-          selectedStudent={props.selectedStudent}
-          setSelectedStudent={props.setSelectedStudent}
-          isEditable={isEditable}
-        />
-        <RowLocationData
-          selectedStudent={props.selectedStudent}
-          setSelectedStudent={props.setSelectedStudent}
-          isEditable={isEditable}
-        />
-        <RowIdContactData
-          selectedStudent={props.selectedStudent}
-          setSelectedStudent={props.setSelectedStudent}
-          isEditable={isEditable}
-        />
-      </Form>
+      <Card className="text-black p-3 m-3">
+        <Row className="border-bottom mb-3">
+          <Col className="d-flex justify-content-start display-6">Student</Col>
+          <Col className="d-flex justify-content-end">
+            {submitButton}
+            <Button onClick={handleEditable} className="ms-5 mb-3">
+              {isEditable ? "Disable Edit" : "Enable Edit"}
+            </Button>
+          </Col>
+        </Row>
+        <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
+          <RowPersonalData
+            selectedStudent={props.selectedStudent}
+            setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
+          />
+          <RowLocationData
+            selectedStudent={props.selectedStudent}
+            setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
+          />
+          <RowIdContactData
+            selectedStudent={props.selectedStudent}
+            setSelectedStudent={props.setSelectedStudent}
+            isEditable={isEditable}
+          />
+        </Form>
+      </Card>
     </>
   );
 }

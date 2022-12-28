@@ -5,14 +5,39 @@ import AdminCourses from "./admin_courses/AdminCourses";
 import AdminStudents from "./admin_students/AdminStudentsHome";
 import "../css/App.css";
 
+import { StudentData } from "../../model/StudentData";
+import { SpecificCourseData } from "../../model/SpecificCourseData";
+import { FacultyData } from "../../model/FacultyData";
+
 export default function AdminHome() {
   const [view, setView] = useState(<AdminStudents />);
   const [determineView, setDetermineView] = useState("");
 
   useEffect(() => {
-    if (determineView === "adminStudent") setView(<AdminStudents />);
-    else if (determineView === "adminFaculty") setView(<AdminFaculty />);
-    else if (determineView === "adminCourses") setView(<AdminCourses />);
+    if (determineView === "adminStudent")
+      setView(
+        <AdminStudents
+          FacultyData={FacultyData}
+          SpecificCourseData={SpecificCourseData}
+          StudentData={StudentData}
+        />
+      );
+    else if (determineView === "adminFaculty")
+      setView(
+        <AdminFaculty
+          FacultyData={FacultyData}
+          SpecificCourseData={SpecificCourseData}
+          StudentData={StudentData}
+        />
+      );
+    else if (determineView === "adminCourses")
+      setView(
+        <AdminCourses
+          FacultyData={FacultyData}
+          SpecificCourseData={SpecificCourseData}
+          StudentData={StudentData}
+        />
+      );
     else setView("");
   }, [determineView]);
 
@@ -38,11 +63,11 @@ function AdminNavbar(props) {
             Students
           </div>
           {/* <div className="nav-link active" onClick={(e) => handleClick(e, "adminCourses")}>
-          Courses
+            Courses
           </div> */}
-          {/* <div className="nav-link active" onClick={(e) => handleClick(e, "adminFaculty")}>
-          Faculty
-          </div> */}
+          <div className="nav-link active" onClick={(e) => handleClick(e, "adminFaculty")}>
+            Faculty
+          </div>
         </nav>
       </div>
     </>
