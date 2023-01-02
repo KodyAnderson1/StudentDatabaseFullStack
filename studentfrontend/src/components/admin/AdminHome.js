@@ -8,6 +8,7 @@ import { StudentData } from "../../model/StudentData";
 import { SpecificCourseData } from "../../model/SpecificCourseData";
 import { FacultyData } from "../../model/FacultyData";
 import { AdminStudents } from "./admin_students/AdminStudents";
+import { GeneralCourseData } from "../../model/GeneralCourseData";
 
 export default function AdminHome() {
   const [view, setView] = useState();
@@ -36,6 +37,7 @@ export default function AdminHome() {
           FacultyData={FacultyData}
           SpecificCourseData={SpecificCourseData}
           StudentData={StudentData}
+          GeneralCourseData={GeneralCourseData}
         />
       );
     else setView("");
@@ -52,21 +54,21 @@ export default function AdminHome() {
 }
 
 function AdminNavbar(props) {
-  const handleClick = (e, val) => props.setDetermineView(val);
+  const handleClick = (val) => props.setDetermineView(val);
 
   return (
     <>
       <div className="col-2 admin-card-navbar">
         <h2>Admin</h2>
         <nav className="nav nav-pills nav-fill flex-column admin-nav-btns">
-          <div className="nav-link active" onClick={(e) => handleClick(e, "adminStudent")}>
+          <div className="nav-link active" onClick={() => handleClick("adminStudent")}>
             Students
           </div>
-          {/* <div className="nav-link active" onClick={(e) => handleClick(e, "adminCourses")}>
-            Courses
-          </div> */}
-          <div className="nav-link active" onClick={(e) => handleClick(e, "adminFaculty")}>
+          <div className="nav-link active" onClick={() => handleClick("adminFaculty")}>
             Faculty
+          </div>
+          <div className="nav-link active" onClick={() => handleClick("adminCourses")}>
+            Courses
           </div>
         </nav>
       </div>

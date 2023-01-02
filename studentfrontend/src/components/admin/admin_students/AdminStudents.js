@@ -5,7 +5,6 @@ import { CustomAlert } from "../../CustomAlert";
 
 // Add a "Add new student" button under the search bar
 export function AdminStudents(props) {
-  console.log(props);
   const [allStudents, setAllStudents] = useState(props.StudentData);
   const [selectedStudent, setSelectedStudent] = useState("");
 
@@ -51,10 +50,9 @@ export function AdminStudents(props) {
 
 // ! Will this handle empty current_courses?
 function StudentCourses(props) {
-  const studCourses = props.selectedStudent.current_courses
-    ? props.selectedStudent.current_courses
-    : [];
-  const filteredData = props.courseData.filter((course) => studCourses.includes(course.section_id));
+  const studentCourses = props.selectedStudent.current_courses;
+  const courseCheck = studentCourses ? studentCourses : [];
+  const filteredData = props.courseData.filter((course) => courseCheck.includes(course.section_id));
   const courses = filteredData ? filteredData : [];
 
   if (!props.selectedStudent) return <></>;

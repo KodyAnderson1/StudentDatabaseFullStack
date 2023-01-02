@@ -7,11 +7,15 @@ export function ListOfPeople(props) {
 
   const filtered = useMemo(() => {
     return dataToFilter.filter((person) => {
-      return (
-        person === "" ||
-        person.firstName.toLowerCase().includes(filteredPeople.toLowerCase()) ||
-        person.lastName.toLowerCase().includes(filteredPeople.toLowerCase())
-      );
+      if (person.firstName) {
+        return (
+          person === "" ||
+          person.firstName.toLowerCase().includes(filteredPeople.toLowerCase()) ||
+          person.lastName.toLowerCase().includes(filteredPeople.toLowerCase())
+        );
+      } else {
+        return person === "" || person.name.toLowerCase().includes(filteredPeople.toLowerCase());
+      }
     });
   }, [filteredPeople, dataToFilter]);
 
@@ -36,12 +40,12 @@ export function ListOfPeople(props) {
 
 export function SpecificPerson(props) {
   return props.filtered.map((person) => {
-    const name = person.firstName + " " + person.lastName;
+    const name = person.firstName ? person.firstName + " " + person.lastName : person.name;
     return (
       <Row
         key={person.id}
         onClick={() => props.handleOnClick(person)}
-        className="m-2 student-button btn btn-outline-secondary d-flex text-white">
+        className="m-2 student-button btn btn-outline-secondary text-white d-flex">
         {name}
       </Row>
     );
