@@ -1,86 +1,8 @@
-import { Row, Col, Container, Card, Form, InputGroup, Button } from "react-bootstrap";
-import { useState } from "react";
-import { ListOfPeople } from "../ListOfPeople";
 import { CustomAlert } from "../../CustomAlert";
+import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
+import { useState } from "react";
 
-// Add a "Add new student" button under the search bar
-export function AdminStudents(props) {
-  const [allStudents, setAllStudents] = useState(props.StudentData);
-  const [selectedStudent, setSelectedStudent] = useState("");
-
-  const handleOnClick = (student) => setSelectedStudent(student);
-
-  const handleOnSubmit = (e) => {
-    e.preventDefault();
-    setAllStudents(
-      allStudents.map((student) => {
-        if (student.id === selectedStudent.id) return selectedStudent;
-        else return student;
-      })
-    );
-  };
-
-  return (
-    <div className="col-10">
-      <Container>
-        <Row>
-          <Col xl={3}>
-            <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
-          </Col>
-          <Col xl={9}>
-            <SpecificStudentCard
-              setSelectedStudent={setSelectedStudent}
-              selectedStudent={selectedStudent}
-              courseData={props.courseData}
-              handleOnSubmit={handleOnSubmit}
-              allStudents={allStudents}
-            />
-
-            <StudentCourses
-              setSelectedStudent={setSelectedStudent}
-              selectedStudent={selectedStudent}
-              courseData={props.courseData}
-            />
-          </Col>
-        </Row>
-      </Container>
-    </div>
-  );
-}
-
-// ! Will this handle empty current_courses?
-function StudentCourses(props) {
-  const studentCourses = props.selectedStudent.current_courses;
-  const courseCheck = studentCourses ? studentCourses : [];
-  const filteredData = props.courseData.filter((course) => courseCheck.includes(course.section_id));
-  const courses = filteredData ? filteredData : [];
-
-  if (!props.selectedStudent) return <></>;
-
-  return (
-    <>
-      <Card className="text-black p-3 m-3 bottom-card-students">
-        <Row>
-          <Col xs={5}>
-            <h4>Current Courses</h4>
-            {courses.map((course) => {
-              return (
-                <div key={course.section_id} className="p-1 d-flex btn btn-primary m-2">
-                  {course.course_name}
-                </div>
-              );
-            })}
-          </Col>
-          <Col xs={7}>
-            <h4>Course Data</h4>
-          </Col>
-        </Row>
-      </Card>
-    </>
-  );
-}
-
-function SpecificStudentCard(props) {
+export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
 
   if (!props.selectedStudent) return <></>;

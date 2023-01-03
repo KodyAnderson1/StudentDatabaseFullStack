@@ -1,7 +1,9 @@
 import { Row, Form } from "react-bootstrap";
 import { useState, useMemo } from "react";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 
 export function ListOfPeople(props) {
+  // console.log(props.determineView);
   const dataToFilter = props.data;
   const [filteredPeople, setFilteredPeople] = useState("");
 
@@ -30,6 +32,9 @@ export function ListOfPeople(props) {
             onChange={(e) => setFilteredPeople(e.target.value)}
           />
         </Form>
+        <button className=" mt-2 ms-2 student-button btn btn-outline-secondary text-white d-flex">
+          <AiOutlinePlusCircle className="mt-1 me-2" /> ADD NEW
+        </button>
       </Row>
       <Row className="overflow-auto admin-search-results">
         <SpecificPerson filtered={filtered} handleOnClick={props.handleOnClick} />
@@ -45,7 +50,7 @@ export function SpecificPerson(props) {
       <Row
         key={person.id}
         onClick={() => props.handleOnClick(person)}
-        className="m-2 student-button btn btn-outline-secondary text-white d-flex">
+        className=" ms-2 mb-2 student-button btn btn-outline-secondary text-white d-flex">
         {name}
       </Row>
     );

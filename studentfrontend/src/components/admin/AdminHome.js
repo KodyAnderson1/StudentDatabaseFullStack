@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 
-import AdminFaculty from "./admin_faculty/AdminFaculty";
-import AdminCourses from "./admin_courses/AdminCourses";
+import AdminFaculty from "./faculty/AdminFaculty";
+import AdminCourses from "./courses/AdminCourses";
 import "../css/App.css";
 
 import { StudentData } from "../../model/StudentData";
 import { SpecificCourseData } from "../../model/SpecificCourseData";
 import { FacultyData } from "../../model/FacultyData";
-import { AdminStudents } from "./admin_students/AdminStudents";
+import { AdminStudents } from "./students/AdminStudents";
 import { GeneralCourseData } from "../../model/GeneralCourseData";
 
 export default function AdminHome() {
