@@ -27,12 +27,24 @@
   .admin-card-navbar .nav-link {
     margin: 1rem;
   }
+
+  .add-new-person-btn {
+    margin-top: .3rem;
+    margin-right: .5rem;
+    font-size: larger;
+  }
+
+  .add-new-person-btn-text {
+    font-weight: bold !important;
+    font-size: larger;
+
+  }
   
   /***************** All Students Admin *****************/
   
   .admin-search-results {
     margin-top: 1rem;
-    max-height: calc(var(--admin-height ) - 12vh);
+    max-height: calc(var(--admin-height ) - 13vh);
   } 
   
   .toast-styles {

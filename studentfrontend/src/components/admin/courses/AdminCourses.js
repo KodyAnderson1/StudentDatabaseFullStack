@@ -24,7 +24,11 @@ export default function AdminCourses(props) {
     <Container>
       <Row>
         <Col xl={3}>
-          <ListOfPeople handleOnClick={handleOnClick} data={allCourses} />
+          <ListOfPeople
+            handleOnClick={handleOnClick}
+            data={allCourses}
+            determineView={props.determineView}
+          />
         </Col>
         <Col xl={9}>
           <CourseCard

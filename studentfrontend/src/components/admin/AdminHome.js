@@ -14,6 +14,8 @@ import { CoursesData } from "../../model/CoursesData";
 export default function AdminHome() {
   const [view, setView] = useState();
   const [determineView, setDetermineView] = useState("");
+  const [allStudents, setAllStudents] = useState(StudentData);
+  const [allFaculty, setAllFaculty] = useState(FacultyData);
 
   useEffect(() => {
     if (determineView === "adminStudent")
@@ -21,7 +23,10 @@ export default function AdminHome() {
         <AdminStudents
           FacultyData={FacultyData}
           courseData={SectionData}
-          StudentData={StudentData}
+          allStudents={allStudents}
+          setAllStudents={setAllStudents}
+          determineView={determineView}
+          addNewStudent={addNewStudent}
         />
       );
     else if (determineView === "adminFaculty")
@@ -29,7 +34,9 @@ export default function AdminHome() {
         <AdminFaculty
           FacultyData={FacultyData}
           SpecificCourseData={SectionData}
-          StudentData={StudentData}
+          determineView={determineView}
+          allFaculty={allFaculty}
+          setAllFaculty={setAllFaculty}
         />
       );
     else if (determineView === "adminCourses")
@@ -39,11 +46,16 @@ export default function AdminHome() {
           SpecificCourseData={SectionData}
           StudentData={StudentData}
           GeneralCourseData={CoursesData}
+          determineView={determineView}
         />
       );
     else setView("");
-  }, [determineView]);
+  }, [determineView, allStudents, allFaculty]);
 
+  function addNewStudent(student) {
+    student.email = student.email.concat("@students.uwf.edu");
+    setAllStudents(allStudents.push(student));
+  }
   return (
     <>
       <div className="container top-admin-container d-flex justify-content-center">

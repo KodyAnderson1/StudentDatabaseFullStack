@@ -20,6 +20,10 @@ export function ListOfPeople(props) {
     });
   }, [filteredPeople, dataToFilter]);
 
+  function handleClick() {
+    props.setUseNewForm(true);
+  }
+
   return (
     <>
       <Row>
@@ -31,8 +35,11 @@ export function ListOfPeople(props) {
             onChange={(e) => setFilteredPeople(e.target.value)}
           />
         </Form>
-        <button className=" mt-2 ms-2 student-button btn btn-outline-secondary text-white d-flex">
-          <AiOutlinePlusCircle className="mt-1 me-2" /> ADD NEW
+        <button
+          onClick={handleClick}
+          className="mt-2 ms-2 student-button btn btn-outline-secondary text-white d-flex">
+          <AiOutlinePlusCircle className="add-new-person-btn" />
+          <span className="add-new-person-btn-text">ADD NEW</span>
         </button>
       </Row>
       <Row className="overflow-auto admin-search-results">
