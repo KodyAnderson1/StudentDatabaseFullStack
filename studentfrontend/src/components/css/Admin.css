@@ -1,0 +1,73 @@
+/************************** ADMIN ***************************/
+
+.top-admin-container {
+    background-color: hsl(var(--primary-dark-hsl), .8);
+    color: white;
+    width: var(--admin-width);
+    height: var(--admin-height);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    border-radius: 1rem;
+  }
+  
+  .admin-nav-btns div {
+    cursor: pointer;
+  }
+  
+  .admin-card-navbar {
+    height: var(--admin-height);
+    text-align: center;
+    justify-content: center;
+  }
+  
+  .admin-card-navbar h2 {
+    margin-top: 1rem;
+  }
+  
+  .admin-card-navbar .nav-link {
+    margin: 1rem;
+  }
+  
+  /***************** All Students Admin *****************/
+  
+  .admin-search-results {
+    margin-top: 1rem;
+    max-height: calc(var(--admin-height ) - 12vh);
+  } 
+  
+  .toast-styles {
+    margin-left: -10rem;
+    margin-top: -.2rem;
+  }
+  
+  .student-button { /* Search Button */
+    width: 15.2em;
+  }
+  
+  @media (max-width: 1250px) {
+    .student-button {
+      width: 12.5em;
+    }
+  }
+  .student-card-top {
+    min-height: 32vh;
+  }
+  
+  .bottom-card-students {
+    --height: 33vh;
+    height: var(--height);
+  } 
+  
+  .overflow-badge-area {
+    overflow: hidden;
+  } 
+  
+  .overflow-badge-area:hover span {
+    cursor: pointer;
+  } 
+  
+  .search-bar-student {
+    background: inherit;
+    margin-left: -.5rem;
+    margin-top: 1rem;
+  }

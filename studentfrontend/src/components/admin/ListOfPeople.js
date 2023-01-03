@@ -3,7 +3,6 @@ import { useState, useMemo } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 
 export function ListOfPeople(props) {
-  // console.log(props.determineView);
   const dataToFilter = props.data;
   const [filteredPeople, setFilteredPeople] = useState("");
 

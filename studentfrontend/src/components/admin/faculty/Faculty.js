@@ -1,8 +1,9 @@
 import { Row, Col, Container } from "react-bootstrap";
 import { useState } from "react";
+
 import { ListOfPeople } from "../ListOfPeople";
-import { FacultyCard } from "./FacultyCard";
 import { FacultyCourses } from "./FacultyCourses";
+import { PersonCard } from "../PersonCard";
 
 export default function AdminFaculty(props) {
   const [allFaculty, setAllFaculty] = useState(props.FacultyData);
@@ -27,12 +28,12 @@ export default function AdminFaculty(props) {
           <ListOfPeople handleOnClick={handleOnClick} data={allFaculty} />
         </Col>
         <Col xl={9}>
-          <FacultyCard
-            setSelectedFaculty={setSelectedFaculty}
-            selectedFaculty={selectedFaculty}
+          <PersonCard
+            setSelectedPerson={setSelectedFaculty}
+            selectedPerson={selectedFaculty}
             courseData={props.courseData}
             handleOnSubmit={handleOnSubmit}
-            allFaculty={allFaculty}
+            allPeople={allFaculty}
           />
           <FacultyCourses
             setSelectedFaculty={setSelectedFaculty}

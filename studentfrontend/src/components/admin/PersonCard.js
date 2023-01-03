@@ -1,16 +1,16 @@
-import { CustomAlert } from "../../CustomAlert";
+import { CustomAlert } from "../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState } from "react";
 
-export function StudentCard(props) {
+export function PersonCard(props) {
   const [isEditable, setIsEditable] = useState(false);
 
-  if (!props.selectedStudent) return <></>;
+  if (!props.selectedPerson) return <></>;
 
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
-    props.setSelectedStudent(
-      ...props.allStudents.filter((student) => student.id === props.selectedStudent.id)
+    props.setSelectedPerson(
+      ...props.allPeople.filter((student) => student.id === props.selectedPerson.id)
     );
   };
 
@@ -24,7 +24,7 @@ export function StudentCard(props) {
     <>
       <Card className="text-black p-3 m-3">
         <Row className="border-bottom mb-3">
-          <Col className="d-flex justify-content-start display-6">Student</Col>
+          <Col className="d-flex justify-content-start display-6">{props.selectedPerson.role}</Col>
           <Col className="d-flex justify-content-end">
             {submitButton}
             <Button onClick={handleEditable} className="ms-5 mb-3">
@@ -34,18 +34,18 @@ export function StudentCard(props) {
         </Row>
         <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
           <RowPersonalData
-            selectedStudent={props.selectedStudent}
-            setSelectedStudent={props.setSelectedStudent}
+            selectedPerson={props.selectedPerson}
+            setSelectedPerson={props.setSelectedPerson}
             isEditable={isEditable}
           />
           <RowLocationData
-            selectedStudent={props.selectedStudent}
-            setSelectedStudent={props.setSelectedStudent}
+            selectedPerson={props.selectedPerson}
+            setSelectedPerson={props.setSelectedPerson}
             isEditable={isEditable}
           />
           <RowIdContactData
-            selectedStudent={props.selectedStudent}
-            setSelectedStudent={props.setSelectedStudent}
+            selectedPerson={props.selectedPerson}
+            setSelectedPerson={props.setSelectedPerson}
             isEditable={isEditable}
           />
         </Form>
@@ -55,8 +55,8 @@ export function StudentCard(props) {
 }
 
 function RowPersonalData(props) {
-  const student = props.selectedStudent;
-  const setStudent = props.setSelectedStudent;
+  const student = props.selectedPerson;
+  const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
 
   if (!student) return <></>;
@@ -101,8 +101,8 @@ function RowPersonalData(props) {
 }
 
 function RowLocationData(props) {
-  const student = props.selectedStudent;
-  const setStudent = props.setSelectedStudent;
+  const student = props.selectedPerson;
+  const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
 
   if (!student) return <></>;
@@ -153,8 +153,8 @@ function RowLocationData(props) {
 }
 
 function RowIdContactData(props) {
-  const student = props.selectedStudent;
-  const setStudent = props.setSelectedStudent;
+  const student = props.selectedPerson;
+  const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
   const email = student.email.split("@");
 
@@ -192,7 +192,7 @@ function RowIdContactData(props) {
         </Col>
         <Col xs={4}>
           <Form.Group controlId="studentId">
-            <Form.Label className="d-flex justify-content-start">Student ID</Form.Label>
+            <Form.Label className="d-flex justify-content-start">ID</Form.Label>
             <Form.Control type="text" value={student.id} disabled />
           </Form.Group>
         </Col>

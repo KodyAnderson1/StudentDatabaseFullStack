@@ -3,12 +3,10 @@ import { useState } from "react";
 import { ListOfPeople } from "../ListOfPeople";
 import { CustomAlert } from "../../CustomAlert";
 
-// ? Add a "Add new student" button under the search bar
 export default function AdminCourses(props) {
-  // console.log(props);
   const [allCourses, setAllCourses] = useState(props.GeneralCourseData);
   const [selectedCourse, setSelectedCourse] = useState("");
-  const [selectedSection, setSelectedSection] = useState("");
+  // const [selectedSection, setSelectedSection] = useState("");
 
   const handleOnClick = (student) => setSelectedCourse(student);
 
@@ -32,7 +30,6 @@ export default function AdminCourses(props) {
           <CourseCard
             setSelectedCourse={setSelectedCourse}
             selectedCourse={selectedCourse}
-            // courseData={props.courseData}
             handleOnSubmit={handleOnSubmit}
             allCourses={allCourses}
             allSectionsData={props.SpecificCourseData}

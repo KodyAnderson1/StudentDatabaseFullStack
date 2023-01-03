@@ -1,9 +1,10 @@
 import { Row, Col, Container } from "react-bootstrap";
 import { useState } from "react";
-import { ListOfPeople } from "../ListOfPeople";
-import { StudentCard } from "./StudentCard";
-import { StudentCourses } from "./StudentCourses";
 
+import { ListOfPeople } from "../ListOfPeople";
+import { StudentCourses } from "./StudentCourses";
+import { PersonCard } from "../PersonCard";
+import { AiOutlinePlusCircle } from "react-icons/ai";
 export function AdminStudents(props) {
   const [allStudents, setAllStudents] = useState(props.StudentData);
   const [selectedStudent, setSelectedStudent] = useState("");
@@ -28,12 +29,12 @@ export function AdminStudents(props) {
             <ListOfPeople handleOnClick={handleOnClick} data={allStudents} />
           </Col>
           <Col xl={9}>
-            <StudentCard
-              setSelectedStudent={setSelectedStudent}
-              selectedStudent={selectedStudent}
+            <PersonCard
+              setSelectedPerson={setSelectedStudent}
+              selectedPerson={selectedStudent}
               courseData={props.courseData}
               handleOnSubmit={handleOnSubmit}
-              allStudents={allStudents}
+              allPeople={allStudents}
             />
 
             <StudentCourses

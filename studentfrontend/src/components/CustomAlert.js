@@ -4,7 +4,6 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
-import ProgressBar from "react-bootstrap/ProgressBar";
 
 export function CustomAlert(props) {
   const [show, setToastShow] = useState(false);
