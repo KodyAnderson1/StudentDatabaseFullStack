@@ -5,10 +5,10 @@ import AdminCourses from "./courses/AdminCourses";
 import "../css/App.css";
 
 import { StudentData } from "../../model/StudentData";
-import { SpecificCourseData } from "../../model/SpecificCourseData";
-import { FacultyData } from "../../model/FacultyData";
+import { SectionData } from "../../model/SectionData";
+import { FacultyData } from "../../model/Faculty";
 import { AdminStudents } from "./students/AdminStudents";
-import { GeneralCourseData } from "../../model/GeneralCourseData";
+import { CoursesData } from "../../model/CoursesData";
 
 export default function AdminHome() {
   const [view, setView] = useState();
@@ -19,7 +19,7 @@ export default function AdminHome() {
       setView(
         <AdminStudents
           FacultyData={FacultyData}
-          courseData={SpecificCourseData}
+          courseData={SectionData}
           StudentData={StudentData}
         />
       );
@@ -27,7 +27,7 @@ export default function AdminHome() {
       setView(
         <AdminFaculty
           FacultyData={FacultyData}
-          SpecificCourseData={SpecificCourseData}
+          SpecificCourseData={SectionData}
           StudentData={StudentData}
         />
       );
@@ -35,9 +35,9 @@ export default function AdminHome() {
       setView(
         <AdminCourses
           FacultyData={FacultyData}
-          SpecificCourseData={SpecificCourseData}
+          SpecificCourseData={SectionData}
           StudentData={StudentData}
-          GeneralCourseData={GeneralCourseData}
+          GeneralCourseData={CoursesData}
         />
       );
     else setView("");

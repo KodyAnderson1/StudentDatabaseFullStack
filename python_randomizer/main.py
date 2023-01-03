@@ -103,6 +103,17 @@ def encode_gen_courses() -> None:
         json.dump(encoded, f)
 
 
+def encode_all_people() -> None:
+    encoded = []
+    for item in STUDENTS:
+        encoded.append(item.encoder_json())
+    for item in FACULTY:
+        encoded.append(item.encoder_json())
+
+    with open("./json/people.json", "w") as f:
+        json.dump(encoded, f)
+
+
 def main() -> None:
     assign_instructors()
     assign_students_to_classes()
@@ -121,6 +132,7 @@ def main() -> None:
             sect_dict[key].enrolled_students = set(stud_sect[key])
     encode_courses()
     encode_gen_courses()
+    encode_all_people()
 
 
 main()

@@ -5,7 +5,7 @@ COURSE_NAMES = [
     "Data Structures & Algorithms I",
     "Software Engineering I",
     "C++ Programming",
-    "Advanced Computer Programming",
+    "Adv. Computer Programming",
     "Computer Organization",
     "Programming Languages",
     "Calculus",
