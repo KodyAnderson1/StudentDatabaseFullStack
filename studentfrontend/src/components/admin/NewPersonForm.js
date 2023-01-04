@@ -1,16 +1,17 @@
 // import { CustomAlert } from "../CustomAlert";
-import { Row, Col, Card, Form, InputGroup } from "react-bootstrap";
+import { Row, Col, Card, Form } from "react-bootstrap";
 import { useState } from "react";
 import { StateSelect } from "./StatesSelect";
 
 // ! Submit will generate an ID for the user
+// ! Find a way to make sure the correct role is being selected for each Form. Currently if creating a new faculty, you can select student role and it works
 export function NewPersonForm(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [address, setAddress] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [role, setRole] = useState("");
   const [fullDate, setFullDate] = useState("");
@@ -20,7 +21,6 @@ export function NewPersonForm(props) {
 
   const handleFirstNameChange = (e) => setFirstName(e.target.value);
   const handleLastNameChange = (e) => setLastName(e.target.value);
-  const handleEmailChange = (e) => setEmail(e.target.value);
   const handlePhoneChange = (e) => setPhone(e.target.value);
   const handleCityChange = (e) => setCity(e.target.value);
   const handleAddressChange = (e) => setAddress(e.target.value);
@@ -28,12 +28,19 @@ export function NewPersonForm(props) {
   const handleRoleChange = (e) => setRole(e.target.value);
   const handleGenderChange = (e) => setGender(e.target.value);
 
+  function emailHelper(firstName, lastName) {
+    let min = Math.ceil(10);
+    let max = Math.floor(999);
+    let randNum = Math.floor(Math.random() * (max - min) + min);
+    return `${firstName[0].toLowerCase()}${lastName.toLowerCase()}${randNum}@students.uwf.edu`;
+  }
+
   function handleFormSubmit(e) {
+    e.preventDefault();
     let min = Math.ceil(100_000_000);
     let max = Math.floor(999_999_999);
     let dob = fullDate.split("-");
 
-    e.preventDefault();
     const newStudent = {
       firstName: firstName,
       lastName: lastName,
@@ -41,13 +48,13 @@ export function NewPersonForm(props) {
       role: role,
       phone: phone,
       current_courses: [],
-      email: email, // ! Format check
+      email: emailHelper(firstName, lastName),
       id: Math.floor(Math.random() * (max - min) + min),
       location: { address: address, city: city, state: state },
       dob: { month: dob[1], day: dob[2], year: dob[0], full: fullDate },
     };
-    console.log(newStudent);
-    props.addNewStudent(newStudent);
+    // console.log(newStudent);
+    props.addNew(newStudent);
   }
 
   return (
@@ -108,36 +115,36 @@ export function NewPersonForm(props) {
             </Col>
           </Row>
           <Row className="mt-3">
-            <Col xs={3}>
+            {/* <Col xs={3}>
               <Form.Label className="d-flex justify-content-start">Email</Form.Label>
               <InputGroup>
                 <Form.Control type="text" value={email} onChange={handleEmailChange} required />
                 <InputGroup.Text>@</InputGroup.Text>
               </InputGroup>
-            </Col>
-            <Col xs={3}>
+            </Col> */}
+            <Col xs={4}>
               <Form.Group controlId="studentPhone">
                 <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
                 <Form.Control type="text" value={phone} onChange={handlePhoneChange} required />
               </Form.Group>
             </Col>
-            <Col xs={3}>
-              <Form.Group controlId="studentRole">
-                <Form.Label className="d-flex justify-content-start">Role</Form.Label>
-                <Form.Select onChange={handleRoleChange} required>
-                  <option>Select Role</option>
-                  <option value="student">Student</option>
-                  <option value="faculty">Faculty</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col xs={3}>
+            <Col xs={4}>
               <Form.Group controlId="studentAddress">
                 <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
                 <Form.Select onChange={handleGenderChange} required>
                   <option>Select gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
+                </Form.Select>
+              </Form.Group>
+            </Col>
+            <Col xs={4}>
+              <Form.Group controlId="studentRole">
+                <Form.Label className="d-flex justify-content-start">Role</Form.Label>
+                <Form.Select onChange={handleRoleChange} required>
+                  <option>Select Role</option>
+                  <option value="student">Student</option>
+                  <option value="faculty">Faculty</option>
                 </Form.Select>
               </Form.Group>
             </Col>

@@ -2,6 +2,7 @@ import { CustomAlert } from "../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState } from "react";
 
+// ! Add gender
 export function PersonCard(props) {
   const [isEditable, setIsEditable] = useState(false);
 

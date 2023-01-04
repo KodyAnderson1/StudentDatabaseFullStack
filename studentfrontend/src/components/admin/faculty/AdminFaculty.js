@@ -7,7 +7,7 @@ import { PersonCard } from "../PersonCard";
 import { NewPersonForm } from "../NewPersonForm";
 
 export default function AdminFaculty(props) {
-  const [allFaculty, setAllFaculty] = useState(props.FacultyData);
+  // const [allFaculty, setAllFaculty] = useState(props.FacultyData);
   const [selectedFaculty, setSelectedFaculty] = useState("");
   const [useNewForm, setUseNewForm] = useState("");
 
@@ -18,8 +18,8 @@ export default function AdminFaculty(props) {
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
-    setAllFaculty(
-      allFaculty.map((student) => {
+    props.setAllFaculty(
+      props.allFaculty.map((student) => {
         if (student.id === selectedFaculty.id) return selectedFaculty;
         else return student;
       })
@@ -27,7 +27,7 @@ export default function AdminFaculty(props) {
   };
 
   const componentsToDisplay = useNewForm ? (
-    <NewPersonForm />
+    <NewPersonForm addNew={props.addNewFaculty} />
   ) : (
     <>
       <PersonCard
@@ -35,7 +35,7 @@ export default function AdminFaculty(props) {
         selectedPerson={selectedFaculty}
         courseData={props.courseData}
         handleOnSubmit={handleOnSubmit}
-        allPeople={allFaculty}
+        allPeople={props.allFaculty}
       />
       <FacultyCourses
         setSelectedFaculty={setSelectedFaculty}
@@ -51,7 +51,7 @@ export default function AdminFaculty(props) {
         <Col xl={3}>
           <ListOfPeople
             handleOnClick={handleOnClick}
-            data={allFaculty}
+            data={props.allFaculty}
             setUseNewForm={setUseNewForm}
           />
         </Col>

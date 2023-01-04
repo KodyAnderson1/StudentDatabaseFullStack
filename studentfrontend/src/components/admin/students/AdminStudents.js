@@ -26,7 +26,7 @@ export function AdminStudents(props) {
   };
 
   const componentsToDisplay = useNewForm ? (
-    <NewPersonForm addNewStudent={props.addNewStudent} />
+    <NewPersonForm addNew={props.addNewStudent} />
   ) : (
     <>
       <PersonCard
