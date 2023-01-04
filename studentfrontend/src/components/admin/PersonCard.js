@@ -1,31 +1,40 @@
 import { CustomAlert } from "../CustomAlert";
-import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
-import { useState } from "react";
+import { Row, Col, Card, Form, InputGroup, Button, Container } from "react-bootstrap";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
+import { CoursesData } from "../../model/CoursesData";
+import { StudentData } from "../../model/StudentData";
+import { SectionData } from "../../model/SectionData";
+import { FacultyData } from "../../model/Faculty";
 // ! Add gender
+
 export function PersonCard(props) {
   const [isEditable, setIsEditable] = useState(false);
+  const [person, setPerson] = useState("");
+  const urlParams = useParams();
+  const personId = urlParams.id;
+  // if (!props.selectedPerson) return <></>;
 
-  if (!props.selectedPerson) return <></>;
+  useEffect(() => {
+    setPerson(...StudentData.filter((student) => student.id === parseInt(personId)));
+  }, [personId]);
 
+  // ! Doesn't work anymore. Needs to be fixed! When submit is clicked, resets to initial data
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
-    props.setSelectedPerson(
-      ...props.allPeople.filter((student) => student.id === props.selectedPerson.id)
-    );
+    setPerson(person);
   };
 
-  const submitButton = isEditable ? (
-    <CustomAlert show={props.show} setToastShow={props.setToastShow} />
-  ) : (
-    <></>
-  );
+  const submitButton = isEditable ? <CustomAlert /> : <></>;
 
   return (
     <>
+      {/* <Col> */}
       <Card className="text-black p-3 m-3">
         <Row className="border-bottom mb-3">
-          <Col className="d-flex justify-content-start display-6">{props.selectedPerson.role}</Col>
+          <Col className="d-flex justify-content-start display-6">{person.role}</Col>
+          {/* <Col className="d-flex justify-content-start display-6">REEEEE</Col> */}
           <Col className="d-flex justify-content-end">
             {submitButton}
             <Button onClick={handleEditable} className="ms-5 mb-3">
@@ -35,27 +44,29 @@ export function PersonCard(props) {
         </Row>
         <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
           <RowPersonalData
-            selectedPerson={props.selectedPerson}
-            setSelectedPerson={props.setSelectedPerson}
+            selectedPerson={person}
+            setSelectedPerson={setPerson}
             isEditable={isEditable}
           />
           <RowLocationData
-            selectedPerson={props.selectedPerson}
-            setSelectedPerson={props.setSelectedPerson}
+            selectedPerson={person}
+            setSelectedPerson={setPerson}
             isEditable={isEditable}
           />
           <RowIdContactData
-            selectedPerson={props.selectedPerson}
-            setSelectedPerson={props.setSelectedPerson}
+            selectedPerson={person}
+            setSelectedPerson={setPerson}
             isEditable={isEditable}
           />
         </Form>
       </Card>
+      {/* </Col> */}
     </>
   );
 }
 
 function RowPersonalData(props) {
+  // console.log("RowPersonalData\n", props);
   const student = props.selectedPerson;
   const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
@@ -102,6 +113,7 @@ function RowPersonalData(props) {
 }
 
 function RowLocationData(props) {
+  // console.log("RowLocationData\n", props);
   const student = props.selectedPerson;
   const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
@@ -154,10 +166,16 @@ function RowLocationData(props) {
 }
 
 function RowIdContactData(props) {
+  // console.log("RowIdContactData\n", props);
   const student = props.selectedPerson;
   const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
-  const email = student.email.split("@");
+  let email;
+  if (student.email) {
+    email = student.email.split("@") ? student.email.split("@") : "default email";
+  } else {
+    email = "default email";
+  }
 
   if (!student) return <></>;
 

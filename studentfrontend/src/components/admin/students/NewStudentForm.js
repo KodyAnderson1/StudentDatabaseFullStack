@@ -1,23 +1,18 @@
-// import { CustomAlert } from "../CustomAlert";
 import { Row, Col, Card, Form } from "react-bootstrap";
 import { useState } from "react";
-import { StateSelect } from "./StatesSelect";
+import { StateSelect } from "../StatesSelect";
 
 // ! Submit will generate an ID for the user
 // ! Find a way to make sure the correct role is being selected for each Form. Currently if creating a new faculty, you can select student role and it works
-export function NewPersonForm(props) {
+export function NewStudentForm(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [city, setCity] = useState("");
   const [state, setState] = useState("");
   const [address, setAddress] = useState("");
-  // const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [role, setRole] = useState("");
   const [fullDate, setFullDate] = useState("");
   const [gender, setGender] = useState("");
-
-  // const submitButton = <CustomAlert show={props.show} setToastShow={props.setToastShow} />;
 
   const handleFirstNameChange = (e) => setFirstName(e.target.value);
   const handleLastNameChange = (e) => setLastName(e.target.value);
@@ -25,7 +20,6 @@ export function NewPersonForm(props) {
   const handleCityChange = (e) => setCity(e.target.value);
   const handleAddressChange = (e) => setAddress(e.target.value);
   const handleDateChange = (e) => setFullDate(e.target.value);
-  const handleRoleChange = (e) => setRole(e.target.value);
   const handleGenderChange = (e) => setGender(e.target.value);
 
   function emailHelper(firstName, lastName) {
@@ -41,11 +35,11 @@ export function NewPersonForm(props) {
     let max = Math.floor(999_999_999);
     let dob = fullDate.split("-");
 
-    const newStudent = {
+    const newPerson = {
       firstName: firstName,
       lastName: lastName,
       gender: gender,
-      role: role,
+      role: "STUDENT",
       phone: phone,
       current_courses: [],
       email: emailHelper(firstName, lastName),
@@ -53,15 +47,15 @@ export function NewPersonForm(props) {
       location: { address: address, city: city, state: state },
       dob: { month: dob[1], day: dob[2], year: dob[0], full: fullDate },
     };
-    // console.log(newStudent);
-    props.addNew(newStudent);
+
+    props.addNew(newPerson);
   }
 
   return (
     <>
       <Card className="text-black p-3 m-3">
         <Row className="border-bottom mb-3">
-          <Col className="d-flex justify-content-start display-6">Add New</Col>
+          <Col className="d-flex justify-content-start display-6">Add New Student</Col>
         </Row>
         <Form id="newStudentForm" onSubmit={handleFormSubmit}>
           <Row>
@@ -135,16 +129,6 @@ export function NewPersonForm(props) {
                   <option>Select gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
-                </Form.Select>
-              </Form.Group>
-            </Col>
-            <Col xs={4}>
-              <Form.Group controlId="studentRole">
-                <Form.Label className="d-flex justify-content-start">Role</Form.Label>
-                <Form.Select onChange={handleRoleChange} required>
-                  <option>Select Role</option>
-                  <option value="student">Student</option>
-                  <option value="faculty">Faculty</option>
                 </Form.Select>
               </Form.Group>
             </Col>

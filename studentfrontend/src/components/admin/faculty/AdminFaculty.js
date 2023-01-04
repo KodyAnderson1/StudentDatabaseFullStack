@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ListOfPeople } from "../ListOfPeople";
 import { FacultyCourses } from "./FacultyCourses";
 import { PersonCard } from "../PersonCard";
-import { NewPersonForm } from "../NewPersonForm";
+import { NewFacultyForm } from "./NewFacultyForm";
 
 export default function AdminFaculty(props) {
   // const [allFaculty, setAllFaculty] = useState(props.FacultyData);
@@ -27,7 +27,7 @@ export default function AdminFaculty(props) {
   };
 
   const componentsToDisplay = useNewForm ? (
-    <NewPersonForm addNew={props.addNewFaculty} />
+    <NewFacultyForm addNew={props.addNewFaculty} />
   ) : (
     <>
       <PersonCard

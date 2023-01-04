@@ -1,12 +1,21 @@
 /************************** ADMIN ***************************/
 
-.top-admin-container {
+.admin-container {
     background-color: hsl(var(--primary-dark-hsl), .8);
     color: white;
     width: var(--admin-width);
     height: var(--admin-height);
     margin-top: 2rem;
     margin-bottom: 2rem;
+    border-radius: 1rem;
+  }
+
+  .admin-navbar {
+    background-color: hsl(var(--primary-dark-hsl), .8);
+    color: white;
+    width: 40vh;
+    height: 40vh;
+    margin-top: 25vh;
     border-radius: 1rem;
   }
   
@@ -26,12 +35,19 @@
   
   .admin-card-navbar .nav-link {
     margin: 1rem;
+    width: 20vh;
   }
 
   .add-new-person-btn {
+    width: 15.2em;
+    margin-left: .5rem;
+  }
+
+  .add-new-person-btn-icon {
     margin-top: .3rem;
     margin-right: .5rem;
     font-size: larger;
+
   }
 
   .add-new-person-btn-text {
@@ -44,7 +60,7 @@
   
   .admin-search-results {
     margin-top: 1rem;
-    max-height: calc(var(--admin-height ) - 13vh);
+    max-height: calc(var(--admin-height ) - 20vh);
   } 
   
   .toast-styles {
@@ -56,11 +72,12 @@
     width: 15.2em;
   }
   
-  @media (max-width: 1250px) {
+  /* @media (max-width: 1250px) {
     .student-button {
       width: 12.5em;
     }
-  }
+  } */
+
   .student-card-top {
     min-height: 32vh;
   }
@@ -80,6 +97,7 @@
   
   .search-bar-student {
     background: inherit;
-    margin-left: -.5rem;
+    margin-left: .5rem;
     margin-top: 1rem;
+    width: 15.2em;
   }
