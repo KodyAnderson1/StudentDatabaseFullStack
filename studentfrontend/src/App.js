@@ -2,7 +2,7 @@ import { Route, Routes, Navigate } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 
 import "./components/css/App.css";
-import AdminHome from "./components/admin/AdminHome";
+
 import Appbar from "./components/Appbar";
 import Login from "./components/Login";
 import Student from "./components/Student";
@@ -11,9 +11,8 @@ import { CoursesData } from "./model/CoursesData";
 import { StudentData } from "./model/StudentData";
 import { SectionData } from "./model/SectionData";
 import { FacultyData } from "./model/Faculty";
-import { AdminStudents } from "./components/admin/students/AdminStudents";
 import AdminCourses from "./components/admin/courses/AdminCourses";
-import AdminFaculty from "./components/admin/faculty/AdminFaculty";
+
 import { ListOfPeople } from "./components/admin/ListOfPeople";
 import { PersonCard } from "./components/admin/PersonCard";
 import { AdminNavbar } from "./components/admin/AdminNavbar";
@@ -45,21 +44,22 @@ function App() {
             <Route path="admin" element={<AdminNavbar />} />
 
             <Route path="admin/students" element={<ListOfPeople data={allStudents} />}>
-              <Route path=":id" element={<PersonCard />} />
+              <Route path=":id" element={<PersonCard data={allStudents} />} />
             </Route>
 
             <Route
-              path="faculty"
+              path="admin/faculty"
               element={
-                <AdminFaculty
-                  FacultyData={FacultyData}
-                  SpecificCourseData={SectionData}
-                  allFaculty={allFaculty}
-                  setAllFaculty={setAllFaculty}
-                  addNewFaculty={addNewFaculty}
-                />
+                <ListOfPeople data={allFaculty} />
+                // <AdminFaculty
+                //   FacultyData={FacultyData}
+                //   SpecificCourseData={SectionData}
+                //   allFaculty={allFaculty}
+                //   setAllFaculty={setAllFaculty}
+                //   addNewFaculty={addNewFaculty}
+                // />
               }>
-              <Route path=":id" element={<Login />} />
+              <Route path=":id" element={<PersonCard data={allFaculty} />} />
             </Route>
             <Route
               path="courses"
