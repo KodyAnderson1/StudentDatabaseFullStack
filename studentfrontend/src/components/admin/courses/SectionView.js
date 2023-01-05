@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
+import { Link } from "react-router-dom";
+import { AiFillMinusCircle } from "react-icons/ai";
+import { Button } from "react-bootstrap";
 
 import { CoursesData } from "../../../model/CoursesData";
 import { StudentData } from "../../../model/StudentData";
@@ -40,6 +43,8 @@ function StudentsTable(props) {
             <th>Name</th>
             <th>ID</th>
             <th>Email</th>
+            <th>Student Page</th>
+            <th>Remove Student</th>
           </tr>
           {props.students.map((student) => {
             return (
@@ -47,6 +52,18 @@ function StudentsTable(props) {
                 <td className="d-flex">{`${student.firstName} ${student.lastName}`}</td>
                 <td>{student.id}</td>
                 <td>{student.email}</td>
+                <td>
+                  <Link
+                    to={`/admin/students/${student.id}`}
+                    className="btn btn-outline-secondary current-courses-table-button">
+                    Student Page
+                  </Link>
+                </td>
+                <td>
+                  <Button variant="danger" className="course-remove-btn">
+                    <AiFillMinusCircle className="mb-2" />
+                  </Button>
+                </td>
               </tr>
             );
           })}

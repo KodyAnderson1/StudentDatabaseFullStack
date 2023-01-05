@@ -77,6 +77,7 @@ function App() {
                 path=":id"
                 element={<AdminCourses CoursesData={CoursesData} SectionData={SectionData} />}
               />
+              <Route path="newcourse" element={<h1>Form Here</h1>} />
             </Route>
           </Route>
           <Route path="login" element={<Login />} />

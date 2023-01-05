@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { SectionView } from "./SectionView";
+import { AiFillPlusCircle } from "react-icons/ai";
 
 // ! useEffect for data currently being passed in as props
 
@@ -46,7 +47,7 @@ function CoursesNavbarTabs(props) {
       <Card className="admin-courses-card">
         <Tabs defaultActiveKey="overview" id="uncontrolled-tab-example" className="mb-3">
           <Tab eventKey={"overview"} title={"Overview"} className="text-black">
-            "OVERVIEW HERE"
+            <h2>OVERVIEW HERE</h2>
           </Tab>
           {activeSections.map((section) => {
             return (
@@ -55,6 +56,12 @@ function CoursesNavbarTabs(props) {
               </Tab>
             );
           })}
+          <Tab
+            eventKey="newSection"
+            title={<AiFillPlusCircle className="text-black" />}
+            className="text-black">
+            <h3>New Section Form</h3>
+          </Tab>
         </Tabs>
       </Card>
     </>

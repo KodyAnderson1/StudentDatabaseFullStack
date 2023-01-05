@@ -134,3 +134,14 @@
   background-color: lightcyan;
 }
 
+.course-remove-btn {
+  height: 2rem;
+  width: 5rem;
+  /* border-radius: 45%; */
+}
+
+.course-add-btn {
+  margin-top: 0.7rem;
+  height: 2rem;
+}
+

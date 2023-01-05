@@ -72,6 +72,10 @@ function RowPersonalData(props) {
 
   if (!student) return <></>;
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
 
@@ -100,10 +104,20 @@ function RowPersonalData(props) {
             />
           </Form.Group>
         </Col>
-        <Col xs={4}>
+        <Col xs={2}>
           <Form.Group controlId="studentDOB">
             <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
             <Form.Control type="date" value={student.dob.full} readOnly disabled />
+          </Form.Group>
+        </Col>
+        <Col xs={2}>
+          <Form.Group controlId="studentGender">
+            <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
+            <Form.Control
+              type="text"
+              value={capitalizeFirstLetter(student.gender)}
+              disabled={isEditable ? "" : "disabled"}
+            />
           </Form.Group>
         </Col>
       </Row>
