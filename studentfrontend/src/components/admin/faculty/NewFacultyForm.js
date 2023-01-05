@@ -53,7 +53,7 @@ export function NewFacultyForm(props) {
 
   return (
     <>
-      <Card className="text-black p-3 m-3">
+      <Card className="text-black person-card p-3 mt-4 me-3">
         <Row className="border-bottom mb-3">
           <Col className="d-flex justify-content-start display-6">Add New Faculty</Col>
         </Row>

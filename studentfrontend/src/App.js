@@ -14,15 +14,13 @@ import { FacultyData } from "./model/Faculty";
 import AdminCourses from "./components/admin/courses/AdminCourses";
 
 import { ListOfPeople } from "./components/admin/ListOfPeople";
-import { PersonCard } from "./components/admin/PersonCard";
 import { AdminNavbar } from "./components/admin/AdminNavbar";
+import { FacultyCard } from "./components/admin/faculty/FacultyCard";
+import { StudentCard } from "./components/admin/students/StudentCard";
+import { NewStudentForm } from "./components/admin/students/NewStudentForm";
+import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
 /**
- *
- * ! Make each admin page a route!!
- * ! use router more for look ups use params to grab id and then return the data
- * ! Make Admin menu
  * ! Each submenu (Students, Faculty, Courses) has a hamburger menu next to admin
- * ! List of people / searchbar under Admin + Navbar
  */
 
 // ! useEffect to grab "database" data
@@ -33,7 +31,17 @@ function App() {
 
   const addNewStudent = (student) => setAllStudents([...allStudents, student]);
   const addNewFaculty = (faculty) => setAllFaculty([...allFaculty, faculty]);
+
+  function updateStudent(student) {
+    setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
+  }
+
+  function updateFaculty(faculty) {
+    setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
+  }
   // const removeStudent = (id) => setAllStudents(allStudents.filter((student) => student.id !== id));
+  // const removeFaculty = (id) => setAllFaculty(allFaculty.filter((faculty) => faculty.id !== id));
+
   return (
     <>
       <div className="App">
@@ -44,22 +52,19 @@ function App() {
             <Route path="admin" element={<AdminNavbar />} />
 
             <Route path="admin/students" element={<ListOfPeople data={allStudents} />}>
-              <Route path=":id" element={<PersonCard data={allStudents} />} />
+              <Route
+                path=":id"
+                element={<StudentCard data={allStudents} updateStudent={updateStudent} />}
+              />
+              <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
             </Route>
 
-            <Route
-              path="admin/faculty"
-              element={
-                <ListOfPeople data={allFaculty} />
-                // <AdminFaculty
-                //   FacultyData={FacultyData}
-                //   SpecificCourseData={SectionData}
-                //   allFaculty={allFaculty}
-                //   setAllFaculty={setAllFaculty}
-                //   addNewFaculty={addNewFaculty}
-                // />
-              }>
-              <Route path=":id" element={<PersonCard data={allFaculty} />} />
+            <Route path="admin/faculty" element={<ListOfPeople data={allFaculty} />}>
+              <Route
+                path=":id"
+                element={<FacultyCard data={allFaculty} updateFaculty={updateFaculty} />}
+              />
+              <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
             </Route>
             <Route
               path="courses"
@@ -72,7 +77,6 @@ function App() {
                 />
               }
             />
-            {/* <Route index element={<AdminHome />} /> */}
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" />} />

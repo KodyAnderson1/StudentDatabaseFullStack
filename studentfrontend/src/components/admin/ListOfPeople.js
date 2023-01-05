@@ -28,7 +28,7 @@ export function ListOfPeople(props) {
       <Container className="admin-container">
         <Row>
           <Col xs={3}>
-            <Row className="display-6">
+            <Row className="regular-admin-menu">
               <div className="d-flex justify-content-start">
                 <HamburgerMenu />
               </div>
@@ -42,12 +42,12 @@ export function ListOfPeople(props) {
               />
             </Row>
             <Row>
-              <button
-                // onClick={handleClick}
+              <Link
+                to={`new${filtered[0].role.toLowerCase()}`}
                 className="mt-2 btn btn-outline-secondary text-white d-flex add-new-person-btn">
                 <AiOutlinePlusCircle className="add-new-person-btn-icon" />
                 <span className="add-new-person-btn-text">ADD NEW</span>
-              </button>
+              </Link>
             </Row>
             <Row className="overflow-auto admin-search-results">
               <SpecificPerson filtered={filtered} handleOnClick={props.handleOnClick} />
@@ -79,7 +79,7 @@ export function SpecificPerson(props) {
 function HamburgerMenu() {
   return (
     <>
-      <NavDropdown title="ADMIN" id="basic-nav-dropdown">
+      <NavDropdown title="ADMIN MENU" id="basic-nav-dropdown">
         <Link className="dropdown-item" to="/admin/students">
           Students
         </Link>

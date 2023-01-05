@@ -61,7 +61,12 @@
   .admin-search-results {
     margin-top: 1rem;
     max-height: calc(var(--admin-height ) - 20vh);
+    margin-right: 3rem;
   } 
+
+  .person-card {
+    margin-left: -3.5rem !important;
+  }
   
   .toast-styles {
     margin-left: -10rem;
@@ -100,4 +105,9 @@
     margin-left: .5rem;
     margin-top: 1rem;
     width: 15.2em;
+  }
+
+  .regular-admin-menu {
+    font-size: 2rem;
+    margin-bottom: -1rem;
   }

@@ -1,11 +1,11 @@
-import { CustomAlert } from "../CustomAlert";
+import { CustomAlert } from "../../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 // ! Add gender
 
-export function PersonCard(props) {
+export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [person, setPerson] = useState("");
   const urlParams = useParams();
@@ -21,11 +21,16 @@ export function PersonCard(props) {
     setPerson(person);
   };
 
+  const onSubmit = (e) => {
+    e.preventDefault();
+    props.updateStudent(person);
+  };
+
   const submitButton = isEditable ? <CustomAlert /> : <></>;
 
   return (
     <>
-      <Card className="text-black p-3 m-3">
+      <Card className="text-black p-3 mt-4 mb-3 me-3 person-card">
         <Row className="border-bottom mb-3">
           <Col className="d-flex justify-content-start display-6">{person.role}</Col>
           <Col className="d-flex justify-content-end">
@@ -35,7 +40,7 @@ export function PersonCard(props) {
             </Button>
           </Col>
         </Row>
-        <Form id="editStudentForm" onSubmit={props.handleOnSubmit}>
+        <Form id="editStudentForm" onSubmit={onSubmit}>
           <RowPersonalData
             selectedPerson={person}
             setSelectedPerson={setPerson}

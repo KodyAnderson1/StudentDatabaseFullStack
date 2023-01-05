@@ -2,8 +2,8 @@ import { Row, Col, Card, Form } from "react-bootstrap";
 import { useState } from "react";
 import { StateSelect } from "../StatesSelect";
 
-// ! Submit will generate an ID for the user
-// ! Find a way to make sure the correct role is being selected for each Form. Currently if creating a new faculty, you can select student role and it works
+// ! Find a way to reset select boxes onsubmit
+// ! Probably managed by state
 export function NewStudentForm(props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -49,11 +49,20 @@ export function NewStudentForm(props) {
     };
 
     props.addNew(newPerson);
+
+    setFirstName("");
+    setLastName("");
+    setCity("");
+    setState("");
+    setAddress("");
+    setPhone("");
+    setFullDate("");
+    setGender("");
   }
 
   return (
     <>
-      <Card className="text-black p-3 m-3">
+      <Card className="text-black person-card p-3 mt-4 me-3">
         <Row className="border-bottom mb-3">
           <Col className="d-flex justify-content-start display-6">Add New Student</Col>
         </Row>
