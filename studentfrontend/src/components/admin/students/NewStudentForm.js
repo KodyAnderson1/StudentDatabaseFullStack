@@ -135,7 +135,7 @@ export function NewStudentForm(props) {
               <Form.Group controlId="studentAddress">
                 <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
                 <Form.Select onChange={handleGenderChange} required>
-                  <option>Select gender</option>
+                  <option>Select Gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </Form.Select>

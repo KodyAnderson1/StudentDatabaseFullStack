@@ -2,6 +2,7 @@ import { CustomAlert } from "../../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { FacultyCourses } from "./FacultyCourses";
 
 // ! Add gender
 
@@ -57,6 +58,7 @@ export function FacultyCard(props) {
             isEditable={isEditable}
           />
         </Form>
+        <FacultyCourses faculty={person} />
       </Card>
       {/* </Col> */}
     </>

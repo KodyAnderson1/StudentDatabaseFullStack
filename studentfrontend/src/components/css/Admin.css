@@ -65,9 +65,10 @@
   } 
 
   .person-card {
-    margin-left: -3.5rem !important;
+    margin-left: -3.5rem;
+    /* height: calc(var(--admin-height) - 4rem); */
   }
-  
+
   .toast-styles {
     margin-left: -10rem;
     margin-top: -.2rem;
@@ -87,11 +88,6 @@
     min-height: 32vh;
   }
   
-  .bottom-card-students {
-    --height: 33vh;
-    height: var(--height);
-  } 
-  
   .overflow-badge-area {
     overflow: hidden;
   } 
@@ -110,4 +106,10 @@
   .regular-admin-menu {
     font-size: 2rem;
     margin-bottom: -1rem;
+  }
+
+  .current-courses-table-button {
+    width: 8rem;
+    Height: 2rem;
+
   }

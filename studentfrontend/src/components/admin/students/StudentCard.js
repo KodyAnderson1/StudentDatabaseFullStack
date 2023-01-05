@@ -2,6 +2,7 @@ import { CustomAlert } from "../../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { StudentCourses } from "./StudentCourses";
 
 // ! Add gender
 
@@ -13,7 +14,7 @@ export function StudentCard(props) {
 
   useEffect(() => {
     setPerson(...props.data.filter((student) => student.id === parseInt(personId)));
-  }, [personId]);
+  }, [personId, props.data]);
 
   // ! Doesn't work anymore. Needs to be fixed! When submit is clicked, resets to initial data
   const handleEditable = () => {
@@ -57,7 +58,9 @@ export function StudentCard(props) {
             isEditable={isEditable}
           />
         </Form>
+        <StudentCourses student={person} />
       </Card>
+
       {/* </Col> */}
     </>
   );
@@ -69,6 +72,10 @@ function RowPersonalData(props) {
   const isEditable = props.isEditable;
 
   if (!student) return <></>;
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
 
   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
@@ -98,10 +105,21 @@ function RowPersonalData(props) {
             />
           </Form.Group>
         </Col>
-        <Col xs={4}>
+        <Col xs={2}>
           <Form.Group controlId="studentDOB">
             <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
             <Form.Control type="date" value={student.dob.full} readOnly disabled />
+          </Form.Group>
+        </Col>
+        <Col xs={2}>
+          <Form.Group controlId="studentDOB">
+            <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
+            <Form.Control
+              type="text"
+              value={capitalizeFirstLetter(student.gender)}
+              readOnly
+              disabled
+            />
           </Form.Group>
         </Col>
       </Row>

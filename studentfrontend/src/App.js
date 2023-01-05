@@ -51,7 +51,9 @@ function App() {
             <Route index element={<Login />} />
             <Route path="admin" element={<AdminNavbar />} />
 
-            <Route path="admin/students" element={<ListOfPeople data={allStudents} />}>
+            <Route
+              path="admin/students"
+              element={<ListOfPeople data={allStudents} role={"student"} />}>
               <Route
                 path=":id"
                 element={<StudentCard data={allStudents} updateStudent={updateStudent} />}
@@ -59,7 +61,9 @@ function App() {
               <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
             </Route>
 
-            <Route path="admin/faculty" element={<ListOfPeople data={allFaculty} />}>
+            <Route
+              path="admin/faculty"
+              element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
               <Route
                 path=":id"
                 element={<FacultyCard data={allFaculty} updateFaculty={updateFaculty} />}
@@ -67,16 +71,10 @@ function App() {
               <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
             </Route>
             <Route
-              path="courses"
-              element={
-                <AdminCourses
-                  FacultyData={FacultyData}
-                  SpecificCourseData={SectionData}
-                  StudentData={StudentData}
-                  GeneralCourseData={CoursesData}
-                />
-              }
-            />
+              path="admin/courses"
+              element={<ListOfPeople data={CoursesData} role={"course"} />}>
+              <Route path=":id" />
+            </Route>
           </Route>
           <Route path="login" element={<Login />} />
           <Route path="*" element={<Navigate to="/login" />} />

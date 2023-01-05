@@ -43,7 +43,7 @@ export function ListOfPeople(props) {
             </Row>
             <Row>
               <Link
-                to={`new${filtered[0].role.toLowerCase()}`}
+                to={`new${props.role}`}
                 className="mt-2 btn btn-outline-secondary text-white d-flex add-new-person-btn">
                 <AiOutlinePlusCircle className="add-new-person-btn-icon" />
                 <span className="add-new-person-btn-text">ADD NEW</span>
