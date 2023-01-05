@@ -58,7 +58,6 @@
   
   /***************** All Students Admin *****************/
 
-
   .admin-search-results {
     overflow-y: auto;
     max-height: calc(var(--admin-height ) - 20vh);
@@ -75,6 +74,7 @@
   .toast-styles {
     margin-left: -10rem;
     margin-top: -.2rem;
+    font-weight: bold;
   }
   
   .student-button { /* Search Button */
@@ -89,12 +89,6 @@
     text-align: left;
     color: white;
   }
-  
-  /* @media (max-width: 1250px) {
-    .student-button {
-      width: 12.5em;
-    }
-  } */
 
   .search-bar-student {
     background: inherit;
@@ -125,7 +119,6 @@
     overflow-y: auto;
   }
 
-
 .table-row-admin:nth-child(odd) {
   background-color: lightgray;
 }
@@ -137,6 +130,18 @@
 .course-remove-btn {
   height: 2rem;
   width: 5rem;
+  /* border-radius: 45%; */
+}
+
+.enable-edit-btn {
+  height: 2rem;
+  width: 8rem;
+  /* border-radius: 45%; */
+}
+
+.remove-student-btn {
+  height: 2rem;
+  width: 10rem;
   /* border-radius: 45%; */
 }
 

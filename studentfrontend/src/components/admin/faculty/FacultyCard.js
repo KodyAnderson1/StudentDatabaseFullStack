@@ -31,12 +31,18 @@ export function FacultyCard(props) {
 
   return (
     <>
-      <Card className="text-black p-3 mt-4 mb-3 me-3 person-card">
-        <Row className="border-bottom mb-3">
-          <Col className="d-flex justify-content-start display-6">{person.role}</Col>
-          <Col className="d-flex justify-content-end">
+      <Card className="text-black p-3 mt-4 me-3 person-card">
+        <Row className="border-bottom d-flex">
+          <Col xs={4} className="d-flex justify-content-start">
+            <h3>{person.role}</h3>
+          </Col>
+          <Col xs={6} className="d-flex justify-content-end">
             {submitButton}
-            <Button onClick={handleEditable} className="ms-5 mb-3">
+          </Col>
+          <Col xs={2}>
+            <Button
+              onClick={handleEditable}
+              className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
               {isEditable ? "Disable Edit" : "Enable Edit"}
             </Button>
           </Col>

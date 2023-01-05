@@ -1,10 +1,11 @@
-import { Row, Card } from "react-bootstrap";
+import { Row, Card, Col, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import { SectionView } from "./SectionView";
 import { AiFillPlusCircle } from "react-icons/ai";
+import { AiFillMinusCircle } from "react-icons/ai";
 
 // ! useEffect for data currently being passed in as props
 
@@ -28,8 +29,15 @@ export default function AdminCourses(props) {
 
   return (
     <>
-      <Row className="admin-courses">
-        <h2>{course.name} Overview</h2>
+      <Row className="admin-courses mt-2">
+        <Col xs={10}>
+          <h2>{course.name} Overview</h2>
+        </Col>
+        <Col xs={1} className="d-flex justify-content-end ms-5">
+          <Button variant="danger mb-2">
+            <AiFillMinusCircle />
+          </Button>
+        </Col>
       </Row>
       <Row className="admin-courses-navbar-tabs">
         <CoursesNavbarTabs activeSections={activeSections} />
