@@ -14,7 +14,7 @@ export function FacultyCard(props) {
 
   useEffect(() => {
     setPerson(...props.data.filter((student) => student.id === parseInt(personId)));
-  }, [personId]);
+  }, [personId, props.data]);
 
   // ! Doesn't work anymore. Needs to be fixed! When submit is clicked, resets to initial data
   const handleEditable = () => {

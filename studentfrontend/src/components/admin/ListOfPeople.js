@@ -2,7 +2,7 @@ import { Row, Form, Container, Col } from "react-bootstrap";
 import { useState, useMemo } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Link, Outlet } from "react-router-dom";
-// import { GiHamburgerMenu } from "react-icons/gi";
+
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 export function ListOfPeople(props) {
@@ -68,7 +68,7 @@ export function SpecificPerson(props) {
     return (
       <Link
         key={person.id}
-        className="ms-2 mb-2 student-button btn btn-outline-secondary text-white d-flex"
+        className="student-button btn btn-outline-secondary"
         to={`${person.id}`}>
         {name}
       </Link>

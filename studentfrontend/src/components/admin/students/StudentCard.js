@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { StudentCourses } from "./StudentCourses";
 
-// ! Add gender
-
 export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [person, setPerson] = useState("");

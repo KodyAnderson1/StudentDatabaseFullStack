@@ -1,4 +1,4 @@
-import { Row, Col, Card } from "react-bootstrap";
+import { Row } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ export function FacultyCourses(props) {
   const filteredData = SectionData.filter((course) => courseCheck.includes(course.section_id));
   const courses = filteredData ? filteredData : [];
 
-  if (courses.length === 0) return <h4 className="mt-4">No Enrolled Courses</h4>;
+  if (courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
 
   return (
     <>
@@ -23,7 +23,7 @@ export function FacultyCourses(props) {
         <Table striped bordered hover className="course-table">
           <thead>
             <tr>
-              <th>Course name</th>
+              <th>Course Name</th>
               <th>Section ID</th>
               <th>Instructor ID</th>
               <th>Students</th>

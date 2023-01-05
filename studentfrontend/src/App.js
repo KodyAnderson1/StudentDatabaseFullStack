@@ -11,8 +11,8 @@ import { CoursesData } from "./model/CoursesData";
 import { StudentData } from "./model/StudentData";
 import { SectionData } from "./model/SectionData";
 import { FacultyData } from "./model/Faculty";
-import AdminCourses from "./components/admin/courses/AdminCourses";
 
+import AdminCourses from "./components/admin/courses/AdminCourses";
 import { ListOfPeople } from "./components/admin/ListOfPeople";
 import { AdminNavbar } from "./components/admin/AdminNavbar";
 import { FacultyCard } from "./components/admin/faculty/FacultyCard";
@@ -73,7 +73,10 @@ function App() {
             <Route
               path="admin/courses"
               element={<ListOfPeople data={CoursesData} role={"course"} />}>
-              <Route path=":id" />
+              <Route
+                path=":id"
+                element={<AdminCourses CoursesData={CoursesData} SectionData={SectionData} />}
+              />
             </Route>
           </Route>
           <Route path="login" element={<Login />} />
