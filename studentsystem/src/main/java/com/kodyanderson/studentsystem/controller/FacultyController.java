@@ -31,4 +31,10 @@ public class FacultyController {
         return facultyService.getFaculty(id);
     }
 
+    @DeleteMapping("/delete/{id}")
+    public String removeFaculty(@PathVariable int id) {
+        facultyService.removeFaculty(id);
+        return "Faculty has been removed!";
+    }
+
 }

@@ -10,4 +10,5 @@ public interface FacultyService {
     public Faculty saveFaculty(Faculty faculty);
     public List<Faculty> getAllFaculty();
     public Optional<Faculty> getFaculty(int id);
+    public void removeFaculty(int id);
 }

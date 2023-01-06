@@ -27,6 +27,7 @@ export function CustomAlert(props) {
       </Col>
       <Col xs={5} className="d-flex justify-content-end">
         <Button
+          onClick={props.removePerson}
           variant="danger"
           className="d-flex align-items-center justify-content-center course-remove-btn">
           <AiFillMinusCircle />
