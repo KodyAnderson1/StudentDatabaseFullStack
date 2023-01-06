@@ -19,6 +19,7 @@ import { FacultyCard } from "./components/admin/faculty/FacultyCard";
 import { StudentCard } from "./components/admin/students/StudentCard";
 import { NewStudentForm } from "./components/admin/students/NewStudentForm";
 import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
+import { readyFaculty } from "./utils";
 /**
  * ! Each submenu (Students, Faculty, Courses) has a hamburger menu next to admin
  */
@@ -29,8 +30,24 @@ function App() {
   const [allStudents, setAllStudents] = useState(StudentData);
   const [allFaculty, setAllFaculty] = useState(FacultyData);
 
+  // useEffect(() => {
+  //   console.log("UseEffect Faculty Hit");
+  //   fetch(`http://localhost:8080/faculty/${personId}`)
+  //     .then((response) => response.json())
+  //     .then((result) => setPerson(FacultyJsonToOjbect(result)));
+  // }, []);
+
   const addNewStudent = (student) => setAllStudents([...allStudents, student]);
-  const addNewFaculty = (faculty) => setAllFaculty([...allFaculty, faculty]);
+  const addNewFaculty = (faculty) => {
+    fetch("http://localhost:8080/faculty/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(readyFaculty(faculty)),
+    })
+      .then(() => console.log("POST completed for: " + JSON.stringify(readyFaculty(faculty))))
+      .catch((error) => console.log(error));
+    setAllFaculty([...allFaculty, faculty]);
+  };
 
   function updateStudent(student) {
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));

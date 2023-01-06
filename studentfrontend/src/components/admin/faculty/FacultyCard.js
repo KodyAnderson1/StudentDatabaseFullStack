@@ -3,9 +3,14 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
+import { FacultyJsonToOjbect } from "../../../utils";
 
-// ! Add gender
-
+/**
+ * Called in App.js in react router once the url is /admin/faculty/:id
+ * Specific Faculty Member
+ * useEffect grabs the faculty from the database
+ * @param {allFaculty, updateFaculty} props
+ */
 export function FacultyCard(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [person, setPerson] = useState("");
@@ -13,16 +18,18 @@ export function FacultyCard(props) {
   const personId = urlParams.id;
 
   useEffect(() => {
-    setPerson(...props.data.filter((student) => student.id === parseInt(personId)));
+    // console.log("UseEffect Faculty Hit");
+    fetch(`http://localhost:8080/faculty/${personId}`)
+      .then((response) => response.json())
+      .then((result) => setPerson(FacultyJsonToOjbect(result)));
   }, [personId, props.data]);
 
-  // ! Doesn't work anymore. Needs to be fixed! When submit is clicked, resets to initial data
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
     setPerson(person);
   };
 
-  const onSubmit = (e) => {
+  const updateFacultySubmit = (e) => {
     e.preventDefault();
     props.updateFaculty(person);
   };
@@ -47,7 +54,7 @@ export function FacultyCard(props) {
             </Button>
           </Col>
         </Row>
-        <Form id="editStudentForm" onSubmit={onSubmit}>
+        <Form id="editStudentForm" onSubmit={updateFacultySubmit}>
           <RowPersonalData
             selectedPerson={person}
             setSelectedPerson={setPerson}
