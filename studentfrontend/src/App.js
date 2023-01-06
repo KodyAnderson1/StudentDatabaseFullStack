@@ -8,9 +8,7 @@ import Login from "./components/Login";
 import Student from "./components/Student";
 
 import { CoursesData } from "./model/CoursesData";
-import { StudentData } from "./model/StudentData";
 import { SectionData } from "./model/SectionData";
-import { FacultyData } from "./model/Faculty";
 
 import AdminCourses from "./components/admin/courses/AdminCourses";
 import { ListOfPeople } from "./components/admin/ListOfPeople";
@@ -19,41 +17,86 @@ import { FacultyCard } from "./components/admin/faculty/FacultyCard";
 import { StudentCard } from "./components/admin/students/StudentCard";
 import { NewStudentForm } from "./components/admin/students/NewStudentForm";
 import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
-import { readyFaculty } from "./utils";
+import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
+
 /**
- * ! Each submenu (Students, Faculty, Courses) has a hamburger menu next to admin
+ * ! useEffect to grab "database" data
+ * ! right now just filters list of stuff
+ *
+ * ! useEffect grabs all data then the specific cards also make db calls.
+ * !    Keep as is? Or just update state and pass as props?
  */
-
-// ! useEffect to grab "database" data
-// ! right now just filters list of stuff
 function App() {
-  const [allStudents, setAllStudents] = useState(StudentData);
-  const [allFaculty, setAllFaculty] = useState(FacultyData);
+  const [allStudents, setAllStudents] = useState("");
+  const [allFaculty, setAllFaculty] = useState("");
 
-  // useEffect(() => {
-  //   console.log("UseEffect Faculty Hit");
-  //   fetch(`http://localhost:8080/faculty/${personId}`)
-  //     .then((response) => response.json())
-  //     .then((result) => setPerson(FacultyJsonToOjbect(result)));
-  // }, []);
+  function helperFaculty(result) {
+    let test = result.map((element) => {
+      return PersonJsonToOjbect(element);
+    });
+    setAllFaculty(test);
+  }
 
-  const addNewStudent = (student) => setAllStudents([...allStudents, student]);
+  function helperStudent(result) {
+    let test = result.map((element) => {
+      return PersonJsonToOjbect(element);
+    });
+    setAllStudents(test);
+  }
+  useEffect(() => {
+    fetch(`http://localhost:8080/faculty/getAll`)
+      .then((response) => response.json())
+      .then((result) => helperFaculty(result))
+      .catch((err) => console.log(err));
+
+    fetch(`http://localhost:8080/student/getAll`)
+      .then((response) => response.json())
+      .then((result) => helperStudent(result))
+      .catch((err) => console.log(err));
+  }, []);
+
+  const addNewStudent = (student) => {
+    fetch("http://localhost:8080/student/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(readyPersonForJson(student)),
+    })
+      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(student))))
+      .catch((error) => console.log(error));
+    setAllStudents([...allStudents, student]);
+  };
+
   const addNewFaculty = (faculty) => {
     fetch("http://localhost:8080/faculty/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(readyFaculty(faculty)),
+      body: JSON.stringify(readyPersonForJson(faculty)),
     })
-      .then(() => console.log("POST completed for: " + JSON.stringify(readyFaculty(faculty))))
+      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(faculty))))
       .catch((error) => console.log(error));
     setAllFaculty([...allFaculty, faculty]);
   };
 
   function updateStudent(student) {
+    fetch("http://localhost:8080/student/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(readyPersonForJson(student)),
+    })
+      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(student))))
+      .catch((error) => console.log(error));
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
   }
 
   function updateFaculty(faculty) {
+    fetch("http://localhost:8080/faculty/add", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(readyPersonForJson(faculty)),
+    })
+      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(faculty))))
+      .catch((error) => console.log(error));
+
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
   // const removeStudent = (id) => setAllStudents(allStudents.filter((student) => student.id !== id));
@@ -81,10 +124,7 @@ function App() {
             <Route
               path="admin/faculty"
               element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
-              <Route
-                path=":id"
-                element={<FacultyCard data={allFaculty} updateFaculty={updateFaculty} />}
-              />
+              <Route path=":id" element={<FacultyCard updateFaculty={updateFaculty} />} />
               <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
             </Route>
             <Route

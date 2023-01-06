@@ -28,7 +28,6 @@ public class FacultyController {
 
     @GetMapping("/{id}")
     public Optional<Faculty> getFaculty(@PathVariable int id) {
-
         return facultyService.getFaculty(id);
     }
 

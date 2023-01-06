@@ -1,11 +1,13 @@
 package com.kodyanderson.studentsystem.controller;
 
+import com.kodyanderson.studentsystem.model.Faculty;
 import com.kodyanderson.studentsystem.model.Student;
 import com.kodyanderson.studentsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/student")
@@ -24,4 +26,8 @@ public class StudentController {
         public List<Student> getAllStudents() {
         return studentService.getAllStudents();
         }
+    @GetMapping("/{id}")
+    public Optional<Student> getStudent(@PathVariable int id) {
+        return studentService.getStudent(id);
+    }
 }

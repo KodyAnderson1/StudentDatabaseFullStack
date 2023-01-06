@@ -1,19 +1,19 @@
-export function readyFaculty(faculty) {
-  console.log(faculty);
-  const dobString = faculty.dob.full;
-  const currentCoursesString = faculty.current_courses.join(",");
-  const { address, city, state } = faculty.location;
+export function readyPersonForJson(person) {
+  console.log(person);
+  const dobString = person.dob.full;
+  const currentCoursesString = person.current_courses.join(",");
+  const { address, city, state } = person.location;
   const loc = `${address},${city},${state}`;
-  const facultyReadyForJson = {
-    ...faculty,
+  const personReadyForJson = {
+    ...person,
     dob: dobString,
     current_courses: currentCoursesString,
     address: loc,
   };
-  return facultyReadyForJson;
+  return personReadyForJson;
 }
 
-export function FacultyJsonToOjbect(faculty) {
+export function PersonJsonToOjbect(faculty) {
   const obj = {
     firstName: faculty.firstName,
     lastName: faculty.lastName,
@@ -31,7 +31,9 @@ export function FacultyJsonToOjbect(faculty) {
 
 // ! dont need?
 export function jsonCurrentCoursesToArray(courses) {
-  return courses.split(",");
+  const parsedCourses = courses.split(",").map((element) => parseInt(element));
+
+  return parsedCourses;
 }
 
 // YYYY-MM-DD

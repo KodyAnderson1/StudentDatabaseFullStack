@@ -3,7 +3,7 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
-import { FacultyJsonToOjbect } from "../../../utils";
+import { PersonJsonToOjbect } from "../../../utils";
 
 /**
  * Called in App.js in react router once the url is /admin/faculty/:id
@@ -18,11 +18,10 @@ export function FacultyCard(props) {
   const personId = urlParams.id;
 
   useEffect(() => {
-    // console.log("UseEffect Faculty Hit");
     fetch(`http://localhost:8080/faculty/${personId}`)
       .then((response) => response.json())
-      .then((result) => setPerson(FacultyJsonToOjbect(result)));
-  }, [personId, props.data]);
+      .then((result) => setPerson(PersonJsonToOjbect(result)));
+  }, [personId]);
 
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
