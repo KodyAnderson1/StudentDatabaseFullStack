@@ -26,7 +26,7 @@ import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
  * ! useEffect grabs all data then the specific cards also make db calls.
  * !    Keep as is? Or just update state and pass as props?
  *
- * ! When deleting a faculty, the data disappears but the card itself stays
+ * ! When deleting a faculty/student, the data disappears but the card itself stays
  */
 function App() {
   const [allStudents, setAllStudents] = useState("");
@@ -101,7 +101,13 @@ function App() {
 
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
-  // const removeStudent = (id) => setAllStudents(allStudents.filter((student) => student.id !== id));
+  const removeStudent = (id) => {
+    fetch(`http://localhost:8080/student/delete/${id}`, {
+      method: "DELETE",
+    }).catch((error) => console.log(error));
+    setAllStudents(allStudents.filter((student) => student.id !== id));
+  };
+
   const removeFaculty = (id) => {
     fetch(`http://localhost:8080/faculty/delete/${id}`, {
       method: "DELETE",
@@ -123,7 +129,9 @@ function App() {
               element={<ListOfPeople data={allStudents} role={"student"} />}>
               <Route
                 path=":id"
-                element={<StudentCard data={allStudents} updateStudent={updateStudent} />}
+                element={
+                  <StudentCard updateStudent={updateStudent} removeStudent={removeStudent} />
+                }
               />
               <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
             </Route>

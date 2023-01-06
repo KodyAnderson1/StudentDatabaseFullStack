@@ -29,7 +29,11 @@ export function StudentCard(props) {
     props.updateStudent(person);
   };
 
-  const submitButton = isEditable ? <CustomAlert /> : <></>;
+  const removeStudentSubmit = (e) => {
+    e.preventDefault();
+    props.removeStudent(person.id);
+    setPerson("");
+  };
 
   return (
     <>
@@ -39,7 +43,7 @@ export function StudentCard(props) {
             <h3>{person.role}</h3>
           </Col>
           <Col xs={6} className="d-flex justify-content-end">
-            {submitButton}
+            {isEditable ? <CustomAlert removePerson={removeStudentSubmit} /> : <></>}
           </Col>
           <Col xs={2}>
             <Button
