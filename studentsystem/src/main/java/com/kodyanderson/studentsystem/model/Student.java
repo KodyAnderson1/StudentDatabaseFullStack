@@ -14,9 +14,6 @@ public class Student {
     private String gender;
     private String role;
     private String phone;
-    @OneToMany(targetEntity = Section.class, cascade = CascadeType.ALL)
-    @JoinColumn(name="ss_fk", referencedColumnName = "id")
-    private List<Section> current_courses;
     private String email;
     private String dob;
     private String address;
@@ -70,14 +67,6 @@ public class Student {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public List<Section> getCurrent_courses() {
-        return current_courses;
-    }
-
-    public void setCurrent_courses(List<Section> current_courses) {
-        this.current_courses = current_courses;
     }
 
     public String getEmail() {

@@ -4,6 +4,11 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { StudentCourses } from "./StudentCourses";
 
+// import { tester } from "../../../reeeeee";
+// import { CoursesData } from "../../../model/CoursesData";
+
+// import { StudentData } from "../../../model/StudentData";
+
 import { PersonJsonToOjbect } from "../../../utils";
 
 export function StudentCard(props) {
@@ -13,7 +18,6 @@ export function StudentCard(props) {
   const personId = urlParams.id;
 
   useEffect(() => {
-    // setPerson(...props.data.filter((student) => student.id === parseInt(personId)));
     fetch(`http://localhost:8080/student/${personId}`)
       .then((response) => response.json())
       .then((result) => setPerson(PersonJsonToOjbect(result)));

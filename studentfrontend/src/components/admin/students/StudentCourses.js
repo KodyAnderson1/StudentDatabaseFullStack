@@ -2,20 +2,61 @@ import { Row, Col, Button } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
+import { useState, useEffect } from "react";
 
 // ! Remove with database integration
 import { SectionData } from "../../../model/SectionData";
 import { FacultyData } from "../../../model/Faculty";
 
-export function StudentCourses(props) {
-  if (!props.student || props.student === "") return <></>;
-  const studentCourses = props.student.current_courses;
-  const filteredData = SectionData.filter((course) => studentCourses.includes(course.section_id));
-  const courses = filteredData ? filteredData : [];
+// [
+//   {
+//       "id": 47,
+//       "section_id": 965295,
+//       "course_id": 9484,
+//       "student_id": 116207865,
+//       "instructor_id": 403805
+//   },
+//   {
+//       "id": 48,
+//       "section_id": 929563,
+//       "course_id": 4338,
+//       "student_id": 116207865,
+//       "instructor_id": 375042
+//   }
+// ]
 
-  if (courses.length === 0) return <h4 className="mt-4">No Enrolled Courses</h4>;
+export function StudentCourses(props) {
+  const [courses, setCourses] = useState([]);
+  // console.log("StudentCourses\n", props);
+
+  function courseHelper(result) {
+    setCourses(
+      result.map((res) => {
+        return {
+          section_id: res[0],
+          course_id: res[1],
+          instructor_id: res[2],
+          course_name: res[3],
+        };
+      })
+    );
+  }
+
+  useEffect(() => {
+    if (props.student.id) {
+      fetch(`http://localhost:8080/section/student/${props.student.id}`)
+        .then((response) => response.json())
+        .then((result) => courseHelper(result));
+    } else {
+      setCourses([]);
+    }
+  }, [props.student.id]);
+
+  if (!props.student || props.student === "") return <></>;
+  if (!courses || courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
 
   return (
+    // <h4 className="mt-4">No Enrolled Courses</h4>
     <Row className="text-black d-flex justify-content-center">
       <Row className="">
         <Col xs={6} className="d-flex justify-content-end mt-3">
@@ -46,8 +87,8 @@ function TableBody(props) {
   return (
     <tbody>
       {props.courses.map((course) => {
-        const instructorData = FacultyData.filter((faculty) => faculty.id === course.instructor_id);
-        const [instructor] = instructorData;
+        // const instructorData = FacultyData.filter((faculty) => faculty.id === course.instructor_id);
+        // const [instructor] = instructorData;
 
         return (
           <tr key={course.section_id}>
@@ -55,7 +96,9 @@ function TableBody(props) {
             <td>{course.course_id}</td>
 
             <td>{course.section_id}</td>
-            <td>{`${instructor.firstName} ${instructor.lastName}`}</td>
+            {/* <td>{`${instructor.firstName} ${instructor.lastName}`}</td> */}
+            <td>{course.instructor_id}</td>
+
             <td>
               <Link
                 to={`/admin/courses/${course.course_id}`}

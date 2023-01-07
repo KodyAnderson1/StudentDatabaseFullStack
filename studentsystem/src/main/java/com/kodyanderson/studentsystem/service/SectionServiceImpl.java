@@ -15,11 +15,20 @@ public class SectionServiceImpl implements SectionService {
 
     @Override
     public Section saveSection(Section section) { return sectionRepository.save(section); }
+
+    @Override
+    public List<Section> saveAllSections(List<Section> sections) {
+        return sectionRepository.saveAll(sections);
+    }
     @Override
     public List<Section> getAllSections() { return sectionRepository.findAll(); }
     @Override
     public Optional<Section> getSection(int id) { return sectionRepository.findById(id); }
     @Override
     public void removeSection(int id) { sectionRepository.deleteById(id); }
+    @Override
+    public List<Section> getSectionsByInstructor(int id) {
+        return sectionRepository.findSectionByInstructor_id(id);
+    }
 
 }

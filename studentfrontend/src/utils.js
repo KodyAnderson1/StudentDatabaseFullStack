@@ -20,7 +20,7 @@ export function PersonJsonToOjbect(faculty) {
     gender: faculty.gender,
     role: faculty.role,
     phone: faculty.phone,
-    current_courses: jsonCurrentCoursesToArray(faculty.current_courses),
+    // current_courses: jsonCurrentCoursesToArray(faculty.current_courses),
     email: faculty.email,
     id: faculty.id,
     location: jsonAddressToObject(faculty.address),

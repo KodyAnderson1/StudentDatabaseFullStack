@@ -40,10 +40,12 @@ function App() {
   }
 
   function helperStudent(result) {
+    // console.log(result);
     let test = result.map((element) => {
       return PersonJsonToOjbect(element);
     });
     setAllStudents(test);
+    // console.log(allStudents);
   }
   useEffect(() => {
     fetch(`http://localhost:8080/faculty/getAll`)
@@ -55,6 +57,8 @@ function App() {
       .then((response) => response.json())
       .then((result) => helperStudent(result))
       .catch((err) => console.log(err));
+
+    // console.log(allStudents);
   }, []);
 
   const addNewStudent = (student) => {

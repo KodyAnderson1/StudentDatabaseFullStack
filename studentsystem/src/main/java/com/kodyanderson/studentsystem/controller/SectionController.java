@@ -1,7 +1,11 @@
 package com.kodyanderson.studentsystem.controller;
 
 import com.kodyanderson.studentsystem.model.Section;
+import com.kodyanderson.studentsystem.model.StudentSections;
+import com.kodyanderson.studentsystem.model.StudentWithSection;
 import com.kodyanderson.studentsystem.service.SectionService;
+import com.kodyanderson.studentsystem.service.StudentSectionsService;
+import com.kodyanderson.studentsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,11 +19,26 @@ public class SectionController {
 
     @Autowired
     private SectionService sectionService;
+    @Autowired
+    private StudentService studentService;
+    @Autowired
+    private StudentSectionsService studentSectionsService;
 
     @PostMapping("/add")
     public String add(@RequestBody Section section) {
         sectionService.saveSection(section);
         return "New Section has been added!";
+    }
+
+    @PostMapping("/add/studentSection")
+    public String addSection(@RequestBody StudentSections section) {
+        studentSectionsService.saveSection(section);
+        return "New Section has been added!";
+    }
+    @PostMapping("/addAll")
+    public String addAll(@RequestBody List<Section> sections) {
+        sectionService.saveAllSections(sections);
+        return "New Sections has been added!";
     }
 
     @GetMapping("/getAll")
@@ -29,6 +48,12 @@ public class SectionController {
 
     @GetMapping("/{id}")
     public Optional<Section> getSection(@PathVariable int id) { return sectionService.getSection(id); }
+
+    @GetMapping("/faculty/{id}")
+    public List<Section> getSectionByInstructorId(@PathVariable int id) { return sectionService.getSectionsByInstructor(id); }
+
+    @GetMapping("/student/{id}")
+    public List<Object[]> getSectionByStudentId(@PathVariable int id) { return studentSectionsService.getSectionsByStudentId(id); }
 
     @DeleteMapping("/delete/{id}")
     public String removeSection(@PathVariable int id) {

@@ -2,20 +2,22 @@ import { Row, Button, Col } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
+import { useState, useEffect } from "react";
 
-import { SectionData } from "../../../model/SectionData";
-
-// ! Will this handle empty current_courses?
 export function FacultyCourses(props) {
-  const facultyCourses = props.faculty.current_courses;
+  const [courses, setCourses] = useState("");
 
-  if (!facultyCourses) return <></>;
+  useEffect(() => {
+    if (props.faculty.id) {
+      fetch(`http://localhost:8080/section/faculty/${props.faculty.id}`)
+        .then((response) => response.json())
+        .then((result) => setCourses(result));
+    } else {
+      setCourses([]);
+    }
+  }, [props.faculty.id]);
 
-  const courseCheck = facultyCourses ? facultyCourses : [];
-  const filteredData = SectionData.filter((course) => courseCheck.includes(course.section_id));
-  const courses = filteredData ? filteredData : [];
-
-  if (courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
+  if (!courses || courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
 
   return (
     <>
@@ -34,7 +36,6 @@ export function FacultyCourses(props) {
               <th>Course Name</th>
               <th>Course ID</th>
               <th>Section ID</th>
-              <th>Students</th>
               <th>Course Page</th>
               <th>Remove Course</th>
             </tr>
@@ -42,12 +43,11 @@ export function FacultyCourses(props) {
           <tbody>
             {courses.map((course) => {
               return (
-                <tr key={course.section_id}>
+                <tr key={course.id}>
                   <td>{course.course_name}</td>
                   <td>{course.course_id}</td>
 
-                  <td>{course.section_id}</td>
-                  <td>{course.enrolled_students.length}</td>
+                  <td>{course.id}</td>
                   <td>
                     <Link
                       to={`/admin/courses/${course.course_id}`}
