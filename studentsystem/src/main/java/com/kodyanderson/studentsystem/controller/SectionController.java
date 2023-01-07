@@ -2,7 +2,6 @@ package com.kodyanderson.studentsystem.controller;
 
 import com.kodyanderson.studentsystem.model.Section;
 import com.kodyanderson.studentsystem.model.StudentSections;
-import com.kodyanderson.studentsystem.model.StudentWithSection;
 import com.kodyanderson.studentsystem.service.SectionService;
 import com.kodyanderson.studentsystem.service.StudentSectionsService;
 import com.kodyanderson.studentsystem.service.StudentService;

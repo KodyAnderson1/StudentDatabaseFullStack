@@ -1,7 +1,6 @@
 package com.kodyanderson.studentsystem.service;
 
 import com.kodyanderson.studentsystem.model.StudentSections;
-import com.kodyanderson.studentsystem.model.StudentWithSection;
 import com.kodyanderson.studentsystem.repository.StudentSectionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

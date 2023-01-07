@@ -1,7 +1,6 @@
 package com.kodyanderson.studentsystem.service;
 
 import com.kodyanderson.studentsystem.model.StudentSections;
-import com.kodyanderson.studentsystem.model.StudentWithSection;
 
 import java.util.List;
 

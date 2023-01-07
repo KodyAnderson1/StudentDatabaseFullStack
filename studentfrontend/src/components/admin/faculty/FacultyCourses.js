@@ -17,7 +17,19 @@ export function FacultyCourses(props) {
     }
   }, [props.faculty.id]);
 
-  if (!courses || courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
+  if (!courses || courses.length === 0)
+    return (
+      <>
+        <Row>
+          <Col className="d-flex justify-content-end">
+            <h4 className="mt-4">No Assigned Courses</h4>
+          </Col>
+          <Col className="d-flex justify-content-start">
+            <Button className="mt-3 course-add-btn d-flex align-items-center">Add Course</Button>
+          </Col>
+        </Row>
+      </>
+    );
 
   return (
     <>
@@ -46,7 +58,6 @@ export function FacultyCourses(props) {
                 <tr key={course.id}>
                   <td>{course.course_name}</td>
                   <td>{course.course_id}</td>
-
                   <td>{course.id}</td>
                   <td>
                     <Link

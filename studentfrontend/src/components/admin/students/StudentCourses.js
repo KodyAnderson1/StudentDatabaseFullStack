@@ -4,30 +4,8 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
-// ! Remove with database integration
-import { SectionData } from "../../../model/SectionData";
-import { FacultyData } from "../../../model/Faculty";
-
-// [
-//   {
-//       "id": 47,
-//       "section_id": 965295,
-//       "course_id": 9484,
-//       "student_id": 116207865,
-//       "instructor_id": 403805
-//   },
-//   {
-//       "id": 48,
-//       "section_id": 929563,
-//       "course_id": 4338,
-//       "student_id": 116207865,
-//       "instructor_id": 375042
-//   }
-// ]
-
 export function StudentCourses(props) {
   const [courses, setCourses] = useState([]);
-  // console.log("StudentCourses\n", props);
 
   function courseHelper(result) {
     setCourses(
