@@ -5,7 +5,7 @@ import com.kodyanderson.studentsystem.model.Course;
 import java.util.List;
 import java.util.Optional;
 
-public interface CoursesService {
+public interface CourseService {
     public Course saveCourse(Course course);
     public List<Course> getAllCourses();
     public Optional<Course> getCourse(int id);

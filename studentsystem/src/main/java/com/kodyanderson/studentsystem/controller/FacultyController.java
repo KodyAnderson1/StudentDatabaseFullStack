@@ -17,7 +17,7 @@ public class FacultyController {
 
     @PostMapping("/add")
     public String add(@RequestBody Faculty faculty) {
-        facultyService.saveFaculty((faculty));
+        facultyService.saveFaculty(faculty);
         return "New Faculty has been added!";
     }
 

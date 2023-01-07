@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
 @Entity
-public class Sections {
+public class Section {
 
     @Id
     private int id;
@@ -13,19 +13,19 @@ public class Sections {
     private String course_name;
     private int course_id;
 
-    public Sections() {
+    public Section() {
         this.id = id;
     }
 
-    public Sections(int id) {
+    public Section(int id) {
         this.id = id;
     }
 
-    public Sections(int id,
-                    int instructor_id,
-                    String enrolled_students,
-                    String course_name,
-                    int course_id) {
+    public Section(int id,
+                   int instructor_id,
+                   String enrolled_students,
+                   String course_name,
+                   int course_id) {
         this.id = id;
         this.instructor_id = instructor_id;
         this.enrolled_students = enrolled_students;

@@ -1,6 +1,5 @@
 package com.kodyanderson.studentsystem.controller;
 
-import com.kodyanderson.studentsystem.model.Faculty;
 import com.kodyanderson.studentsystem.model.Student;
 import com.kodyanderson.studentsystem.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,12 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping("/add")
-    public String add(@RequestBody Student student){
-        studentService.saveStudent(student);
-        return "New student has been added!";
+//    public String add(@RequestBody Student student){
+//        studentService.saveStudent(student);
+//        return "New student has been added!";
+//    }
+    public Student add(@RequestBody Student student){
+        return studentService.saveStudent(student);
     }
 
     @GetMapping("/getAll")

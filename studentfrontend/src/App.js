@@ -62,9 +62,7 @@ function App() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(readyPersonForJson(student)),
-    })
-      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(student))))
-      .catch((error) => console.log(error));
+    }).catch((error) => console.log(error));
     setAllStudents([...allStudents, student]);
   };
 
@@ -73,9 +71,7 @@ function App() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(readyPersonForJson(faculty)),
-    })
-      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(faculty))))
-      .catch((error) => console.log(error));
+    }).catch((error) => console.log(error));
     setAllFaculty([...allFaculty, faculty]);
   };
 
@@ -84,9 +80,7 @@ function App() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(readyPersonForJson(student)),
-    })
-      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(student))))
-      .catch((error) => console.log(error));
+    }).catch((error) => console.log(error));
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
   }
 
@@ -95,9 +89,7 @@ function App() {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(readyPersonForJson(faculty)),
-    })
-      .then(() => console.log("POST completed for: " + JSON.stringify(readyPersonForJson(faculty))))
-      .catch((error) => console.log(error));
+    }).catch((error) => console.log(error));
 
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
