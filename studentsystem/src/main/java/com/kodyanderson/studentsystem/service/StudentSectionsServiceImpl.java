@@ -30,7 +30,7 @@ public class StudentSectionsServiceImpl implements StudentSectionsService {
     }
 
     @Override
-    public List<Object[]> getSectionsByStudentId(int studentId) {
+    public List<StudentSections> getSectionsByStudentId(int studentId) {
         return studentSectionsRepository.findStudentSectionsByStudent_id(studentId);
     }
 

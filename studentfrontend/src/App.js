@@ -31,21 +31,37 @@ import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
 function App() {
   const [allStudents, setAllStudents] = useState("");
   const [allFaculty, setAllFaculty] = useState("");
+  const [facultyDataForList, setFacultyDataForList] = useState("");
+  const [studentDataForList, setStudentDataForList] = useState("");
 
   function helperFaculty(result) {
-    let test = result.map((element) => {
-      return PersonJsonToOjbect(element);
-    });
-    setAllFaculty(test);
+    let resListData = [];
+    setAllFaculty(
+      result.map((element) => {
+        resListData.push({
+          firstName: element.firstName,
+          lastName: element.lastName,
+          id: element.id,
+        });
+        return PersonJsonToOjbect(element);
+      })
+    );
+    setFacultyDataForList(resListData);
   }
 
   function helperStudent(result) {
-    // console.log(result);
-    let test = result.map((element) => {
-      return PersonJsonToOjbect(element);
-    });
-    setAllStudents(test);
-    // console.log(allStudents);
+    let resListData = [];
+    setAllStudents(
+      result.map((element) => {
+        resListData.push({
+          firstName: element.firstName,
+          lastName: element.lastName,
+          id: element.id,
+        });
+        return PersonJsonToOjbect(element);
+      })
+    );
+    setStudentDataForList(resListData);
   }
   useEffect(() => {
     fetch(`http://localhost:8080/faculty/getAll`)
@@ -79,6 +95,7 @@ function App() {
     setAllFaculty([...allFaculty, faculty]);
   };
 
+  // ! UPDATE IS BROKEN. LOOK AT COMMENTED OUT CODE IN UTILS
   function updateStudent(student) {
     fetch("http://localhost:8080/student/add", {
       method: "POST",
@@ -122,7 +139,7 @@ function App() {
 
             <Route
               path="admin/students"
-              element={<ListOfPeople data={allStudents} role={"student"} />}>
+              element={<ListOfPeople data={studentDataForList} role={"student"} />}>
               <Route
                 path=":id"
                 element={
@@ -134,7 +151,7 @@ function App() {
 
             <Route
               path="admin/faculty"
-              element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
+              element={<ListOfPeople data={facultyDataForList} role={"faculty"} />}>
               <Route
                 path=":id"
                 element={

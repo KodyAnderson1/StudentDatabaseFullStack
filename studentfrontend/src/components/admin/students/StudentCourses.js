@@ -4,6 +4,12 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
+/**
+ * Component that renders a specific student's details form and the current courses
+ *  the student is enrolled in
+ * @param {studentId} props the specific student id for useEffect db call
+ * @returns react component for the "Current Courses" section of the admin student view
+ */
 export function StudentCourses(props) {
   const [courses, setCourses] = useState([]);
 
@@ -11,30 +17,29 @@ export function StudentCourses(props) {
     setCourses(
       result.map((res) => {
         return {
-          section_id: res[0],
-          course_id: res[1],
-          instructor_id: res[2],
-          course_name: res[3],
+          section_id: res.section_id,
+          course_id: res.course_id,
+          instructor_id: res.instructor_id,
+          course_name: res.course_name,
         };
       })
     );
   }
 
   useEffect(() => {
-    if (props.student.id) {
-      fetch(`http://localhost:8080/section/student/${props.student.id}`)
+    if (props.studentId) {
+      fetch(`http://localhost:8080/student/sections/${props.studentId}`)
         .then((response) => response.json())
         .then((result) => courseHelper(result));
     } else {
       setCourses([]);
     }
-  }, [props.student.id]);
+  }, [props.studentId]);
 
-  if (!props.student || props.student === "") return <></>;
+  if (!props.studentId || props.studentId === "") return <></>;
   if (!courses || courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
 
   return (
-    // <h4 className="mt-4">No Enrolled Courses</h4>
     <Row className="text-black d-flex justify-content-center">
       <Row className="">
         <Col xs={6} className="d-flex justify-content-end mt-3">

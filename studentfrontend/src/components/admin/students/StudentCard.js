@@ -74,7 +74,7 @@ export function StudentCard(props) {
             isEditable={isEditable}
           />
         </Form>
-        <StudentCourses student={person} />
+        <StudentCourses studentId={person.id} />
       </Card>
 
       {/* </Col> */}

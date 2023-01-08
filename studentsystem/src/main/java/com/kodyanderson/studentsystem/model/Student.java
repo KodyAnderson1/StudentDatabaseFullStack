@@ -18,6 +18,18 @@ public class Student {
     private String dob;
     private String address;
 
+    @OneToMany(targetEntity = StudentSections.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "stss_fk", referencedColumnName = "id")
+    private List<StudentSections> sections;
+
+    public List<StudentSections> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<StudentSections> sections) {
+        this.sections = sections;
+    }
+
     public Student() {
     }
 

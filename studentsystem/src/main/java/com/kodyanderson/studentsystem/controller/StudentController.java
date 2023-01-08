@@ -20,9 +20,6 @@ public class StudentController {
         studentService.saveStudent(student);
         return "New student has been added!";
     }
-//    public Student add(@RequestBody Student student){
-//        return studentService.saveStudent(student);
-//    }
 
     @GetMapping("/getAll")
         public List<Student> getAllStudents() {

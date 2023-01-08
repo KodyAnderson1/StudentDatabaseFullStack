@@ -3,7 +3,10 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
-import { PersonJsonToOjbect } from "../../../utils";
+import { PersonJsonToOjbect, readyPersonForJson } from "../../../utils";
+
+import { SectionData } from "../../../model/SectionData";
+import { StudentData } from "../../../model/StudentData";
 
 /**
  * Called in App.js in react router once the url is /admin/faculty/:id
@@ -23,9 +26,37 @@ export function FacultyCard(props) {
       .then((result) => setPerson(PersonJsonToOjbect(result)));
   }, [personId]);
 
+  //   {
+  //     "id": 111111111,
+  //     "firstName": "SEXY",
+  //     "lastName": "GOD",
+  //     "gender": "female",
+  //     "role": "STUDENT",
+  //     "phone": "995-111-1111",
+  //     "email": "sgod123@students.uwf.edu",
+  //     "dob": "1992-08-01",
+  //     "address": "8098 Riley Place,East Ridge,Tennessee",
+  //     "sections": [
+  //         {
+  //             "section_id": 277391,
+  //             "course_id": 4889,
+  //             "instructor_id": 335111
+  //         }
+  //     ]
+  // }
+
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
     setPerson(person);
+
+    // StudentData.forEach((element) => {
+    //   // console.log(readyPersonForJson(element));
+    //   fetch("http://localhost:8080/student/add", {
+    //     method: "POST",
+    //     headers: { "Content-Type": "application/json" },
+    //     body: JSON.stringify(readyPersonForJson(element)),
+    //   }).catch((error) => console.log(error));
+    // });
   };
 
   const updateFacultySubmit = (e) => {

@@ -20,8 +20,7 @@ public class SectionController {
     private SectionService sectionService;
     @Autowired
     private StudentService studentService;
-    @Autowired
-    private StudentSectionsService studentSectionsService;
+
 
     @PostMapping("/add")
     public String add(@RequestBody Section section) {
@@ -29,11 +28,6 @@ public class SectionController {
         return "New Section has been added!";
     }
 
-    @PostMapping("/add/studentSection")
-    public String addSection(@RequestBody StudentSections section) {
-        studentSectionsService.saveSection(section);
-        return "New Section has been added!";
-    }
     @PostMapping("/addAll")
     public String addAll(@RequestBody List<Section> sections) {
         sectionService.saveAllSections(sections);
@@ -51,12 +45,10 @@ public class SectionController {
     @GetMapping("/faculty/{id}")
     public List<Section> getSectionByInstructorId(@PathVariable int id) { return sectionService.getSectionsByInstructor(id); }
 
-    @GetMapping("/student/{id}")
-    public List<Object[]> getSectionByStudentId(@PathVariable int id) { return studentSectionsService.getSectionsByStudentId(id); }
-
     @DeleteMapping("/delete/{id}")
     public String removeSection(@PathVariable int id) {
         sectionService.removeSection(id);
         return "Section has been removed!";
     }
+
 }

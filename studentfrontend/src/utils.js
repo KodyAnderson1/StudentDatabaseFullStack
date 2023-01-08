@@ -1,16 +1,33 @@
+import { SectionData } from "./model/SectionData";
+
 export function readyPersonForJson(person) {
-  console.log(person);
   const dobString = person.dob.full;
-  const currentCoursesString = person.current_courses.join(",");
   const { address, city, state } = person.location;
   const loc = `${address},${city},${state}`;
+
   const personReadyForJson = {
     ...person,
     dob: dobString,
-    current_courses: currentCoursesString,
+    sections: jsonCurrentCoursesToArray(person.current_courses, person.id),
     address: loc,
   };
   return personReadyForJson;
+}
+
+function jsonCurrentCoursesToArray(courses, id) {
+  if (!courses || courses.length === 0) return [];
+  let retList = [];
+  let tempList = SectionData.filter((ele) => courses.includes(ele.section_id));
+  tempList.forEach((element) => {
+    retList.push({
+      student_id: id,
+      course_name: element.course_name,
+      section_id: element.section_id,
+      course_id: element.course_id,
+      instructor_id: element.instructor_id,
+    });
+  });
+  return retList;
 }
 
 export function PersonJsonToOjbect(faculty) {
@@ -20,20 +37,13 @@ export function PersonJsonToOjbect(faculty) {
     gender: faculty.gender,
     role: faculty.role,
     phone: faculty.phone,
-    // current_courses: jsonCurrentCoursesToArray(faculty.current_courses),
+    sections: faculty.sections,
     email: faculty.email,
     id: faculty.id,
     location: jsonAddressToObject(faculty.address),
     dob: jsonDOBToObject(faculty.dob),
   };
   return obj;
-}
-
-// ! dont need?
-export function jsonCurrentCoursesToArray(courses) {
-  const parsedCourses = courses.split(",").map((element) => parseInt(element));
-
-  return parsedCourses;
 }
 
 // YYYY-MM-DD
