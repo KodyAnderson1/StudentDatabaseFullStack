@@ -4,6 +4,11 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
+/**
+ *
+ * @param {*} props
+ * @returns
+ */
 export function FacultyCourses(props) {
   const [courses, setCourses] = useState("");
 

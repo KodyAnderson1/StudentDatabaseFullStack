@@ -21,4 +21,9 @@ public class StudentSectionsController {
     public StudentSections addSection(@RequestBody StudentSections section) {
         return studentSectionsService.saveSection(section);
     }
+
+    @DeleteMapping("/{id}")
+    public void removeSectionForStudent(@PathVariable int id) {
+        studentSectionsService.removeSection(id);
+    }
 }

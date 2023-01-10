@@ -3,16 +3,15 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
-import { PersonJsonToOjbect, readyPersonForJson } from "../../../utils";
-
-import { SectionData } from "../../../model/SectionData";
-import { StudentData } from "../../../model/StudentData";
+import { PersonJsonToOjbect } from "../../../utils";
+import { TbPencil, TbPencilOff } from "react-icons/tb";
 
 /**
- * Called in App.js in react router once the url is /admin/faculty/:id
- * Specific Faculty Member
- * useEffect grabs the faculty from the database
- * @param {allFaculty, updateFaculty} props
+ * Called in App.js
+ * Two functions get passed into props to update and delete a faculty.
+ * useEffect calls the database with the student ID from the URL to get specific student data
+ * @param {*} props functions updateFaculty && removeFaculty to PUT or DELETE data in DB
+ * @returns component that shows a specific faculty's information in a Bootstrap Card
  */
 export function FacultyCard(props) {
   const [isEditable, setIsEditable] = useState(false);
@@ -26,37 +25,9 @@ export function FacultyCard(props) {
       .then((result) => setPerson(PersonJsonToOjbect(result)));
   }, [personId]);
 
-  //   {
-  //     "id": 111111111,
-  //     "firstName": "SEXY",
-  //     "lastName": "GOD",
-  //     "gender": "female",
-  //     "role": "STUDENT",
-  //     "phone": "995-111-1111",
-  //     "email": "sgod123@students.uwf.edu",
-  //     "dob": "1992-08-01",
-  //     "address": "8098 Riley Place,East Ridge,Tennessee",
-  //     "sections": [
-  //         {
-  //             "section_id": 277391,
-  //             "course_id": 4889,
-  //             "instructor_id": 335111
-  //         }
-  //     ]
-  // }
-
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
     setPerson(person);
-
-    // StudentData.forEach((element) => {
-    //   // console.log(readyPersonForJson(element));
-    //   fetch("http://localhost:8080/student/add", {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify(readyPersonForJson(element)),
-    //   }).catch((error) => console.log(error));
-    // });
   };
 
   const updateFacultySubmit = (e) => {
@@ -74,17 +45,17 @@ export function FacultyCard(props) {
     <>
       <Card className="text-black p-3 mt-4 me-3 person-card">
         <Row className="border-bottom d-flex">
-          <Col xs={4} className="d-flex justify-content-start">
+          <Col xs={9} className="d-flex justify-content-start">
             <h3>{person.role}</h3>
           </Col>
-          <Col xs={6} className="d-flex justify-content-end">
+          <Col xs={2} className="d-flex justify-content-end">
             {isEditable ? <CustomAlert removePerson={removeFacultySubmit} /> : <></>}
           </Col>
-          <Col xs={2}>
+          <Col xs={1}>
             <Button
               onClick={handleEditable}
               className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
-              {isEditable ? "Disable Edit" : "Enable Edit"}
+              {isEditable ? <TbPencilOff /> : <TbPencil />}
             </Button>
           </Col>
         </Row>

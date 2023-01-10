@@ -1,43 +1,20 @@
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col, Button, Modal } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 /**
- * Component that renders a specific student's details form and the current courses
- *  the student is enrolled in
- * @param {studentId} props the specific student id for useEffect db call
- * @returns react component for the "Current Courses" section of the admin student view
+ * Called in StudentCard.js
+ * Component that renders a specific student's current courses
+ * @param {*} props the specific student courses
+ * @returns react component for the "Current Courses" section of the admin student view Card
  */
 export function StudentCourses(props) {
-  const [courses, setCourses] = useState([]);
+  const sections = props.sections;
+  // console.log(sections);
 
-  function courseHelper(result) {
-    setCourses(
-      result.map((res) => {
-        return {
-          section_id: res.section_id,
-          course_id: res.course_id,
-          instructor_id: res.instructor_id,
-          course_name: res.course_name,
-        };
-      })
-    );
-  }
-
-  useEffect(() => {
-    if (props.studentId) {
-      fetch(`http://localhost:8080/student/sections/${props.studentId}`)
-        .then((response) => response.json())
-        .then((result) => courseHelper(result));
-    } else {
-      setCourses([]);
-    }
-  }, [props.studentId]);
-
-  if (!props.studentId || props.studentId === "") return <></>;
-  if (!courses || courses.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
+  if (!sections || sections.length === 0) return <h4 className="mt-4">No Assigned Courses</h4>;
 
   return (
     <Row className="text-black d-flex justify-content-center">
@@ -60,19 +37,22 @@ export function StudentCourses(props) {
             <th>Remove Course</th>
           </tr>
         </thead>
-        <TableBody courses={courses} />
+        <TableBody
+          student_id={props.student_id}
+          sections={sections}
+          removeSection={props.removeSection}
+          facultyTeachingStudent={props.facultyTeachingStudent}
+        />
       </Table>
     </Row>
   );
 }
 
 function TableBody(props) {
+  // console.log(props);
   return (
     <tbody>
-      {props.courses.map((course) => {
-        // const instructorData = FacultyData.filter((faculty) => faculty.id === course.instructor_id);
-        // const [instructor] = instructorData;
-
+      {props.sections.map((course) => {
         return (
           <tr key={course.section_id}>
             <td>{course.course_name}</td>
@@ -90,7 +70,10 @@ function TableBody(props) {
               </Link>
             </td>
             <td>
-              <Button variant="danger" className="course-remove-btn">
+              <Button
+                onClick={() => props.removeSection(course.id, props.student_id)}
+                variant="danger"
+                className="course-remove-btn">
                 <AiFillMinusCircle className="mb-2" />
               </Button>
             </td>

@@ -30,18 +30,18 @@ function jsonCurrentCoursesToArray(courses, id) {
   return retList;
 }
 
-export function PersonJsonToOjbect(faculty) {
+export function PersonJsonToOjbect(person) {
   const obj = {
-    firstName: faculty.firstName,
-    lastName: faculty.lastName,
-    gender: faculty.gender,
-    role: faculty.role,
-    phone: faculty.phone,
-    sections: faculty.sections,
-    email: faculty.email,
-    id: faculty.id,
-    location: jsonAddressToObject(faculty.address),
-    dob: jsonDOBToObject(faculty.dob),
+    firstName: person.firstName,
+    lastName: person.lastName,
+    gender: person.gender,
+    role: person.role,
+    phone: person.phone,
+    sections: person.sections,
+    email: person.email,
+    id: person.id,
+    location: jsonAddressToObject(person.address),
+    dob: jsonDOBToObject(person.dob),
   };
   return obj;
 }

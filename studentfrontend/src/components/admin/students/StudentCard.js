@@ -1,26 +1,47 @@
 import { CustomAlert } from "../../CustomAlert";
-import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
+import { Row, Col, Card, Form, InputGroup, Button, Modal } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { StudentCourses } from "./StudentCourses";
-
-// import { tester } from "../../../reeeeee";
-// import { CoursesData } from "../../../model/CoursesData";
-
-// import { StudentData } from "../../../model/StudentData";
+import { TbPencil, TbPencilOff } from "react-icons/tb";
 
 import { PersonJsonToOjbect } from "../../../utils";
 
+// ! The useEffect here is redundant. Data is collected at top level. Keep as is?
+// ! Or useState to keep up-to-date and make DB calls as needed?
+/**
+ * Called in App.js
+ * Two functions get passed into props to update and delete a student.
+ * useEffect calls the database with the student ID from the URL to get specific student data
+ * @param {*} props functions updateStudent && removeStudent to PUT or DELETE data in DB
+ * @returns component that shows a specific student's information in a Bootstrap Card
+ */
 export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [person, setPerson] = useState("");
+  // const [facultyTeachingStudent, setFacultyTeachingStudent] = useState("");
   const urlParams = useParams();
   const personId = urlParams.id;
+
+  // let facArray = [];
+  // function facultyTeachingHelper(result) {
+  //   facArray.push(result);
+  //   setFacultyTeachingStudent(facArray);
+  // }
 
   useEffect(() => {
     fetch(`http://localhost:8080/student/${personId}`)
       .then((response) => response.json())
       .then((result) => setPerson(PersonJsonToOjbect(result)));
+    // console.log("PERSON EXISTS?\n", person);
+    // if (person.sections) {
+    //   person.sections.map((element) => {
+    //     fetch(`http://localhost:8080/faculty/${element.instructor_id}`)
+    //       .then((response) => response.json())
+    //       .then((result) => setFacultyTeachingStudent(...facultyTeachingStudent, result));
+    //   });
+    // }
+    // console.log("USE EFFECT\n", facultyTeachingStudent);
   }, [personId]);
 
   const handleEditable = () => {
@@ -43,17 +64,17 @@ export function StudentCard(props) {
     <>
       <Card className="text-black p-3 mt-4 me-3 person-card">
         <Row className="border-bottom d-flex">
-          <Col xs={4} className="d-flex justify-content-start">
+          <Col xs={9} className="d-flex justify-content-start">
             <h3>{person.role}</h3>
           </Col>
-          <Col xs={6} className="d-flex justify-content-end">
+          <Col xs={2} className="d-flex justify-content-end">
             {isEditable ? <CustomAlert removePerson={removeStudentSubmit} /> : <></>}
           </Col>
-          <Col xs={2}>
+          <Col xs={1}>
             <Button
               onClick={handleEditable}
               className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
-              {isEditable ? "Disable Edit" : "Enable Edit"}
+              {isEditable ? <TbPencilOff /> : <TbPencil />}
             </Button>
           </Col>
         </Row>
@@ -74,10 +95,13 @@ export function StudentCard(props) {
             isEditable={isEditable}
           />
         </Form>
-        <StudentCourses studentId={person.id} />
+        <StudentCourses
+          student_id={person.id}
+          sections={person.sections}
+          removeSection={props.removeSection}
+          // facultyTeachingStudent={facultyTeachingStudent}
+        />
       </Card>
-
-      {/* </Col> */}
     </>
   );
 }
@@ -132,13 +156,12 @@ function RowPersonalData(props) {
           </Form.Group>
         </Col>
         <Col xs={2}>
-          <Form.Group controlId="studentDOB">
+          <Form.Group controlId="studentGender">
             <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
             <Form.Control
               type="text"
               value={capitalizeFirstLetter(student.gender)}
-              readOnly
-              disabled
+              disabled={isEditable ? "" : "disabled"}
             />
           </Form.Group>
         </Col>

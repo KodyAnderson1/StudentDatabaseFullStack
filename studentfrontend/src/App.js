@@ -27,42 +27,41 @@ import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
  * !    Keep as is? Or just update state and pass as props?
  *
  * ! When deleting a faculty/student, the data disappears but the card itself stays
+ *
+ * ? Find a way for "ListOfPeople" to make a DB call to get data so page reload doesn't break
+ *
+ * ? Currently have two states, one minimal for the ListOfPeople and one with all data for
+ * ?    students, and faculty. Keep as is or just pass around state that contains everything?
  */
 function App() {
   const [allStudents, setAllStudents] = useState("");
   const [allFaculty, setAllFaculty] = useState("");
-  const [facultyDataForList, setFacultyDataForList] = useState("");
-  const [studentDataForList, setStudentDataForList] = useState("");
+  // const [facultyDataForList, setFacultyDataForList] = useState("");
+  // const [studentDataForList, setStudentDataForList] = useState("");
+
+  // function helperFaculty(result) {
+  //   let resListData = [];
+  //   setAllFaculty(
+  //     result.map((element) => {
+  //       resListData.push({
+  //         firstName: element.firstName,
+  //         lastName: element.lastName,
+  //         id: element.id,
+  //       });
+  //       return PersonJsonToOjbect(element);
+  //     })
+  //   );
+  //   setFacultyDataForList(resListData);
+  // }
 
   function helperFaculty(result) {
-    let resListData = [];
-    setAllFaculty(
-      result.map((element) => {
-        resListData.push({
-          firstName: element.firstName,
-          lastName: element.lastName,
-          id: element.id,
-        });
-        return PersonJsonToOjbect(element);
-      })
-    );
-    setFacultyDataForList(resListData);
+    setAllFaculty(result.map((element) => PersonJsonToOjbect(element)));
   }
 
   function helperStudent(result) {
-    let resListData = [];
-    setAllStudents(
-      result.map((element) => {
-        resListData.push({
-          firstName: element.firstName,
-          lastName: element.lastName,
-          id: element.id,
-        });
-        return PersonJsonToOjbect(element);
-      })
-    );
-    setStudentDataForList(resListData);
+    setAllStudents(result.map((element) => PersonJsonToOjbect(element)));
   }
+
   useEffect(() => {
     fetch(`http://localhost:8080/faculty/getAll`)
       .then((response) => response.json())
@@ -73,8 +72,6 @@ function App() {
       .then((response) => response.json())
       .then((result) => helperStudent(result))
       .catch((err) => console.log(err));
-
-    // console.log(allStudents);
   }, []);
 
   const addNewStudent = (student) => {
@@ -95,7 +92,6 @@ function App() {
     setAllFaculty([...allFaculty, faculty]);
   };
 
-  // ! UPDATE IS BROKEN. LOOK AT COMMENTED OUT CODE IN UTILS
   function updateStudent(student) {
     fetch("http://localhost:8080/student/add", {
       method: "POST",
@@ -103,6 +99,7 @@ function App() {
       body: JSON.stringify(readyPersonForJson(student)),
     }).catch((error) => console.log(error));
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
+    // setStudentDataForList(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
   }
 
   function updateFaculty(faculty) {
@@ -113,6 +110,7 @@ function App() {
     }).catch((error) => console.log(error));
 
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
+    // setFacultyDataForList(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
   const removeStudent = (id) => {
     fetch(`http://localhost:8080/student/delete/${id}`, {
@@ -128,6 +126,27 @@ function App() {
     setAllFaculty(allFaculty.filter((faculty) => faculty.id !== id));
   };
 
+  // ! When deleting sections, does not appear on page til student is refreshed
+  function removeStudentSection(id, student_id) {
+    fetch(`http://localhost:8080/student/sections/${id}`, {
+      method: "DELETE",
+    }).catch((error) => console.log(error));
+
+    let [studentWithDelete] = allStudents.filter((student) => student.id === student_id);
+    const remainingSections = studentWithDelete.sections.filter((c) => c.id !== id);
+
+    setAllStudents(
+      allStudents.map((student) => {
+        if (student.id === student_id) {
+          return {
+            ...student,
+            sections: remainingSections,
+          };
+        } else return student;
+      })
+    );
+  }
+
   return (
     <>
       <div className="App">
@@ -139,11 +158,15 @@ function App() {
 
             <Route
               path="admin/students"
-              element={<ListOfPeople data={studentDataForList} role={"student"} />}>
+              element={<ListOfPeople data={allStudents} role={"student"} />}>
               <Route
                 path=":id"
                 element={
-                  <StudentCard updateStudent={updateStudent} removeStudent={removeStudent} />
+                  <StudentCard
+                    updateStudent={updateStudent}
+                    removeStudent={removeStudent}
+                    removeSection={removeStudentSection}
+                  />
                 }
               />
               <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
@@ -151,7 +174,7 @@ function App() {
 
             <Route
               path="admin/faculty"
-              element={<ListOfPeople data={facultyDataForList} role={"faculty"} />}>
+              element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
               <Route
                 path=":id"
                 element={

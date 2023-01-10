@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
+import Modal from "react-bootstrap/Modal";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
-import { AiFillMinusCircle } from "react-icons/ai";
+import { AiOutlineCheck } from "react-icons/ai";
+import { BsFillTrashFill } from "react-icons/bs";
 
 export function CustomAlert(props) {
   const [show, setToastShow] = useState(false);
@@ -12,7 +14,7 @@ export function CustomAlert(props) {
 
   return (
     <>
-      <Col xs={4} className="d-flex justify-content-end">
+      <Col xs={6} className="d-flex justify-content-end">
         <ToastContainer>
           <Toast
             className="toast-styles"
@@ -25,24 +27,55 @@ export function CustomAlert(props) {
           </Toast>
         </ToastContainer>
       </Col>
-      <Col xs={5} className="d-flex justify-content-end">
-        <Button
-          onClick={props.removePerson}
-          variant="danger"
-          className="d-flex align-items-center justify-content-center course-remove-btn">
-          <AiFillMinusCircle />
-        </Button>
+      <Col xs={3} className="d-flex justify-content-end">
+        {/* <BsFillTrashFill /> */}
+        <ConfirmationModal removePerson={props.removePerson} />
       </Col>
-      <Col xs={2} className="d-flex align-items-center justify-content-end mb-2 ms-2">
+      <Col xs={3} className="d-flex align-items-center justify-content-start mb-2 ms-2">
         <Button
           onClick={handleClick}
           type="submit"
           variant="success"
           form="editStudentForm"
-          className="course-remove-btn d-flex align-items-center justify-content-center">
-          Submit
+          className="enable-edit-btn d-flex align-items-center justify-content-center">
+          <AiOutlineCheck />
         </Button>
       </Col>
+    </>
+  );
+}
+
+function ConfirmationModal(props) {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  const itemBeingDeleted = "STUDENT";
+
+  return (
+    <>
+      <Button
+        variant="danger"
+        className="d-flex align-items-center justify-content-center enable-edit-btn"
+        onClick={handleShow}>
+        <BsFillTrashFill />
+      </Button>
+
+      <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>About to delete {itemBeingDeleted}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to permanently delete this record?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button onClick={props.removePerson} variant="danger">
+            Yes, Delete
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 }

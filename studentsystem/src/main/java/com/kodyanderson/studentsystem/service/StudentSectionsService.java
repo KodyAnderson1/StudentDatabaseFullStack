@@ -10,4 +10,5 @@ public interface StudentSectionsService {
     public List<StudentSections> getSection(int sectionId);
     public List<StudentSections> getSectionsByStudentId(int studentId);
     public List<StudentSections> getSectionByFacultyId(int facultyId);
+    public void removeSection(int id);
 }

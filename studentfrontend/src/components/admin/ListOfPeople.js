@@ -1,15 +1,16 @@
 import { Row, Form, Container, Col } from "react-bootstrap";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { Link, Outlet } from "react-router-dom";
-
 import NavDropdown from "react-bootstrap/NavDropdown";
 
 export function ListOfPeople(props) {
-  const dataToFilter = props.data;
+  let dataToFilter = props.data;
   const [filteredPeople, setFilteredPeople] = useState("");
 
   const filtered = useMemo(() => {
+    if (!dataToFilter || dataToFilter === "") return [];
+
     return dataToFilter.filter((person) => {
       if (person.firstName) {
         return (
