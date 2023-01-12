@@ -1,14 +1,18 @@
 import { CustomAlert } from "../../CustomAlert";
-import { Row, Col, Card, Form, InputGroup, Button, Modal } from "react-bootstrap";
+import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { StudentCourses } from "./StudentCourses";
 import { TbPencil, TbPencilOff } from "react-icons/tb";
 
 import { PersonJsonToOjbect } from "../../../utils";
+import { getSpecificPerson, updateExistingPerson } from "../../../services/APICalls";
+import { useQuery } from "@tanstack/react-query";
 
 // ! The useEffect here is redundant. Data is collected at top level. Keep as is?
 // ! Or useState to keep up-to-date and make DB calls as needed?
+
+// ! ADD DOB ONCHANGE
 /**
  * Called in App.js
  * Two functions get passed into props to update and delete a student.
@@ -19,30 +23,15 @@ import { PersonJsonToOjbect } from "../../../utils";
 export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
   const [person, setPerson] = useState("");
-  // const [facultyTeachingStudent, setFacultyTeachingStudent] = useState("");
   const urlParams = useParams();
   const personId = urlParams.id;
-
-  // let facArray = [];
-  // function facultyTeachingHelper(result) {
-  //   facArray.push(result);
-  //   setFacultyTeachingStudent(facArray);
-  // }
+  const { data: student, isLoading } = useQuery(["single-student", personId, "student"], () =>
+    getSpecificPerson(personId, "student")
+  );
 
   useEffect(() => {
-    fetch(`http://localhost:8080/student/${personId}`)
-      .then((response) => response.json())
-      .then((result) => setPerson(PersonJsonToOjbect(result)));
-    // console.log("PERSON EXISTS?\n", person);
-    // if (person.sections) {
-    //   person.sections.map((element) => {
-    //     fetch(`http://localhost:8080/faculty/${element.instructor_id}`)
-    //       .then((response) => response.json())
-    //       .then((result) => setFacultyTeachingStudent(...facultyTeachingStudent, result));
-    //   });
-    // }
-    // console.log("USE EFFECT\n", facultyTeachingStudent);
-  }, [personId]);
+    if (!isLoading) setPerson(PersonJsonToOjbect(student));
+  }, [student, isLoading]);
 
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
@@ -60,6 +49,8 @@ export function StudentCard(props) {
     setPerson("");
   };
 
+  // if (isLoading) return <h2>Loading...</h2>;
+
   return (
     <>
       <Card className="text-black p-3 mt-4 me-3 person-card">
@@ -68,7 +59,14 @@ export function StudentCard(props) {
             <h3>{person.role}</h3>
           </Col>
           <Col xs={2} className="d-flex justify-content-end">
-            {isEditable ? <CustomAlert removePerson={removeStudentSubmit} /> : <></>}
+            {isEditable ? (
+              <CustomAlert
+                removePerson={removeStudentSubmit}
+                title={`${person.firstName} ${person.lastName}`}
+              />
+            ) : (
+              <></>
+            )}
           </Col>
           <Col xs={1}>
             <Button
@@ -113,60 +111,57 @@ function RowPersonalData(props) {
 
   if (!student) return <></>;
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
 
   return (
-    <>
-      <Row className="mb-1">
-        <Col xs={4}>
-          <Form.Group controlId="studentFirstName">
-            <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
-            <Form.Control
-              aria-label="First name"
-              value={student.firstName}
-              onChange={handleFirstNameChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={4}>
-          <Form.Group controlId="studentLastName">
-            <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
-            <Form.Control
-              aria-label="Last name"
-              value={student.lastName}
-              onChange={handleLastNameChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={2}>
-          <Form.Group controlId="studentDOB">
-            <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-            <Form.Control
-              type="date"
-              value={student.dob.full}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={2}>
-          <Form.Group controlId="studentGender">
-            <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
-            <Form.Control
-              type="text"
-              value={capitalizeFirstLetter(student.gender)}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    </>
+    <Row className="mb-1">
+      <Col xs={4}>
+        <Form.Group controlId="studentFirstName">
+          <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
+          <Form.Control
+            aria-label="First name"
+            value={student.firstName}
+            onChange={handleFirstNameChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={4}>
+        <Form.Group controlId="studentLastName">
+          <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
+          <Form.Control
+            aria-label="Last name"
+            value={student.lastName}
+            onChange={handleLastNameChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={2}>
+        <Form.Group controlId="studentDOB">
+          <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
+          <Form.Control
+            type="date"
+            value={student.dob.full}
+            // disabled={isEditable ? "" : "disabled"}
+            disabled
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={2}>
+        <Form.Group controlId="studentGender">
+          <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
+          <Form.Control
+            type="text"
+            value={capitalizeFirstLetter(student.gender)}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
   );
 }
 
@@ -177,9 +172,10 @@ function RowLocationData(props) {
 
   if (!student) return <></>;
 
-  const handleCityChange = (e) => setStudent({ ...student.location, city: e.target.value });
-  const handleStateChange = (e) => setStudent({ ...student.location, state: e.target.value });
-  const handleAddressChange = (e) => setStudent({ ...student.location, address: e.target.value });
+  const handleCityChange = (e) => setStudent({ ...student, location: { city: e.target.value } });
+  const handleStateChange = (e) => setStudent({ ...student, location: { state: e.target.value } });
+  const handleAddressChange = (e) =>
+    setStudent({ ...student, location: { address: e.target.value } });
 
   return (
     <>
@@ -227,11 +223,9 @@ function RowIdContactData(props) {
   const setStudent = props.setSelectedPerson;
   const isEditable = props.isEditable;
   let email;
-  if (student.email) {
-    email = student.email.split("@") ? student.email.split("@") : "default email";
-  } else {
-    email = "default email";
-  }
+
+  if (student.email) email = student.email.split("@") ? student.email.split("@") : "default email";
+  else email = "default email";
 
   if (!student) return <></>;
 

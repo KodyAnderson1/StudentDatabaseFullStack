@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
 import { PersonJsonToOjbect } from "../../../utils";
 import { TbPencil, TbPencilOff } from "react-icons/tb";
+import { getSpecificPerson } from "../../../services/APICalls";
+import { useQuery } from "@tanstack/react-query";
 
 /**
  * Called in App.js
@@ -18,12 +20,13 @@ export function FacultyCard(props) {
   const [person, setPerson] = useState("");
   const urlParams = useParams();
   const personId = urlParams.id;
+  const { data: faculty, isSuccess } = useQuery(["single-faculty", personId, "faculty"], () =>
+    getSpecificPerson(personId, "faculty")
+  );
 
   useEffect(() => {
-    fetch(`http://localhost:8080/faculty/${personId}`)
-      .then((response) => response.json())
-      .then((result) => setPerson(PersonJsonToOjbect(result)));
-  }, [personId]);
+    if (isSuccess) setPerson(PersonJsonToOjbect(faculty));
+  }, [faculty, isSuccess]);
 
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
@@ -49,7 +52,14 @@ export function FacultyCard(props) {
             <h3>{person.role}</h3>
           </Col>
           <Col xs={2} className="d-flex justify-content-end">
-            {isEditable ? <CustomAlert removePerson={removeFacultySubmit} /> : <></>}
+            {isEditable ? (
+              <CustomAlert
+                removePerson={removeFacultySubmit}
+                title={`${person.firstName} ${person.lastName}`}
+              />
+            ) : (
+              <></>
+            )}
           </Col>
           <Col xs={1}>
             <Button
@@ -90,9 +100,7 @@ function RowPersonalData(props) {
 
   if (!student) return <></>;
 
-  function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+  const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
 
   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
@@ -144,54 +152,53 @@ function RowPersonalData(props) {
 }
 
 function RowLocationData(props) {
-  const student = props.selectedPerson;
-  const setStudent = props.setSelectedPerson;
+  const faculty = props.selectedPerson;
+  const setFaculty = props.setSelectedPerson;
   const isEditable = props.isEditable;
 
-  if (!student) return <></>;
+  if (!faculty) return <></>;
 
-  const handleCityChange = (e) => setStudent({ ...student.location, city: e.target.value });
-  const handleStateChange = (e) => setStudent({ ...student.location, state: e.target.value });
-  const handleAddressChange = (e) => setStudent({ ...student.location, address: e.target.value });
+  const handleCityChange = (e) => setFaculty({ ...faculty, location: { city: e.target.value } });
+  const handleStateChange = (e) => setFaculty({ ...faculty, location: { state: e.target.value } });
+  const handleAddressChange = (e) =>
+    setFaculty({ ...faculty, location: { address: e.target.value } });
 
   return (
-    <>
-      <Row className="mb-1">
-        <Col xs={4}>
-          <Form.Group controlId="studentCity">
-            <Form.Label className="d-flex justify-content-start">City</Form.Label>
-            <Form.Control
-              type="text"
-              value={student.location.city}
-              onChange={handleCityChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={4}>
-          <Form.Group controlId="studentState">
-            <Form.Label className="d-flex justify-content-start">State</Form.Label>
-            <Form.Control
-              type="text"
-              value={student.location.state}
-              onChange={handleStateChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={4}>
-          <Form.Group controlId="studentAddress">
-            <Form.Label className="d-flex justify-content-start">Address</Form.Label>
-            <Form.Control
-              type="text"
-              value={student.location.address}
-              onChange={handleAddressChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    </>
+    <Row className="mb-1">
+      <Col xs={4}>
+        <Form.Group controlId="studentCity">
+          <Form.Label className="d-flex justify-content-start">City</Form.Label>
+          <Form.Control
+            type="text"
+            value={faculty.location.city}
+            onChange={handleCityChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={4}>
+        <Form.Group controlId="studentState">
+          <Form.Label className="d-flex justify-content-start">State</Form.Label>
+          <Form.Control
+            type="text"
+            value={faculty.location.state}
+            onChange={handleStateChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={4}>
+        <Form.Group controlId="studentAddress">
+          <Form.Label className="d-flex justify-content-start">Address</Form.Label>
+          <Form.Control
+            type="text"
+            value={faculty.location.address}
+            onChange={handleAddressChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
   );
 }
 

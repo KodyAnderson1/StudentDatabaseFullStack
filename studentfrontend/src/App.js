@@ -1,11 +1,10 @@
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes, Navigate, Outlet } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 import "./components/css/App.css";
 
-import Appbar from "./components/Appbar";
 import Login from "./components/Login";
-import Student from "./components/Student";
 
 import { CoursesData } from "./model/CoursesData";
 import { SectionData } from "./model/SectionData";
@@ -17,7 +16,13 @@ import { FacultyCard } from "./components/admin/faculty/FacultyCard";
 import { StudentCard } from "./components/admin/students/StudentCard";
 import { NewStudentForm } from "./components/admin/students/NewStudentForm";
 import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
-import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
+import {
+  addPerson,
+  deletePerson,
+  fetchAllFaculty,
+  fetchAllStudents,
+  updateExistingPerson,
+} from "./services/APICalls";
 
 /**
  * ! useEffect to grab "database" data
@@ -30,99 +35,50 @@ import { PersonJsonToOjbect, readyPersonForJson } from "./utils";
  *
  * ? Find a way for "ListOfPeople" to make a DB call to get data so page reload doesn't break
  *
- * ? Currently have two states, one minimal for the ListOfPeople and one with all data for
- * ?    students, and faculty. Keep as is or just pass around state that contains everything?
+ * ? Make one DB call and get all data for student/fac/courses OR make several with the top level
+ * ? Call being bare minimum info and subsequent calls being made to grab specific data
  */
 function App() {
   const [allStudents, setAllStudents] = useState("");
   const [allFaculty, setAllFaculty] = useState("");
-  // const [facultyDataForList, setFacultyDataForList] = useState("");
-  // const [studentDataForList, setStudentDataForList] = useState("");
 
-  // function helperFaculty(result) {
-  //   let resListData = [];
-  //   setAllFaculty(
-  //     result.map((element) => {
-  //       resListData.push({
-  //         firstName: element.firstName,
-  //         lastName: element.lastName,
-  //         id: element.id,
-  //       });
-  //       return PersonJsonToOjbect(element);
-  //     })
-  //   );
-  //   setFacultyDataForList(resListData);
-  // }
-
-  function helperFaculty(result) {
-    setAllFaculty(result.map((element) => PersonJsonToOjbect(element)));
-  }
-
-  function helperStudent(result) {
-    setAllStudents(result.map((element) => PersonJsonToOjbect(element)));
-  }
+  const { data: studentData, isLoading: isLoadingStu } = useQuery(["students"], fetchAllStudents);
+  const { data: facultyData, isLoading: isLoadingFac } = useQuery(["faculty"], fetchAllFaculty);
 
   useEffect(() => {
-    fetch(`http://localhost:8080/faculty/getAll`)
-      .then((response) => response.json())
-      .then((result) => helperFaculty(result))
-      .catch((err) => console.log(err));
-
-    fetch(`http://localhost:8080/student/getAll`)
-      .then((response) => response.json())
-      .then((result) => helperStudent(result))
-      .catch((err) => console.log(err));
-  }, []);
+    if (!isLoadingStu && !isLoadingFac) {
+      setAllStudents(studentData);
+      setAllFaculty(facultyData);
+    }
+  }, [isLoadingStu, isLoadingFac, studentData, facultyData]);
 
   const addNewStudent = (student) => {
-    fetch("http://localhost:8080/student/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(readyPersonForJson(student)),
-    }).catch((error) => console.log(error));
+    addPerson(student, "student");
     setAllStudents([...allStudents, student]);
   };
 
   const addNewFaculty = (faculty) => {
-    fetch("http://localhost:8080/faculty/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(readyPersonForJson(faculty)),
-    }).catch((error) => console.log(error));
+    addPerson(faculty, "faculty");
     setAllFaculty([...allFaculty, faculty]);
   };
 
   function updateStudent(student) {
-    fetch("http://localhost:8080/student/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(readyPersonForJson(student)),
-    }).catch((error) => console.log(error));
+    updateExistingPerson(student, "student");
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
-    // setStudentDataForList(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
   }
 
   function updateFaculty(faculty) {
-    fetch("http://localhost:8080/faculty/add", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(readyPersonForJson(faculty)),
-    }).catch((error) => console.log(error));
-
+    updateExistingPerson(faculty, "faculty");
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
-    // setFacultyDataForList(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
+
   const removeStudent = (id) => {
-    fetch(`http://localhost:8080/student/delete/${id}`, {
-      method: "DELETE",
-    }).catch((error) => console.log(error));
+    deletePerson(id, "student");
     setAllStudents(allStudents.filter((student) => student.id !== id));
   };
 
   const removeFaculty = (id) => {
-    fetch(`http://localhost:8080/faculty/delete/${id}`, {
-      method: "DELETE",
-    }).catch((error) => console.log(error));
+    deletePerson(id, "faculty");
     setAllFaculty(allFaculty.filter((faculty) => faculty.id !== id));
   };
 
@@ -147,57 +103,59 @@ function App() {
     );
   }
 
+  if (isLoadingStu) return <h2>Loading...</h2>;
+  if (isLoadingFac) return <h2>Loading...</h2>;
+
   return (
-    <>
-      <div className="App">
-        <Routes>
-          <Route path="" element={<Appbar />}>
-            <Route path="students" element={<Student />} />
-            <Route index element={<Login />} />
-            <Route path="admin" element={<AdminNavbar />} />
+    <div className="App">
+      <Routes>
+        <Route
+          path=""
+          element={
+            <>
+              <h1>NavBar Here</h1>
+              <Outlet />
+            </>
+          }>
+          {/* <Route path="students" element={<Student />} /> */}
+          <Route index element={<Login />} />
+          <Route path="admin" element={<AdminNavbar />} />
 
+          <Route
+            path="admin/students"
+            element={<ListOfPeople data={allStudents} role={"student"} />}>
             <Route
-              path="admin/students"
-              element={<ListOfPeople data={allStudents} role={"student"} />}>
-              <Route
-                path=":id"
-                element={
-                  <StudentCard
-                    updateStudent={updateStudent}
-                    removeStudent={removeStudent}
-                    removeSection={removeStudentSection}
-                  />
-                }
-              />
-              <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
-            </Route>
-
-            <Route
-              path="admin/faculty"
-              element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
-              <Route
-                path=":id"
-                element={
-                  <FacultyCard updateFaculty={updateFaculty} removeFaculty={removeFaculty} />
-                }
-              />
-              <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
-            </Route>
-            <Route
-              path="admin/courses"
-              element={<ListOfPeople data={CoursesData} role={"course"} />}>
-              <Route
-                path=":id"
-                element={<AdminCourses CoursesData={CoursesData} SectionData={SectionData} />}
-              />
-              <Route path="newcourse" element={<h1>Form Here</h1>} />
-            </Route>
+              path=":id"
+              element={
+                <StudentCard
+                  updateStudent={updateStudent}
+                  removeStudent={removeStudent}
+                  removeSection={removeStudentSection}
+                />
+              }
+            />
+            <Route path="newstudent" element={<NewStudentForm addNew={addNewStudent} />} />
           </Route>
-          <Route path="login" element={<Login />} />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      </div>
-    </>
+
+          <Route path="admin/faculty" element={<ListOfPeople data={allFaculty} role={"faculty"} />}>
+            <Route
+              path=":id"
+              element={<FacultyCard updateFaculty={updateFaculty} removeFaculty={removeFaculty} />}
+            />
+            <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
+          </Route>
+          <Route path="admin/courses" element={<ListOfPeople data={CoursesData} role={"course"} />}>
+            <Route
+              path=":id"
+              element={<AdminCourses CoursesData={CoursesData} SectionData={SectionData} />}
+            />
+            <Route path="newcourse" element={<h1>Form Here</h1>} />
+          </Route>
+        </Route>
+        <Route path="login" element={<Login />} />
+        <Route path="*" element={<Navigate to="/login" />} />
+      </Routes>
+    </div>
   );
 }
 

@@ -28,8 +28,7 @@ export function CustomAlert(props) {
         </ToastContainer>
       </Col>
       <Col xs={3} className="d-flex justify-content-end">
-        {/* <BsFillTrashFill /> */}
-        <ConfirmationModal removePerson={props.removePerson} />
+        <ConfirmationModal removePerson={props.removePerson} titleData={props.title} />
       </Col>
       <Col xs={3} className="d-flex align-items-center justify-content-start mb-2 ms-2">
         <Button
@@ -51,7 +50,7 @@ function ConfirmationModal(props) {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  const itemBeingDeleted = "STUDENT";
+  const itemBeingDeleted = props.titleData;
 
   return (
     <>
@@ -64,7 +63,9 @@ function ConfirmationModal(props) {
 
       <Modal show={show} onHide={handleClose} backdrop="static" keyboard={false} centered>
         <Modal.Header closeButton>
-          <Modal.Title>About to delete {itemBeingDeleted}</Modal.Title>
+          <Modal.Title>
+            About to delete {itemBeingDeleted ? itemBeingDeleted : "record"}
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to permanently delete this record?</Modal.Body>
         <Modal.Footer>
