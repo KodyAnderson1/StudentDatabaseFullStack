@@ -19,6 +19,7 @@ import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
 import {
   addPerson,
   deletePerson,
+  fetchAll,
   fetchAllFaculty,
   fetchAllStudents,
   updateExistingPerson,
@@ -41,9 +42,15 @@ import {
 function App() {
   const [allStudents, setAllStudents] = useState("");
   const [allFaculty, setAllFaculty] = useState("");
+  // const studs = "student";
+  // const fac = "faculty"
 
-  const { data: studentData, isLoading: isLoadingStu } = useQuery(["students"], fetchAllStudents);
-  const { data: facultyData, isLoading: isLoadingFac } = useQuery(["faculty"], fetchAllFaculty);
+  const { data: studentData, isLoading: isLoadingStu } = useQuery(["all-students", "student"], () =>
+    fetchAll("student")
+  );
+  const { data: facultyData, isLoading: isLoadingFac } = useQuery(["all-faculty", "faculty"], () =>
+    fetchAll("faculty")
+  );
 
   useEffect(() => {
     if (!isLoadingStu && !isLoadingFac) {
