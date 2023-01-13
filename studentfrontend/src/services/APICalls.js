@@ -8,7 +8,7 @@ const DB_URL = "http://localhost:8080";
  * @param {String} route route of entity { student, faculty, course }
  * @returns JSON formatted data for all records from a specific entity
  */
-export const fetchAll = (route) =>
+export const axios_fetchAll = (route) =>
   axios
     .get(`${DB_URL}/${route}/getAll`)
     .then((res) => res.data)
@@ -20,7 +20,7 @@ export const fetchAll = (route) =>
  * @param {String} route route of entity { student, faculty }
  * @returns "Success" if successful
  */
-export const addPerson = (person, route) =>
+export const axios_addPerson = (person, route) =>
   axios
     .post(`${DB_URL}/${route}/add`, readyPersonForJson(person))
     .catch((error) => console.log("PERSON_ADD_API_ERROR\n", error));
@@ -31,7 +31,7 @@ export const addPerson = (person, route) =>
  * @param {*} route
  * @returns
  */
-export const updateExistingPerson = (person, route) =>
+export const axios_updateExistingPerson = (person, route) =>
   axios
     .post(`${DB_URL}/${route}/add`, readyPersonForJson(person))
     .catch((error) => console.log("PERSON_UPDATE_API_ERROR\n", error));
@@ -42,7 +42,7 @@ export const updateExistingPerson = (person, route) =>
  * @param {*} route
  * @returns
  */
-export const deletePerson = (id, route) =>
+export const axios_deletePerson = (id, route) =>
   axios
     .delete(`${DB_URL}/${route}/${id}`)
     .catch((error) => console.log("PERSON_DELETE_API_ERROR\n", error));
@@ -53,11 +53,22 @@ export const deletePerson = (id, route) =>
  * @param {String} route route of entity { student, faculty, course }
  * @returns JSON formatted data for a specific entity
  */
-export const getSpecificPerson = (id, route) =>
+export const axios_getSpecificPerson = (id, route) =>
   axios
     .get(`${DB_URL}/${route}/${id}`)
     .then((res) => res.data)
     .catch((error) => console.log("GET_PERSON_API_FAIL\n", error));
+
+export const axios_removeSection = (table_id) =>
+  axios
+    .delete(`${DB_URL}/student/sections/${table_id}`)
+    .catch((error) => console.log("DELETE_SECTION_API_FAIL\n", error));
+
+export const axios_getSectionsForCourse = (course_id) =>
+  axios
+    .get(`${DB_URL}/section/${course_id}`)
+    .then((res) => res.data)
+    .catch((error) => console.log("GET_COURSE_SECTIONS_API_FAIL\n", error));
 
 // export const fetchAllStudents = () =>
 //   axios

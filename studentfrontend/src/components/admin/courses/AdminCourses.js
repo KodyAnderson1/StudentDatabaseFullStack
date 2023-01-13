@@ -6,24 +6,28 @@ import Tabs from "react-bootstrap/Tabs";
 import { SectionView } from "./SectionView";
 import { AiFillPlusCircle } from "react-icons/ai";
 import { AiFillMinusCircle } from "react-icons/ai";
-
-// ! useEffect for data currently being passed in as props
+import { useQuery } from "@tanstack/react-query";
+import { axios_getSectionsForCourse } from "../../../services/APICalls";
 
 export default function AdminCourses(props) {
   const [course, setCourse] = useState("");
+
   const [activeSections, setActiveSections] = useState("");
   const urlParams = useParams();
   const courseId = urlParams.id;
 
+  //   const { data, isLoading } = useQuery(["single-student", personId, "student"], () =>
+  //   axios_getSpecificPerson(personId, "student")
+  // );
+
+  const { data, isSuccess } = useQuery(["specific-course", courseId], () =>
+    axios_getSectionsForCourse(courseId)
+  );
   useEffect(() => {
-    try {
-      setCourse(...props.CoursesData.filter((course) => course.id === parseInt(courseId)));
-      setActiveSections(course.active_sections);
-    } catch (error) {
-      setCourse({ id: 1000, name: "Error Name", active_sections: [] });
-      console.log(error);
-    }
-  }, [courseId, props.CoursesData, course.active_sections]);
+    if (isSuccess) setCourse(data);
+    // setActiveSections(course.active_sections);
+    console.log("FIRST ATTEMPT\n", course);
+  }, [data, isSuccess]);
 
   if (!course || course.length === 0) return <>Error! No Course by this ID</>;
 
@@ -40,7 +44,7 @@ export default function AdminCourses(props) {
         </Col>
       </Row>
       <Row className="admin-courses-navbar-tabs">
-        <CoursesNavbarTabs activeSections={activeSections} />
+        <CoursesNavbarTabs activeSections={course} />
       </Row>
     </>
   );
@@ -59,7 +63,7 @@ function CoursesNavbarTabs(props) {
           </Tab>
           {activeSections.map((section) => {
             return (
-              <Tab key={section} eventKey={section} title={section}>
+              <Tab key={section.id} eventKey={section.id} title={section.id}>
                 <SectionView section={section} />
               </Tab>
             );

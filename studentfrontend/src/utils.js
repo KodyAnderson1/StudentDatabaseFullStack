@@ -56,3 +56,5 @@ export function jsonAddressToObject(address) {
   const addressSplit = address.split(",");
   return { address: addressSplit[0], city: addressSplit[1], state: addressSplit[2] };
 }
+
+export const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);

@@ -23,7 +23,7 @@ public class SectionServiceImpl implements SectionService {
     @Override
     public List<Section> getAllSections() { return sectionRepository.findAll(); }
     @Override
-    public Optional<Section> getSection(int id) { return sectionRepository.findById(id); }
+    public List<Section> getSection(int course_id) { return sectionRepository.findSectionByCourse_id(course_id); }
     @Override
     public void removeSection(int id) { sectionRepository.deleteById(id); }
     @Override

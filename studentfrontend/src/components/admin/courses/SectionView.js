@@ -4,26 +4,32 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { Button } from "react-bootstrap";
 
-import { CoursesData } from "../../../model/CoursesData";
-import { StudentData } from "../../../model/StudentData";
-import { SectionData } from "../../../model/SectionData";
-import { FacultyData } from "../../../model/Faculty";
+// import { StudentData } from "../../../model/StudentData";
+// import { SectionData } from "../../../model/SectionData";
 
+/**
+ *
+ *
+ * ! THIS IS WHERE student_sections comes into play! THAT DB CALL WILL GO HERE!
+ * ! Call that DB "SELECT * FROM student_sections WHERE section_id == props.id"
+ *
+ * ! "SELECT * FROM student.firstName, student.lastName, student.id, student.email, student_sections.section_id
+ * ! FROM student, student_sections WHERE student_sections.course_id == props.course_id" SOMETHING CLOSE TO THAT
+ */
 export function SectionView(props) {
   const [section, setSection] = useState("");
   const [studentsInSection, setStudentsInSection] = useState("");
   const idForSection = props.section;
 
-  useEffect(() => {
-    setSection(...SectionData.filter((section) => section.section_id === idForSection));
-    try {
-      setStudentsInSection(
-        StudentData.filter((student) => section.enrolled_students.includes(student.id))
-      );
-    } catch (error) {
-      console.log("ERROR\n", error);
-    }
-  }, [idForSection, section.enrolled_students]);
+  // useEffect(() => {
+  //   setSection(...SectionData.filter((section) => section.section_id === idForSection));
+  //   if (section) {
+  //     setStudentsInSection(
+  //       StudentData.filter((student) => section.enrolled_students.includes(student.id))
+  //     );
+  //   }
+
+  // }, [idForSection, section.enrolled_students]);
 
   if (!studentsInSection || studentsInSection.length === 0) return <h1>NO STUDS</h1>;
 

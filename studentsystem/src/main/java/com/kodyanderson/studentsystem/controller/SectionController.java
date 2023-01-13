@@ -39,8 +39,8 @@ public class SectionController {
         return sectionService.getAllSections();
     }
 
-    @GetMapping("/{id}")
-    public Optional<Section> getSection(@PathVariable int id) { return sectionService.getSection(id); }
+    @GetMapping("/{course_id}")
+    public List<Section> getSection(@PathVariable int course_id) { return sectionService.getSection(course_id); }
 
     @GetMapping("/faculty/{id}")
     public List<Section> getSectionByInstructorId(@PathVariable int id) { return sectionService.getSectionsByInstructor(id); }

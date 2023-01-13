@@ -17,6 +17,9 @@ public class StudentSectionsController {
     @GetMapping("/{id}")
     public List<StudentSections> getSectionByStudentId(@PathVariable int id) { return studentSectionsService.getSectionsByStudentId(id); }
 
+    @GetMapping("/course_sections/{section_id}")
+    public List<StudentSections> getSectionsBySectionId(@PathVariable int section_id) { return studentSectionsService.getSectionsBySectionId(section_id); }
+
     @PostMapping("/add")
     public StudentSections addSection(@RequestBody StudentSections section) {
         return studentSectionsService.saveSection(section);

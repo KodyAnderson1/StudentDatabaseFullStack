@@ -23,7 +23,7 @@ public class StudentSectionsServiceImpl implements StudentSectionsService {
         return studentSectionsRepository.findAll();
     }
     @Override
-    public List<StudentSections> getSection(int sectionId) {
+    public List<StudentSections> getSectionsBySectionId(int sectionId) {
         return studentSectionsRepository.findStudentsSectionsBySection_id(sectionId);
     }
     @Override

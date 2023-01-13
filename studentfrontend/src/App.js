@@ -6,8 +6,8 @@ import "./components/css/App.css";
 
 import Login from "./components/Login";
 
-import { CoursesData } from "./model/CoursesData";
-import { SectionData } from "./model/SectionData";
+// import { CoursesData } from "./model/CoursesData";
+// import { SectionData } from "./model/SectionData";
 
 import AdminCourses from "./components/admin/courses/AdminCourses";
 import { ListOfPeople } from "./components/admin/ListOfPeople";
@@ -17,24 +17,17 @@ import { StudentCard } from "./components/admin/students/StudentCard";
 import { NewStudentForm } from "./components/admin/students/NewStudentForm";
 import { NewFacultyForm } from "./components/admin/faculty/NewFacultyForm";
 import {
-  addPerson,
-  deletePerson,
-  fetchAll,
-  fetchAllFaculty,
-  fetchAllStudents,
-  updateExistingPerson,
+  axios_addPerson,
+  axios_deletePerson,
+  axios_fetchAll,
+  axios_updateExistingPerson,
 } from "./services/APICalls";
 
 /**
- * ! useEffect to grab "database" data
- * ! right now just filters list of stuff
+ * ! Removing any data does not update state properly and auto rerender
  *
  * ! useEffect grabs all data then the specific cards also make db calls.
  * !    Keep as is? Or just update state and pass as props?
- *
- * ! When deleting a faculty/student, the data disappears but the card itself stays
- *
- * ? Find a way for "ListOfPeople" to make a DB call to get data so page reload doesn't break
  *
  * ? Make one DB call and get all data for student/fac/courses OR make several with the top level
  * ? Call being bare minimum info and subsequent calls being made to grab specific data
@@ -42,76 +35,69 @@ import {
 function App() {
   const [allStudents, setAllStudents] = useState("");
   const [allFaculty, setAllFaculty] = useState("");
-  // const studs = "student";
-  // const fac = "faculty"
+  const [allCourses, setAllCourses] = useState("");
 
-  const { data: studentData, isLoading: isLoadingStu } = useQuery(["all-students", "student"], () =>
-    fetchAll("student")
+  const { data: studentData, isLoading } = useQuery(["all-students", "student"], () =>
+    axios_fetchAll("student")
   );
-  const { data: facultyData, isLoading: isLoadingFac } = useQuery(["all-faculty", "faculty"], () =>
-    fetchAll("faculty")
+  const { data: facultyData, isSuccess } = useQuery(["all-faculty", "faculty"], () =>
+    axios_fetchAll("faculty")
+  );
+
+  const { data: courseData, isSuccess: courseSuccess } = useQuery(["all-courses", "course"], () =>
+    axios_fetchAll("course")
   );
 
   useEffect(() => {
-    if (!isLoadingStu && !isLoadingFac) {
-      setAllStudents(studentData);
-      setAllFaculty(facultyData);
-    }
-  }, [isLoadingStu, isLoadingFac, studentData, facultyData]);
+    if (!isLoading) setAllStudents(studentData);
+    if (isSuccess) setAllFaculty(facultyData);
+    if (courseSuccess) setAllCourses(courseData);
+  }, [isLoading, isSuccess, courseSuccess, studentData, facultyData, courseData]);
 
   const addNewStudent = (student) => {
-    addPerson(student, "student");
+    axios_addPerson(student, "student");
     setAllStudents([...allStudents, student]);
   };
 
   const addNewFaculty = (faculty) => {
-    addPerson(faculty, "faculty");
+    axios_addPerson(faculty, "faculty");
     setAllFaculty([...allFaculty, faculty]);
   };
 
   function updateStudent(student) {
-    updateExistingPerson(student, "student");
+    axios_updateExistingPerson(student, "student");
     setAllStudents(allStudents.map((stud) => (stud.id === student.id ? student : stud)));
   }
 
   function updateFaculty(faculty) {
-    updateExistingPerson(faculty, "faculty");
+    axios_updateExistingPerson(faculty, "faculty");
     setAllFaculty(allFaculty.map((fac) => (fac.id === faculty.id ? faculty : fac)));
   }
 
   const removeStudent = (id) => {
-    deletePerson(id, "student");
+    axios_deletePerson(id, "student");
     setAllStudents(allStudents.filter((student) => student.id !== id));
   };
 
   const removeFaculty = (id) => {
-    deletePerson(id, "faculty");
+    axios_deletePerson(id, "faculty");
     setAllFaculty(allFaculty.filter((faculty) => faculty.id !== id));
   };
 
-  // ! When deleting sections, does not appear on page til student is refreshed
   function removeStudentSection(id, student_id) {
-    fetch(`http://localhost:8080/student/sections/${id}`, {
-      method: "DELETE",
-    }).catch((error) => console.log(error));
-
     let [studentWithDelete] = allStudents.filter((student) => student.id === student_id);
-    const remainingSections = studentWithDelete.sections.filter((c) => c.id !== id);
+    const remainingSections = studentWithDelete.sections.filter((c) => c.section_id !== id);
+    const updatedStudent = { ...studentWithDelete, sections: remainingSections };
 
     setAllStudents(
       allStudents.map((student) => {
-        if (student.id === student_id) {
-          return {
-            ...student,
-            sections: remainingSections,
-          };
-        } else return student;
+        if (student.id === student_id) return updatedStudent;
+        else return student;
       })
     );
   }
 
-  if (isLoadingStu) return <h2>Loading...</h2>;
-  if (isLoadingFac) return <h2>Loading...</h2>;
+  if (isLoading || !isSuccess) return <h2>Loading...</h2>;
 
   return (
     <div className="App">
@@ -151,11 +137,8 @@ function App() {
             />
             <Route path="newfaculty" element={<NewFacultyForm addNew={addNewFaculty} />} />
           </Route>
-          <Route path="admin/courses" element={<ListOfPeople data={CoursesData} role={"course"} />}>
-            <Route
-              path=":id"
-              element={<AdminCourses CoursesData={CoursesData} SectionData={SectionData} />}
-            />
+          <Route path="admin/courses" element={<ListOfPeople data={allCourses} role={"course"} />}>
+            <Route path=":id" element={<AdminCourses CoursesData={allCourses} />} />
             <Route path="newcourse" element={<h1>Form Here</h1>} />
           </Route>
         </Route>

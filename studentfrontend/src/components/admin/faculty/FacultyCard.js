@@ -3,16 +3,16 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
-import { PersonJsonToOjbect } from "../../../utils";
+import { capitalizeFirstLetter, PersonJsonToOjbect } from "../../../utils";
 import { TbPencil, TbPencilOff } from "react-icons/tb";
-import { getSpecificPerson } from "../../../services/APICalls";
+import { axios_getSpecificPerson } from "../../../services/APICalls";
 import { useQuery } from "@tanstack/react-query";
 
 /**
  * Called in App.js
  * Two functions get passed into props to update and delete a faculty.
  * useEffect calls the database with the student ID from the URL to get specific student data
- * @param {*} props functions updateFaculty && removeFaculty to PUT or DELETE data in DB
+ * @param {Function} props functions updateFaculty && removeFaculty to PUT or DELETE data in DB
  * @returns component that shows a specific faculty's information in a Bootstrap Card
  */
 export function FacultyCard(props) {
@@ -20,8 +20,9 @@ export function FacultyCard(props) {
   const [person, setPerson] = useState("");
   const urlParams = useParams();
   const personId = urlParams.id;
+
   const { data: faculty, isSuccess } = useQuery(["single-faculty", personId, "faculty"], () =>
-    getSpecificPerson(personId, "faculty")
+    axios_getSpecificPerson(personId, "faculty")
   );
 
   useEffect(() => {
@@ -45,51 +46,48 @@ export function FacultyCard(props) {
   };
 
   return (
-    <>
-      <Card className="text-black p-3 mt-4 me-3 person-card">
-        <Row className="border-bottom d-flex">
-          <Col xs={9} className="d-flex justify-content-start">
-            <h3>{person.role}</h3>
-          </Col>
-          <Col xs={2} className="d-flex justify-content-end">
-            {isEditable ? (
-              <CustomAlert
-                removePerson={removeFacultySubmit}
-                title={`${person.firstName} ${person.lastName}`}
-              />
-            ) : (
-              <></>
-            )}
-          </Col>
-          <Col xs={1}>
-            <Button
-              onClick={handleEditable}
-              className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
-              {isEditable ? <TbPencilOff /> : <TbPencil />}
-            </Button>
-          </Col>
-        </Row>
-        <Form id="editStudentForm" onSubmit={updateFacultySubmit}>
-          <RowPersonalData
-            selectedPerson={person}
-            setSelectedPerson={setPerson}
-            isEditable={isEditable}
-          />
-          <RowLocationData
-            selectedPerson={person}
-            setSelectedPerson={setPerson}
-            isEditable={isEditable}
-          />
-          <RowIdContactData
-            selectedPerson={person}
-            setSelectedPerson={setPerson}
-            isEditable={isEditable}
-          />
-        </Form>
-        <FacultyCourses faculty={person} />
-      </Card>
-      {/* </Col> */}
-    </>
+    <Card className="text-black p-3 mt-4 me-3 person-card">
+      <Row className="border-bottom d-flex">
+        <Col xs={9} className="d-flex justify-content-start">
+          <h3>{person.role}</h3>
+        </Col>
+        <Col xs={2} className="d-flex justify-content-end">
+          {isEditable ? (
+            <CustomAlert
+              removePerson={removeFacultySubmit}
+              title={`${person.firstName} ${person.lastName}`}
+            />
+          ) : (
+            <></>
+          )}
+        </Col>
+        <Col xs={1}>
+          <Button
+            onClick={handleEditable}
+            className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
+            {isEditable ? <TbPencilOff /> : <TbPencil />}
+          </Button>
+        </Col>
+      </Row>
+      <Form id="editStudentForm" onSubmit={updateFacultySubmit}>
+        <RowPersonalData
+          selectedPerson={person}
+          setSelectedPerson={setPerson}
+          isEditable={isEditable}
+        />
+        <RowLocationData
+          selectedPerson={person}
+          setSelectedPerson={setPerson}
+          isEditable={isEditable}
+        />
+        <RowIdContactData
+          selectedPerson={person}
+          setSelectedPerson={setPerson}
+          isEditable={isEditable}
+        />
+      </Form>
+      <FacultyCourses faculty={person} />
+    </Card>
   );
 }
 
@@ -100,54 +98,50 @@ function RowPersonalData(props) {
 
   if (!student) return <></>;
 
-  const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-
   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
 
   return (
-    <>
-      <Row className="mb-1">
-        <Col xs={4}>
-          <Form.Group controlId="studentFirstName">
-            <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
-            <Form.Control
-              aria-label="First name"
-              value={student.firstName}
-              onChange={handleFirstNameChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={4}>
-          <Form.Group controlId="studentLastName">
-            <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
-            <Form.Control
-              aria-label="Last name"
-              value={student.lastName}
-              onChange={handleLastNameChange}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-        <Col xs={2}>
-          <Form.Group controlId="studentDOB">
-            <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-            <Form.Control type="date" value={student.dob.full} readOnly disabled />
-          </Form.Group>
-        </Col>
-        <Col xs={2}>
-          <Form.Group controlId="studentGender">
-            <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-            <Form.Control
-              type="text"
-              value={capitalizeFirstLetter(student.gender)}
-              disabled={isEditable ? "" : "disabled"}
-            />
-          </Form.Group>
-        </Col>
-      </Row>
-    </>
+    <Row className="mb-1">
+      <Col xs={4}>
+        <Form.Group controlId="studentFirstName">
+          <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
+          <Form.Control
+            aria-label="First name"
+            value={student.firstName}
+            onChange={handleFirstNameChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={4}>
+        <Form.Group controlId="studentLastName">
+          <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
+          <Form.Control
+            aria-label="Last name"
+            value={student.lastName}
+            onChange={handleLastNameChange}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+      <Col xs={2}>
+        <Form.Group controlId="studentDOB">
+          <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
+          <Form.Control type="date" value={student.dob.full} readOnly disabled />
+        </Form.Group>
+      </Col>
+      <Col xs={2}>
+        <Form.Group controlId="studentGender">
+          <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
+          <Form.Control
+            type="text"
+            value={capitalizeFirstLetter(student.gender)}
+            disabled={isEditable ? "" : "disabled"}
+          />
+        </Form.Group>
+      </Col>
+    </Row>
   );
 }
 
