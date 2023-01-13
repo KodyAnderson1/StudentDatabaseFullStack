@@ -1,13 +1,11 @@
 import { SectionData } from "./model/SectionData";
 
 export function readyPersonForJson(person) {
-  const dobString = person.dob.full;
   const { address, city, state } = person.location;
   const loc = `${address},${city},${state}`;
 
   const personReadyForJson = {
     ...person,
-    dob: dobString,
     sections: jsonCurrentCoursesToArray(person.current_courses, person.id),
     address: loc,
   };
@@ -43,6 +41,7 @@ export function PersonJsonToOjbect(person) {
     location: jsonAddressToObject(person.address),
     dob: jsonDOBToObject(person.dob),
   };
+  console.log("REEEEE\n", obj);
   return obj;
 }
 

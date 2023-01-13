@@ -44,7 +44,7 @@ export const axios_updateExistingPerson = (person, route) =>
  */
 export const axios_deletePerson = (id, route) =>
   axios
-    .delete(`${DB_URL}/${route}/${id}`)
+    .delete(`${DB_URL}/${route}/delete/${id}`)
     .catch((error) => console.log("PERSON_DELETE_API_ERROR\n", error));
 
 /**

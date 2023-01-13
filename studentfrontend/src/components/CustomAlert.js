@@ -35,7 +35,7 @@ export function CustomAlert(props) {
           onClick={handleClick}
           type="submit"
           variant="success"
-          form="editStudentForm"
+          form="editForm"
           className="enable-edit-btn d-flex align-items-center justify-content-center">
           <AiOutlineCheck />
         </Button>

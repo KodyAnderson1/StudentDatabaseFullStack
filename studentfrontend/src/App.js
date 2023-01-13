@@ -6,9 +6,6 @@ import "./components/css/App.css";
 
 import Login from "./components/Login";
 
-// import { CoursesData } from "./model/CoursesData";
-// import { SectionData } from "./model/SectionData";
-
 import AdminCourses from "./components/admin/courses/AdminCourses";
 import { ListOfPeople } from "./components/admin/ListOfPeople";
 import { AdminNavbar } from "./components/admin/AdminNavbar";
@@ -113,7 +110,6 @@ function App() {
           {/* <Route path="students" element={<Student />} /> */}
           <Route index element={<Login />} />
           <Route path="admin" element={<AdminNavbar />} />
-
           <Route
             path="admin/students"
             element={<ListOfPeople data={allStudents} role={"student"} />}>

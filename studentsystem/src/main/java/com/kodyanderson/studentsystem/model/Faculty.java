@@ -1,7 +1,9 @@
 package com.kodyanderson.studentsystem.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.List;
+
 @Entity
 public class Faculty {
     @Id
@@ -11,12 +13,23 @@ public class Faculty {
     private String gender;
     private String role;
     private String phone;
-    private String current_courses;
+
+    @OneToMany(targetEntity = Section.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "fs_fk", referencedColumnName = "id")
+    private List<Section> sections;
     private String email;
     private String dob;
     private String address;
 
     public Faculty() {
+    }
+
+    public List<Section> getSections() {
+        return sections;
+    }
+
+    public void setSections(List<Section> sections) {
+        this.sections = sections;
     }
 
     public int getId() {
@@ -67,13 +80,6 @@ public class Faculty {
         this.phone = phone;
     }
 
-    public String getCurrent_courses() {
-        return current_courses;
-    }
-
-    public void setCurrent_courses(String current_courses) {
-        this.current_courses = current_courses;
-    }
 
     public String getEmail() {
         return email;

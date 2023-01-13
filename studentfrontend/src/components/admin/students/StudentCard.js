@@ -18,59 +18,57 @@ import { useQuery } from "@tanstack/react-query";
  */
 export function StudentCard(props) {
   const [isEditable, setIsEditable] = useState(false);
-  const [person, setPerson] = useState("");
+  const [student, setStudent] = useState("");
 
   const urlParams = useParams();
-  const personId = urlParams.id;
+  const studentId = urlParams.id;
 
-  const { data, isLoading } = useQuery(["single-student", personId, "student"], () =>
-    axios_getSpecificPerson(personId, "student")
+  const { data, isLoading } = useQuery(["single-student", studentId, "student"], () =>
+    axios_getSpecificPerson(studentId, "student")
   );
 
   useEffect(() => {
-    if (!isLoading) setPerson(PersonJsonToOjbect(data));
+    if (!isLoading) setStudent(PersonJsonToOjbect(data));
   }, [data, isLoading]);
 
   const handleEditable = () => {
     setIsEditable(isEditable ? false : true);
-    setPerson(person);
+    setStudent(student);
   };
 
   const onFormSubmitUpdate = (e) => {
-    const em = person.email;
     e.preventDefault();
-    props.updateStudent({ ...person, email: em.concat("@students.uwf.edu") });
-    console.log("ONSUBMIT\n", person);
+    props.updateStudent(student);
   };
 
   const removeStudentSubmit = (e) => {
     e.preventDefault();
-    props.removeStudent(person.id);
-    setPerson("");
+    props.removeStudent(student.id);
+    setStudent("");
   };
 
-  if (person === "" || isLoading) return <></>;
+  if (student === "" || isLoading) return <></>;
 
-  const handleFirstNameChange = (e) => setPerson({ ...person, firstName: e.target.value });
-  const handleLastNameChange = (e) => setPerson({ ...person, lastName: e.target.value });
-  const handleCityChange = (e) => setPerson({ ...person, location: { city: e.target.value } });
-  const handleStateChange = (e) => setPerson({ ...person, location: { state: e.target.value } });
-  const handleEmailChange = (e) => setPerson({ ...person, email: e.target.value });
-  const handlePhoneChange = (e) => setPerson({ ...person, phone: e.target.value });
+  const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
+  const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
+  const handleCityChange = (e) => setStudent({ ...student, location: { city: e.target.value } });
+  const handleStateChange = (e) => setStudent({ ...student, location: { state: e.target.value } });
+  const handleEmailChange = (e) => setStudent({ ...student, email: e.target.value });
+  const handlePhoneChange = (e) => setStudent({ ...student, phone: e.target.value });
   const handleAddressChange = (e) =>
-    setPerson({ ...person, location: { address: e.target.value } });
+    setStudent({ ...student, location: { address: e.target.value } });
 
   return (
     <Card className="text-black p-3 mt-4 me-3 person-card">
       <Row className="border-bottom d-flex">
         <Col xs={9} className="d-flex justify-content-start">
-          <h3>{person.role}</h3>
+          <h3>{student.role}</h3>
         </Col>
         <Col xs={2} className="d-flex justify-content-end">
           {isEditable ? (
             <CustomAlert
               removePerson={removeStudentSubmit}
-              title={`${person.firstName} ${person.lastName}`}
+              title={`${student.firstName} ${student.lastName}`}
             />
           ) : (
             <></>
@@ -84,14 +82,14 @@ export function StudentCard(props) {
           </Button>
         </Col>
       </Row>
-      <Form id="editStudentForm" onSubmit={onFormSubmitUpdate} className="mt-3">
+      <Form id="editForm" onSubmit={onFormSubmitUpdate} className="mt-3">
         <Row className="mb-1">
           <Col xs={4}>
             <Form.Group controlId="studentFirstName">
               <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
               <Form.Control
                 aria-label="First name"
-                value={person.firstName}
+                value={student.firstName}
                 onChange={handleFirstNameChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -102,7 +100,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
               <Form.Control
                 aria-label="Last name"
-                value={person.lastName}
+                value={student.lastName}
                 onChange={handleLastNameChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -113,7 +111,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
               <Form.Control
                 type="date"
-                value={person.dob.full}
+                value={student.dob.full}
                 // disabled={isEditable ? "" : "disabled"}
                 disabled
               />
@@ -124,7 +122,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
               <Form.Control
                 type="text"
-                value={capitalizeFirstLetter(person.gender)}
+                value={capitalizeFirstLetter(student.gender)}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
@@ -136,7 +134,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">City</Form.Label>
               <Form.Control
                 type="text"
-                value={person.location.city}
+                value={student.location.city}
                 onChange={handleCityChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -147,7 +145,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">State</Form.Label>
               <Form.Control
                 type="text"
-                value={person.location.state}
+                value={student.location.state}
                 onChange={handleStateChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -158,7 +156,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">Address</Form.Label>
               <Form.Control
                 type="text"
-                value={person.location.address}
+                value={student.location.address}
                 onChange={handleAddressChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -171,7 +169,7 @@ export function StudentCard(props) {
             <InputGroup>
               <Form.Control
                 type="text"
-                value={person.email}
+                value={student.email}
                 onChange={handleEmailChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -183,7 +181,7 @@ export function StudentCard(props) {
               <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
               <Form.Control
                 type="text"
-                value={person.phone}
+                value={student.phone}
                 onChange={handlePhoneChange}
                 disabled={isEditable ? "" : "disabled"}
               />
@@ -192,14 +190,14 @@ export function StudentCard(props) {
           <Col xs={4}>
             <Form.Group controlId="studentId">
               <Form.Label className="d-flex justify-content-start">ID</Form.Label>
-              <Form.Control type="text" value={person.id} disabled />
+              <Form.Control type="text" value={student.id} disabled />
             </Form.Group>
           </Col>
         </Row>
       </Form>
       <StudentCourses
-        student={person}
-        sections={person.sections}
+        student={student}
+        sections={student.sections}
         removeSection={props.removeSection}
       />
     </Card>
