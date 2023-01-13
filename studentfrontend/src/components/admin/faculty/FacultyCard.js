@@ -3,16 +3,11 @@ import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
 import { useState, useEffect, useReducer } from "react";
 import { useParams } from "react-router-dom";
 import { FacultyCourses } from "./FacultyCourses";
-import { capitalizeFirstLetter, PersonJsonToOjbect } from "../../../utils";
+import { capitalizeFirstLetter } from "../../../utils";
 import { TbPencil, TbPencilOff } from "react-icons/tb";
-import { axios_getSpecificPerson } from "../../../services/APICalls";
-import { useQuery } from "@tanstack/react-query";
 import { ACTION_TYPES, DB_URL } from "../../../constants";
-import { formReducer, INITIAL_STATE, INITIAL_STATE_WITH_DATA } from "./FacultyReducer";
-import axios from "axios";
+import { formReducer, INITIAL_STATE } from "../../PersonReducer";
 
-// ! Move data fetch to inside useEffect?
-// ! CURRENTLY BROKEN. Faculty has no data currently
 /**
  * Called in App.js
  * Two functions get passed into props to update and delete a faculty.
@@ -27,27 +22,17 @@ export function FacultyCard(props) {
   const [state, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
   useEffect(() => {
-    // console.log("Use state enter");
     fetch(`${DB_URL}/faculty/${facultyId}`)
       .then((res) => res.json())
-      .then((results) => {
-        dispatch({ type: ACTION_TYPES.FETCH_SUCCESS, payload: results });
-      })
+      .then((results) => dispatch({ type: ACTION_TYPES.FETCH_SUCCESS, payload: results }))
       .catch((error) => console.log("GET_PERSON_API_FAIL\n", error));
-
-    // console.log("TESTErr");
   }, [facultyId]);
-
-  const handleEditable = () => {
-    setIsEditable(isEditable ? false : true);
-  };
 
   const onFormSubmitUpdate = (e) => {
     e.preventDefault();
     props.updateFaculty(state);
   };
 
-  // !
   const removeFacultySubmit = (e) => {
     e.preventDefault();
     props.removeFaculty(state.id);
@@ -55,7 +40,6 @@ export function FacultyCard(props) {
   };
 
   const handleChange = (e) => {
-    console.log("TESTING\n", e.target.name);
     dispatch({
       type: ACTION_TYPES.CHANGE_INPUT,
       payload: { name: e.target.name, value: e.target.value },
@@ -80,7 +64,7 @@ export function FacultyCard(props) {
         </Col>
         <Col xs={1}>
           <Button
-            onClick={handleEditable}
+            onClick={() => setIsEditable(isEditable ? false : true)}
             className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
             {isEditable ? <TbPencilOff /> : <TbPencil />}
           </Button>

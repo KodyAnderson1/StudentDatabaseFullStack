@@ -26,7 +26,6 @@ export default function AdminCourses(props) {
   useEffect(() => {
     if (isSuccess) setCourse(data);
     // setActiveSections(course.active_sections);
-    console.log("FIRST ATTEMPT\n", course);
   }, [data, isSuccess]);
 
   if (!course || course.length === 0) return <>Error! No Course by this ID</>;

@@ -21,9 +21,7 @@ public class Faculty {
     private String dob;
     private String address;
 
-    public Faculty() {
-    }
-
+    public Faculty() {}
     public List<Section> getSections() {
         return sections;
     }

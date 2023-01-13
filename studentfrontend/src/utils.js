@@ -41,7 +41,6 @@ export function PersonJsonToOjbect(person) {
     location: jsonAddressToObject(person.address),
     dob: jsonDOBToObject(person.dob),
   };
-  console.log("REEEEE\n", obj);
   return obj;
 }
 

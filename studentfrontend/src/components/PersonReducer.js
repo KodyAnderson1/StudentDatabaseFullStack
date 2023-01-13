@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../../../constants";
+import { ACTION_TYPES } from "../constants";
 
 export const INITIAL_STATE = {
   id: 0,
@@ -17,10 +17,8 @@ export const INITIAL_STATE = {
   },
 };
 
+// ! CAN'T CURRENTLY HANDLE EDITS TO LOCATION OBJECT
 export const formReducer = (state, action) => {
-  // console.log("WHY");
-  // console.log("REDUCER STATE\n", state);
-  console.log("REDUCER ACTION\n", action.payload);
   const faculty = action.payload;
 
   switch (action.type) {

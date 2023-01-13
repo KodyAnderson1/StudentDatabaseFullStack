@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
+// ! DONT NEED THIS DB CALL ANYMORE. GETS PASSED IN AS PROPS. MANAGE IN STATE
 /**
  *
  * @param {*} props
