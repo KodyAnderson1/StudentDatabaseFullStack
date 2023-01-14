@@ -4,26 +4,20 @@ import { Link } from "react-router-dom";
 import { AiFillMinusCircle } from "react-icons/ai";
 import { useState, useEffect } from "react";
 
-// ! DONT NEED THIS DB CALL ANYMORE. GETS PASSED IN AS PROPS. MANAGE IN STATE
 /**
  *
  * @param {*} props
  * @returns
  */
 export function FacultyCourses(props) {
-  const [courses, setCourses] = useState("");
+  const [sections, setSections] = useState("");
 
   useEffect(() => {
-    if (props.faculty.id) {
-      fetch(`http://localhost:8080/section/faculty/${props.faculty.id}`)
-        .then((response) => response.json())
-        .then((result) => setCourses(result));
-    } else {
-      setCourses([]);
-    }
-  }, [props.faculty.id]);
+    if (props.sections) setSections(props.sections);
+    else setSections([]);
+  }, [props.sections]);
 
-  if (!courses || courses.length === 0)
+  if (!sections || sections.length === 0)
     return (
       <Row>
         <Col className="d-flex justify-content-end">
@@ -56,7 +50,7 @@ export function FacultyCourses(props) {
           </tr>
         </thead>
         <tbody>
-          {courses.map((course) => {
+          {sections.map((course) => {
             return (
               <tr key={course.id}>
                 <td>{course.course_name}</td>

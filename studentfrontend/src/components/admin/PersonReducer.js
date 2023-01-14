@@ -1,4 +1,4 @@
-import { ACTION_TYPES } from "../constants";
+import { ACTION_TYPES } from "../../constants";
 
 export const INITIAL_STATE = {
   id: 0,
@@ -17,7 +17,6 @@ export const INITIAL_STATE = {
   },
 };
 
-// ! CAN'T CURRENTLY HANDLE EDITS TO LOCATION OBJECT
 export const formReducer = (state, action) => {
   const faculty = action.payload;
 
@@ -44,10 +43,16 @@ export const formReducer = (state, action) => {
         ...state,
         [action.payload.name]: action.payload.value,
       };
-    case ACTION_TYPES.FETCH_ERROR:
-      return {};
+    case ACTION_TYPES.CHANGE_LOCATION:
+      return {
+        ...state,
+        location: {
+          ...state.location,
+          [action.payload.name]: action.payload.value,
+        },
+      };
     case ACTION_TYPES.RESET_STATE:
-      return INITIAL_STATE;
+      return action.payload;
     default:
       return state;
   }

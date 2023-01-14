@@ -1,13 +1,13 @@
 import { CustomAlert } from "../../CustomAlert";
 import { Row, Col, Card, Form, InputGroup, Button } from "react-bootstrap";
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useReducer } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import { StudentCourses } from "./StudentCourses";
 import { TbPencil, TbPencilOff } from "react-icons/tb";
 
-import { capitalizeFirstLetter, PersonJsonToOjbect } from "../../../utils";
-import { axios_getSpecificPerson } from "../../../services/APICalls";
-import { useQuery } from "@tanstack/react-query";
+import { capitalizeFirstLetter } from "../../../utils";
+import { ACTION_TYPES, DB_URL } from "../../../constants";
+import { formReducer, INITIAL_STATE } from "../PersonReducer";
 
 /**
  * Called in App.js
@@ -17,58 +17,56 @@ import { useQuery } from "@tanstack/react-query";
  * @returns component that shows a specific student's information in a Bootstrap Card
  */
 export function StudentCard(props) {
-  const [isEditable, setIsEditable] = useState(false);
-  const [student, setStudent] = useState("");
-
+  const navigate = useNavigate();
   const urlParams = useParams();
   const studentId = urlParams.id;
-
-  const { data, isLoading } = useQuery(["single-student", studentId, "student"], () =>
-    axios_getSpecificPerson(studentId, "student")
-  );
+  const [isEditable, setIsEditable] = useState(false);
+  const [state, dispatch] = useReducer(formReducer, INITIAL_STATE);
 
   useEffect(() => {
-    if (!isLoading) setStudent(PersonJsonToOjbect(data));
-  }, [data, isLoading]);
-
-  const handleEditable = () => {
-    setIsEditable(isEditable ? false : true);
-    setStudent(student);
-  };
+    fetch(`${DB_URL}/student/${studentId}`)
+      .then((res) => res.json())
+      .then((results) => dispatch({ type: ACTION_TYPES.FETCH_SUCCESS, payload: results }))
+      .catch((error) => console.log("GET_PERSON_API_FAIL\n", error));
+  }, [studentId]);
 
   const onFormSubmitUpdate = (e) => {
     e.preventDefault();
-    props.updateStudent(student);
+    props.updateStudent(state);
   };
 
   const removeStudentSubmit = (e) => {
     e.preventDefault();
-    props.removeStudent(student.id);
-    setStudent("");
+    props.removeStudent(state.id);
+    dispatch({ type: ACTION_TYPES.RESET_STATE, payload: INITIAL_STATE });
+    navigate("/admin/students");
   };
 
-  if (student === "" || isLoading) return <></>;
+  const handleChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_INPUT,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
 
-  const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
-  const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
-  const handleCityChange = (e) => setStudent({ ...student, location: { city: e.target.value } });
-  const handleStateChange = (e) => setStudent({ ...student, location: { state: e.target.value } });
-  const handleEmailChange = (e) => setStudent({ ...student, email: e.target.value });
-  const handlePhoneChange = (e) => setStudent({ ...student, phone: e.target.value });
-  const handleAddressChange = (e) =>
-    setStudent({ ...student, location: { address: e.target.value } });
+  const handleLocationChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_LOCATION,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
 
   return (
     <Card className="text-black p-3 mt-4 me-3 person-card">
       <Row className="border-bottom d-flex">
         <Col xs={9} className="d-flex justify-content-start">
-          <h3>{student.role}</h3>
+          <h3>{state.role}</h3>
         </Col>
         <Col xs={2} className="d-flex justify-content-end">
           {isEditable ? (
             <CustomAlert
               removePerson={removeStudentSubmit}
-              title={`${student.firstName} ${student.lastName}`}
+              title={`${state.firstName} ${state.lastName}`}
             />
           ) : (
             <></>
@@ -76,7 +74,7 @@ export function StudentCard(props) {
         </Col>
         <Col xs={1}>
           <Button
-            onClick={handleEditable}
+            onClick={() => setIsEditable(isEditable ? false : true)}
             className="mb-2 d-flex align-items-center justify-content-center enable-edit-btn">
             {isEditable ? <TbPencilOff /> : <TbPencil />}
           </Button>
@@ -85,44 +83,49 @@ export function StudentCard(props) {
       <Form id="editForm" onSubmit={onFormSubmitUpdate} className="mt-3">
         <Row className="mb-1">
           <Col xs={4}>
-            <Form.Group controlId="studentFirstName">
+            <Form.Group controlId="firstName">
               <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
               <Form.Control
+                name="firstName"
                 aria-label="First name"
-                value={student.firstName}
-                onChange={handleFirstNameChange}
+                value={state.firstName}
+                onChange={handleChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={4}>
-            <Form.Group controlId="studentLastName">
+            <Form.Group controlId="lastName">
               <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
               <Form.Control
+                name="lastName"
                 aria-label="Last name"
-                value={student.lastName}
-                onChange={handleLastNameChange}
+                value={state.lastName}
+                onChange={handleChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={2}>
-            <Form.Group controlId="studentDOB">
+            <Form.Group controlId="dob">
               <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
               <Form.Control
+                name="dob"
                 type="date"
-                value={student.dob.full}
-                // disabled={isEditable ? "" : "disabled"}
-                disabled
+                onChange={handleChange}
+                value={state.dob}
+                disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={2}>
-            <Form.Group controlId="studentGender">
+            <Form.Group controlId="gender">
               <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
               <Form.Control
+                name="gender"
                 type="text"
-                value={capitalizeFirstLetter(student.gender)}
+                value={capitalizeFirstLetter(state.gender)}
+                onChange={handleChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
@@ -130,34 +133,37 @@ export function StudentCard(props) {
         </Row>
         <Row className="mb-1">
           <Col xs={4}>
-            <Form.Group controlId="studentCity">
+            <Form.Group controlId="city">
               <Form.Label className="d-flex justify-content-start">City</Form.Label>
               <Form.Control
+                name="city"
                 type="text"
-                value={student.location.city}
-                onChange={handleCityChange}
+                value={state.location.city}
+                onChange={handleLocationChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={4}>
-            <Form.Group controlId="studentState">
+            <Form.Group controlId="state">
               <Form.Label className="d-flex justify-content-start">State</Form.Label>
               <Form.Control
+                name="state"
                 type="text"
-                value={student.location.state}
-                onChange={handleStateChange}
+                value={state.location.state}
+                onChange={handleLocationChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={4}>
-            <Form.Group controlId="studentAddress">
+            <Form.Group controlId="address">
               <Form.Label className="d-flex justify-content-start">Address</Form.Label>
               <Form.Control
+                name="address"
                 type="text"
-                value={student.location.address}
-                onChange={handleAddressChange}
+                value={state.location.address}
+                onChange={handleLocationChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
@@ -168,204 +174,40 @@ export function StudentCard(props) {
             <Form.Label className="d-flex justify-content-start">Email</Form.Label>
             <InputGroup>
               <Form.Control
+                name="email"
                 type="text"
-                value={student.email}
-                onChange={handleEmailChange}
+                value={state?.email}
+                onChange={handleChange}
                 disabled={isEditable ? "" : "disabled"}
               />
               <InputGroup.Text>@</InputGroup.Text>
             </InputGroup>
           </Col>
           <Col xs={4}>
-            <Form.Group controlId="studentPhone">
+            <Form.Group controlId="phone">
               <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
               <Form.Control
+                name="phone"
                 type="text"
-                value={student.phone}
-                onChange={handlePhoneChange}
+                value={state?.phone}
+                onChange={handleChange}
                 disabled={isEditable ? "" : "disabled"}
               />
             </Form.Group>
           </Col>
           <Col xs={4}>
-            <Form.Group controlId="studentId">
+            <Form.Group controlId="id">
               <Form.Label className="d-flex justify-content-start">ID</Form.Label>
-              <Form.Control type="text" value={student.id} disabled />
+              <Form.Control type="text" placeholder={state?.id} disabled />
             </Form.Group>
           </Col>
         </Row>
       </Form>
       <StudentCourses
-        student={student}
-        sections={student.sections}
+        studentId={state.id}
+        sections={state.sections}
         removeSection={props.removeSection}
       />
     </Card>
   );
 }
-
-// function RowPersonalData(props) {
-//   const student = props.selectedPerson;
-//   const setStudent = props.setSelectedPerson;
-//   const isEditable = props.isEditable;
-
-//   if (!student) return <></>;
-
-//   const capitalizeFirstLetter = (string) => string.charAt(0).toUpperCase() + string.slice(1);
-
-//   const handleFirstNameChange = (e) => setStudent({ ...student, firstName: e.target.value });
-//   const handleLastNameChange = (e) => setStudent({ ...student, lastName: e.target.value });
-
-//   return (
-//     <Row className="mb-1">
-//       <Col xs={4}>
-//         <Form.Group controlId="studentFirstName">
-//           <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
-//           <Form.Control
-//             aria-label="First name"
-//             value={student.firstName}
-//             onChange={handleFirstNameChange}
-//             disabled={isEditable ? "" : "disabled"}
-//           />
-//         </Form.Group>
-//       </Col>
-//       <Col xs={4}>
-//         <Form.Group controlId="studentLastName">
-//           <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
-//           <Form.Control
-//             aria-label="Last name"
-//             value={student.lastName}
-//             onChange={handleLastNameChange}
-//             disabled={isEditable ? "" : "disabled"}
-//           />
-//         </Form.Group>
-//       </Col>
-//       <Col xs={2}>
-//         <Form.Group controlId="studentDOB">
-//           <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-//           <Form.Control
-//             type="date"
-//             value={student.dob.full}
-//             // disabled={isEditable ? "" : "disabled"}
-//             disabled
-//           />
-//         </Form.Group>
-//       </Col>
-//       <Col xs={2}>
-//         <Form.Group controlId="studentGender">
-//           <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
-//           <Form.Control
-//             type="text"
-//             value={capitalizeFirstLetter(student.gender)}
-//             disabled={isEditable ? "" : "disabled"}
-//           />
-//         </Form.Group>
-//       </Col>
-//     </Row>
-//   );
-// }
-
-// function RowLocationData(props) {
-//   const student = props.selectedPerson;
-//   const setStudent = props.setSelectedPerson;
-//   const isEditable = props.isEditable;
-
-//   if (!student) return <></>;
-
-//   const handleCityChange = (e) => setStudent({ ...student, location: { city: e.target.value } });
-//   const handleStateChange = (e) => setStudent({ ...student, location: { state: e.target.value } });
-//   const handleAddressChange = (e) =>
-//     setStudent({ ...student, location: { address: e.target.value } });
-
-//   return (
-//     <>
-//       <Row className="mb-1">
-//         <Col xs={4}>
-//           <Form.Group controlId="studentCity">
-//             <Form.Label className="d-flex justify-content-start">City</Form.Label>
-//             <Form.Control
-//               type="text"
-//               value={student.location.city}
-//               onChange={handleCityChange}
-//               disabled={isEditable ? "" : "disabled"}
-//             />
-//           </Form.Group>
-//         </Col>
-//         <Col xs={4}>
-//           <Form.Group controlId="studentState">
-//             <Form.Label className="d-flex justify-content-start">State</Form.Label>
-//             <Form.Control
-//               type="text"
-//               value={student.location.state}
-//               onChange={handleStateChange}
-//               disabled={isEditable ? "" : "disabled"}
-//             />
-//           </Form.Group>
-//         </Col>
-//         <Col xs={4}>
-//           <Form.Group controlId="studentAddress">
-//             <Form.Label className="d-flex justify-content-start">Address</Form.Label>
-//             <Form.Control
-//               type="text"
-//               value={student.location.address}
-//               onChange={handleAddressChange}
-//               disabled={isEditable ? "" : "disabled"}
-//             />
-//           </Form.Group>
-//         </Col>
-//       </Row>
-//     </>
-//   );
-// }
-
-// function RowIdContactData(props) {
-//   const student = props.selectedPerson;
-//   const setStudent = props.setSelectedPerson;
-//   const isEditable = props.isEditable;
-//   let email;
-
-//   if (student.email) email = student.email.split("@") ? student.email.split("@") : "default email";
-//   else email = "default email";
-
-//   if (!student) return <></>;
-
-//   const formatEmail = (e) => e.target.value.concat("@students.uwf.edu");
-//   const handleEmailChange = (e) => setStudent({ ...student, email: formatEmail(e) });
-//   const handlePhoneChange = (e) => setStudent({ ...student, phone: e.target.value });
-
-//   return (
-//     <>
-//       <Row>
-//         <Col xs={4}>
-//           <Form.Label className="d-flex justify-content-start">Email</Form.Label>
-//           <InputGroup>
-//             <Form.Control
-//               type="text"
-//               value={email[0]}
-//               onChange={handleEmailChange}
-//               disabled={isEditable ? "" : "disabled"}
-//             />
-//             <InputGroup.Text>@</InputGroup.Text>
-//           </InputGroup>
-//         </Col>
-//         <Col xs={4}>
-//           <Form.Group controlId="studentPhone">
-//             <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
-//             <Form.Control
-//               type="text"
-//               value={student.phone}
-//               onChange={handlePhoneChange}
-//               disabled={isEditable ? "" : "disabled"}
-//             />
-//           </Form.Group>
-//         </Col>
-//         <Col xs={4}>
-//           <Form.Group controlId="studentId">
-//             <Form.Label className="d-flex justify-content-start">ID</Form.Label>
-//             <Form.Control type="text" value={student.id} disabled />
-//           </Form.Group>
-//         </Col>
-//       </Row>
-//     </>
-//   );
-// }

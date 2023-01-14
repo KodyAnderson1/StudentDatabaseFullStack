@@ -1,55 +1,40 @@
 import { Row, Col, Card, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useReducer } from "react";
 import { StateSelect } from "../StatesSelect";
+import { ACTION_TYPES } from "../../../constants";
+import { emailHelper } from "../../../utils";
+import { INITIAL_STATE, newPersonFormReducer } from "../NewPersonReducer";
 
-// ! Submit will generate an ID for the user
-// ! Find a way to make sure the correct role is being selected for each Form. Currently if creating a new faculty, you can select student role and it works
 export function NewFacultyForm(props) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullDate, setFullDate] = useState("");
-  const [gender, setGender] = useState("");
-
-  const handleFirstNameChange = (e) => setFirstName(e.target.value);
-  const handleLastNameChange = (e) => setLastName(e.target.value);
-  const handlePhoneChange = (e) => setPhone(e.target.value);
-  const handleCityChange = (e) => setCity(e.target.value);
-  const handleAddressChange = (e) => setAddress(e.target.value);
-  const handleDateChange = (e) => setFullDate(e.target.value);
-  const handleGenderChange = (e) => setGender(e.target.value);
-
-  function emailHelper(firstName, lastName) {
-    let min = Math.ceil(10);
-    let max = Math.floor(99);
-    let randNum = Math.floor(Math.random() * (max - min) + min);
-    return `${firstName[0].toLowerCase()}${lastName.toLowerCase()}${randNum}@uwf.edu`;
-  }
+  const [state, dispatch] = useReducer(newPersonFormReducer, INITIAL_STATE);
 
   function handleFormSubmit(e) {
     e.preventDefault();
     let min = Math.ceil(100_000);
     let max = Math.floor(999_999);
-    let dob = fullDate.split("-");
 
     const newPerson = {
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      role: "FACULTY",
-      phone: phone,
-      current_courses: [],
-      email: emailHelper(firstName, lastName),
+      ...state,
+      email: emailHelper(state.firstName, state.lastName),
       id: Math.floor(Math.random() * (max - min) + min),
-      location: { address: address, city: city, state: state },
-      dob: { month: dob[1], day: dob[2], year: dob[0], full: fullDate },
     };
-
     props.addNew(newPerson);
+    dispatch({ type: ACTION_TYPES.RESET_STATE, payload: INITIAL_STATE });
   }
+
+  const handleOnFormChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_INPUT,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
+
+  const handleLocationChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_LOCATION,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
 
   return (
     <>
@@ -57,68 +42,93 @@ export function NewFacultyForm(props) {
         <Row className="border-bottom mb-3">
           <Col className="d-flex justify-content-start display-6">Add New Faculty</Col>
         </Row>
-        <Form id="newStudentForm" onSubmit={handleFormSubmit}>
+        <Form id="newFacultyForm" onSubmit={handleFormSubmit}>
           <Row>
             <Col xs={4}>
-              <Form.Group controlId="studentFirstName">
+              <Form.Group controlId="firstName">
                 <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
                 <Form.Control
+                  name="firstName"
                   aria-label="First name"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
+                  value={state.firstName}
+                  onChange={handleOnFormChange}
                   required
                 />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentLastName">
+              <Form.Group controlId="lastName">
                 <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
                 <Form.Control
+                  name="lastName"
                   aria-label="Last name"
-                  value={lastName}
-                  onChange={handleLastNameChange}
+                  onChange={handleOnFormChange}
                   required
                 />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentDOB">
+              <Form.Group controlId="dob">
                 <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-                <Form.Control type="date" value={fullDate} onChange={handleDateChange} required />
+                <Form.Control
+                  name="dob"
+                  type="date"
+                  value={state.dob}
+                  onChange={handleOnFormChange}
+                  required
+                />
               </Form.Group>
             </Col>
           </Row>
           <Row className="mt-3">
             <Col xs={4}>
-              <Form.Group controlId="studentAddress">
+              <Form.Group controlId="address">
                 <Form.Label className="d-flex justify-content-start">Address</Form.Label>
-                <Form.Control type="text" value={address} onChange={handleAddressChange} required />
+                <Form.Control
+                  name="address"
+                  type="text"
+                  value={state.address}
+                  onChange={handleLocationChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentCity">
+              <Form.Group controlId="city">
                 <Form.Label className="d-flex justify-content-start">City</Form.Label>
-                <Form.Control type="text" value={city} onChange={handleCityChange} required />
+                <Form.Control
+                  name="city"
+                  type="text"
+                  value={state.city}
+                  onChange={handleLocationChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentState">
+              <Form.Group controlId="state">
                 <Form.Label className="d-flex justify-content-start">State</Form.Label>
-                <StateSelect setState={setState} required />
+                <StateSelect handleLocationChange={handleLocationChange} required />
               </Form.Group>
             </Col>
           </Row>
           <Row className="mt-3">
             <Col xs={4}>
-              <Form.Group controlId="studentPhone">
+              <Form.Group controlId="phone">
                 <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
-                <Form.Control type="text" value={phone} onChange={handlePhoneChange} required />
+                <Form.Control
+                  name="phone"
+                  type="text"
+                  value={state.phone}
+                  onChange={handleOnFormChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentAddress">
+              <Form.Group controlId="gender">
                 <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
-                <Form.Select onChange={handleGenderChange} required>
+                <Form.Select name="gender" id="gender" onChange={handleOnFormChange} required>
                   <option>Select gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -128,7 +138,7 @@ export function NewFacultyForm(props) {
           </Row>
         </Form>
         <Row>
-          <button form="newStudentForm" className="btn btn-outline-primary mt-3">
+          <button form="newFacultyForm" className="btn btn-outline-primary mt-3">
             Submit
           </button>
         </Row>

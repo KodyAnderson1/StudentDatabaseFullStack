@@ -1,7 +1,7 @@
 import { Row, Col, Button, Modal } from "react-bootstrap";
 import Table from "react-bootstrap/Table";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { BsFillTrashFill } from "react-icons/bs";
 
 /**
@@ -11,7 +11,12 @@ import { BsFillTrashFill } from "react-icons/bs";
  * @returns react component for the "Current Courses" section of the admin student view Card
  */
 export function StudentCourses(props) {
-  const sections = props.sections;
+  const [sections, setSections] = useState("");
+
+  useEffect(() => {
+    if (props.sections) setSections(props.sections);
+    else setSections([]);
+  }, [props.sections]);
 
   if (!sections || sections.length === 0)
     return (
@@ -47,7 +52,7 @@ export function StudentCourses(props) {
           </tr>
         </thead>
         <TableBody
-          student_id={props.student.id}
+          student_id={props.studentid}
           sections={sections}
           removeSection={props.removeSection}
           facultyTeachingStudent={props.facultyTeachingStudent}

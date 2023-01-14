@@ -1,10 +1,8 @@
 import { Form } from "react-bootstrap";
 
 export function StateSelect(props) {
-  const handleStateChange = (e) => props.setState(e.target.value);
-
   return (
-    <Form.Select onChange={handleStateChange}>
+    <Form.Select name="state" id="state" onChange={props.handleLocationChange}>
       <option value="Alabama">Select State</option>
       <option value="Alabama">Alabama</option>
       <option value="Alaska">Alaska</option>

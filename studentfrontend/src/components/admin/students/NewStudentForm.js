@@ -1,64 +1,40 @@
 import { Row, Col, Card, Form } from "react-bootstrap";
-import { useState } from "react";
+import { useReducer } from "react";
 import { StateSelect } from "../StatesSelect";
+import { INITIAL_STATE, newPersonFormReducer } from "../NewPersonReducer";
+import { ACTION_TYPES } from "../../../constants";
+import { emailHelper } from "../../../utils";
 
-// ! Find a way to reset select boxes onsubmit
-// ! Probably managed by state
 export function NewStudentForm(props) {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [city, setCity] = useState("");
-  const [state, setState] = useState("");
-  const [address, setAddress] = useState("");
-  const [phone, setPhone] = useState("");
-  const [fullDate, setFullDate] = useState("");
-  const [gender, setGender] = useState("");
-
-  const handleFirstNameChange = (e) => setFirstName(e.target.value);
-  const handleLastNameChange = (e) => setLastName(e.target.value);
-  const handlePhoneChange = (e) => setPhone(e.target.value);
-  const handleCityChange = (e) => setCity(e.target.value);
-  const handleAddressChange = (e) => setAddress(e.target.value);
-  const handleDateChange = (e) => setFullDate(e.target.value);
-  const handleGenderChange = (e) => setGender(e.target.value);
-
-  function emailHelper(firstName, lastName) {
-    let min = Math.ceil(10);
-    let max = Math.floor(999);
-    let randNum = Math.floor(Math.random() * (max - min) + min);
-    return `${firstName[0].toLowerCase()}${lastName.toLowerCase()}${randNum}@students.uwf.edu`;
-  }
+  const [state, dispatch] = useReducer(newPersonFormReducer, INITIAL_STATE);
 
   function handleFormSubmit(e) {
     e.preventDefault();
     let min = Math.ceil(100_000_000);
     let max = Math.floor(999_999_999);
-    let dob = fullDate.split("-");
 
     const newPerson = {
-      firstName: firstName,
-      lastName: lastName,
-      gender: gender,
-      role: "STUDENT",
-      phone: phone,
-      current_courses: [],
-      email: emailHelper(firstName, lastName),
+      ...state,
+      email: emailHelper(state.firstName, state.lastName),
       id: Math.floor(Math.random() * (max - min) + min),
-      location: { address: address, city: city, state: state },
-      dob: { month: dob[1], day: dob[2], year: dob[0], full: fullDate },
     };
-
     props.addNew(newPerson);
-
-    setFirstName("");
-    setLastName("");
-    setCity("");
-    setState("");
-    setAddress("");
-    setPhone("");
-    setFullDate("");
-    setGender("");
+    dispatch({ type: ACTION_TYPES.RESET_STATE, payload: INITIAL_STATE });
   }
+
+  const handleOnFormChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_INPUT,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
+
+  const handleLocationChange = (e) => {
+    dispatch({
+      type: ACTION_TYPES.CHANGE_LOCATION,
+      payload: { name: e.target.name, value: e.target.value },
+    });
+  };
 
   return (
     <>
@@ -69,73 +45,91 @@ export function NewStudentForm(props) {
         <Form id="newStudentForm" onSubmit={handleFormSubmit}>
           <Row>
             <Col xs={4}>
-              <Form.Group controlId="studentFirstName">
+              <Form.Group controlId="firstName">
                 <Form.Label className="d-flex justify-content-start">First Name</Form.Label>
                 <Form.Control
+                  name="firstName"
                   aria-label="First name"
-                  value={firstName}
-                  onChange={handleFirstNameChange}
+                  value={state.firstName}
+                  onChange={handleOnFormChange}
                   required
                 />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentLastName">
+              <Form.Group controlId="lastName">
                 <Form.Label className="d-flex justify-content-start mt-1">Last Name</Form.Label>
                 <Form.Control
+                  name="lastName"
                   aria-label="Last name"
-                  value={lastName}
-                  onChange={handleLastNameChange}
+                  onChange={handleOnFormChange}
                   required
                 />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentDOB">
+              <Form.Group controlId="dob">
                 <Form.Label className="d-flex justify-content-start">DOB</Form.Label>
-                <Form.Control type="date" value={fullDate} onChange={handleDateChange} required />
+                <Form.Control
+                  name="dob"
+                  type="date"
+                  value={state.dob}
+                  onChange={handleOnFormChange}
+                  required
+                />
               </Form.Group>
             </Col>
           </Row>
           <Row className="mt-3">
             <Col xs={4}>
-              <Form.Group controlId="studentAddress">
+              <Form.Group controlId="address">
                 <Form.Label className="d-flex justify-content-start">Address</Form.Label>
-                <Form.Control type="text" value={address} onChange={handleAddressChange} required />
+                <Form.Control
+                  name="address"
+                  type="text"
+                  value={state.address}
+                  onChange={handleLocationChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentCity">
+              <Form.Group controlId="city">
                 <Form.Label className="d-flex justify-content-start">City</Form.Label>
-                <Form.Control type="text" value={city} onChange={handleCityChange} required />
+                <Form.Control
+                  name="city"
+                  type="text"
+                  value={state.city}
+                  onChange={handleLocationChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentState">
+              <Form.Group controlId="state">
                 <Form.Label className="d-flex justify-content-start">State</Form.Label>
-                <StateSelect setState={setState} required />
+                <StateSelect handleLocationChange={handleLocationChange} required />
               </Form.Group>
             </Col>
           </Row>
           <Row className="mt-3">
-            {/* <Col xs={3}>
-              <Form.Label className="d-flex justify-content-start">Email</Form.Label>
-              <InputGroup>
-                <Form.Control type="text" value={email} onChange={handleEmailChange} required />
-                <InputGroup.Text>@</InputGroup.Text>
-              </InputGroup>
-            </Col> */}
             <Col xs={4}>
-              <Form.Group controlId="studentPhone">
+              <Form.Group controlId="phone">
                 <Form.Label className="d-flex justify-content-start">Phone Number</Form.Label>
-                <Form.Control type="text" value={phone} onChange={handlePhoneChange} required />
+                <Form.Control
+                  name="phone"
+                  type="text"
+                  value={state.phone}
+                  onChange={handleOnFormChange}
+                  required
+                />
               </Form.Group>
             </Col>
             <Col xs={4}>
-              <Form.Group controlId="studentAddress">
+              <Form.Group controlId="gender">
                 <Form.Label className="d-flex justify-content-start">Gender</Form.Label>
-                <Form.Select onChange={handleGenderChange} required>
-                  <option>Select Gender</option>
+                <Form.Select name="gender" id="gender" onChange={handleOnFormChange} required>
+                  <option>Select gender</option>
                   <option value="male">Male</option>
                   <option value="female">Female</option>
                 </Form.Select>
