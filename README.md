@@ -26,9 +26,9 @@ The frontend was built with React and is in the folder `studentfrontend`. Open w
 ## Future Development
 - Expand the application as a student management app with user, faculty and admin sign-in with specific features depending on log-in.
     - Admins would be able to:
-      - Create, edit, and delete student profiles
-      - Create, edit, and delete faculty profiles
-      - Create, edit, and delete classes
+      - Create, edit, and delete student profiles **DONE**
+      - Create, edit, and delete faculty profiles **DONE**
+      - Create, edit, and delete classes **WIP**
     - Students would be able to:
       - Create a profile
       - Sign up for classes
